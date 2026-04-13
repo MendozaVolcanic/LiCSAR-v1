@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiCSAR — Deformación InSAR Chile</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0e17; color: #e0e0e0; min-height: 100vh; }
+
+        .header { background: linear-gradient(135deg, #1a1f2e 0%, #0d1117 100%); border-bottom: 1px solid #30363d; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .header h1 { font-size: 1.1em; color: #58a6ff; }
+        .badge { padding: 2px 8px; border-radius: 10px; font-size: 0.7em; font-weight: bold; }
+        .badge-sar { background: #8b5cf6; color: #fff; }
+        .badge-exp { background: #f0883e; color: #000; }
+        .header-meta { font-size: 0.8em; color: #8b949e; }
+
+        .info-bar { display: flex; gap: 16px; padding: 8px 20px; background: #161b22; border-bottom: 1px solid #21262d; flex-wrap: wrap; font-size: 0.78em; color: #8b949e; align-items: center; }
+
+        .main { display: flex; height: calc(100vh - 90px); }
+        .lista-panel { width: 380px; min-width: 380px; overflow-y: auto; border-right: 1px solid #21262d; background: #0d1117; }
+        .detalle-panel { flex: 1; overflow-y: auto; padding: 20px; background: #0d1117; }
+
+        .volcan-row { padding: 10px 15px; border-bottom: 1px solid #161b22; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+        .volcan-row:hover { background: #161b22; }
+        .volcan-row.selected { background: #1c2333; border-left: 3px solid #8b5cf6; }
+        .estado-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .dot-ok { background: #3fb950; }
+        .dot-parcial { background: #d29922; }
+        .dot-sin { background: #484f58; }
+        .vname { font-size: 0.88em; font-weight: 600; color: #e6edf3; flex: 1; }
+        .vtracks { font-size: 0.72em; color: #8b949e; }
+        .zona-hdr { padding: 5px 15px; background: #161b22; font-size: 0.72em; font-weight: 700; color: #8b5cf6; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #21262d; position: sticky; top: 0; }
+
+        /* Detalle */
+        .detalle-placeholder { display: flex; align-items: center; justify-content: center; height: 100%; color: #484f58; }
+        .detalle-titulo { font-size: 1.3em; font-weight: 700; color: #e6edf3; margin-bottom: 4px; }
+        .detalle-sub { font-size: 0.82em; color: #8b949e; margin-bottom: 20px; }
+
+        .ifg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+        .ifg-card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; overflow: hidden; }
+        .ifg-header { padding: 8px 12px; background: #1c2128; border-bottom: 1px solid #21262d; }
+        .ifg-label { font-size: 0.8em; font-weight: 600; color: #e6edf3; }
+        .ifg-sub { font-size: 0.7em; color: #8b949e; margin-top: 2px; }
+        .ifg-images { display: grid; grid-template-columns: 1fr 1fr; }
+        .img-mini-label { padding: 4px 8px; font-size: 0.68em; color: #8b949e; background: #0d1117; }
+        .ifg-images img { width: 100%; display: block; background: #000; cursor: zoom-in; }
+
+        .info-insar { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 14px; margin-bottom: 20px; }
+        .info-insar h3 { font-size: 0.82em; color: #8b5cf6; margin-bottom: 10px; }
+        .info-insar p { font-size: 0.78em; color: #8b949e; line-height: 1.7; margin-bottom: 6px; }
+        .leyenda { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+        .ley-item { display: flex; align-items: center; gap: 8px; font-size: 0.75em; color: #c9d1d9; }
+        .ley-swatch { width: 30px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+
+        .sin-datos-card { padding: 30px; text-align: center; color: #484f58; background: #161b22; border: 1px solid #21262d; border-radius: 8px; margin-bottom: 20px; }
+        .sin-datos-card p { font-size: 0.85em; margin-top: 8px; line-height: 1.6; }
+        .sin-datos-card code { color: #79c0ff; font-size: 0.88em; }
+
+        /* Modal zoom */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; align-items: center; justify-content: center; }
+        .modal.open { display: flex; }
+        .modal img { max-width: 95vw; max-height: 95vh; object-fit: contain; }
+        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 2em; cursor: pointer; color: #fff; }
+
+        @media (max-width: 800px) {
+            .main { flex-direction: column; height: auto; }
+            .lista-panel { width: 100%; min-width: 100%; max-height: 40vh; }
+            .ifg-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-left">
+        <h1>LiCSAR — Deformación InSAR</h1>
+        <span class="badge badge-sar">Sentinel-1</span>
+        <span class="badge badge-exp">EXPERIMENTAL</span>
+    </div>
+    <div class="header-meta" id="header-meta">Cargando...</div>
+</div>
+
+<div class="info-bar">
+    <span>Fuente: COMET LiCSAR (UK NERC)</span>
+    <span>|</span>
+    <span>Sensor: Sentinel-1 SAR (C-band 5.6 cm)</span>
+    <span>|</span>
+    <span>Detección: deformación desde ~1 cm vertical</span>
+    <span>|</span>
+    <span>Actualización: 2x/semana</span>
+</div>
+
+<div class="main">
+    <div class="lista-panel" id="lista-panel">
+        <div style="padding:20px;color:#8b949e;font-size:0.85em;">Cargando catálogo...</div>
+    </div>
+    <div class="detalle-panel" id="detalle-panel">
+        <div class="detalle-placeholder">Selecciona un volcán para ver los interferogramas</div>
+    </div>
+</div>
+
+<div class="modal" id="modal" onclick="cerrarModal()">
+    <span class="modal-close">&times;</span>
+    <img id="modal-img" src="" alt="">
+</div>
+
+<script>
+function el(tag, cls, text) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+}
+function clearEl(e) { while (e.firstChild) e.removeChild(e.firstChild); }
+
+const ZONAS = {
+    'Norte': ['Taapaca','Parinacota','Guallatiri','Isluga','Irruputuncu','Ollague','San Pedro','Lascar'],
+    'Centro': ['Tupungatito','San Jose','Tinguiririca','Planchon-Peteroa','Descabezado Grande','Tatara-San Pedro','Laguna del Maule','Nevado de Longavi','Nevados de Chillan'],
+    'Sur': ['Antuco','Copahue','Callaqui','Lonquimay','Llaima','Sollipulli','Villarrica','Quetrupillan','Lanin','Mocho-Choshuenco','Carran - Los Venados','Puyehue - Cordon Caulle','Antillanca - Casablanca'],
+    'Austral': ['Osorno','Calbuco','Yate','Hornopiren','Huequi','Michinmahuida','Chaiten','Corcovado','Melimoyu','Mentolat','Cay','Maca','Hudson']
+};
+const ZONA_POR_VOLCAN = {};
+for (const [z, vs] of Object.entries(ZONAS)) vs.forEach(v => ZONA_POR_VOLCAN[v] = z);
+
+let catalogGlobal = null;
+let seleccionado = null;
+
+function estadoDot(v) {
+    if (v.ascendente && v.descendente) return 'dot-ok';
+    if (v.ascendente || v.descendente) return 'dot-parcial';
+    return 'dot-sin';
+}
+
+function tracksStr(v) {
+    const partes = [];
+    if (v.ascendente) partes.push('ASC track ' + v.ascendente.track);
+    if (v.descendente) partes.push('DESC track ' + v.descendente.track);
+    return partes.length ? partes.join(' | ') : 'Sin tracks disponibles';
+}
+
+function renderLista(volcanes) {
+    const lista = document.getElementById('lista-panel');
+    clearEl(lista);
+
+    const porZona = {};
+    for (const [nombre, v] of Object.entries(volcanes)) {
+        const z = ZONA_POR_VOLCAN[nombre] || 'Otro';
+        if (!porZona[z]) porZona[z] = [];
+        porZona[z].push({ nombre, ...v });
+    }
+
+    for (const zona of ['Norte','Centro','Sur','Austral']) {
+        if (!porZona[zona]) continue;
+        lista.appendChild(el('div', 'zona-hdr', zona));
+        for (const v of porZona[zona]) {
+            const row = document.createElement('div');
+            row.className = 'volcan-row' + (seleccionado === v.nombre ? ' selected' : '');
+            row.addEventListener('click', () => seleccionar(v.nombre));
+            row.appendChild(el('div', 'estado-dot ' + estadoDot(v)));
+            const info = document.createElement('div');
+            info.style.flex = '1';
+            const nm = el('div', 'vname', v.nombre);
+            const tr = el('div', 'vtracks', tracksStr(v));
+            info.appendChild(nm);
+            info.appendChild(tr);
+            row.appendChild(info);
+            lista.appendChild(row);
+        }
+    }
+}
+
+function abrirModal(src) {
+    document.getElementById('modal-img').src = src;
+    document.getElementById('modal').classList.add('open');
+}
+function cerrarModal() { document.getElementById('modal').classList.remove('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarModal(); });
+
+function crearIfgCard(titulo, subtitulo, prefijo, basePath) {
+    const card = document.createElement('div');
+    card.className = 'ifg-card';
+    const hdr = document.createElement('div');
+    hdr.className = 'ifg-header';
+    const lbl = el('div', 'ifg-label', titulo);
+    const sub = el('div', 'ifg-sub', subtitulo);
+    hdr.appendChild(lbl);
+    hdr.appendChild(sub);
+    card.appendChild(hdr);
+
+    const imgs = document.createElement('div');
+    imgs.className = 'ifg-images';
+
+    for (const [nombre, archivo] of [['Fase desenvuelta', 'unw'], ['Coherencia', 'coh']]) {
+        const wrapper = document.createElement('div');
+        const lbl2 = el('div', 'img-mini-label', nombre);
+        const img = document.createElement('img');
+        img.src = basePath + '/' + prefijo + '_' + archivo + '.png?t=' + Date.now();
+        img.alt = nombre;
+        img.loading = 'lazy';
+        img.addEventListener('click', () => abrirModal(img.src));
+        img.onerror = function() {
+            this.alt = 'No disponible';
+            this.style.minHeight = '80px';
+            this.style.background = '#1c2128';
+        };
+        wrapper.appendChild(lbl2);
+        wrapper.appendChild(img);
+        imgs.appendChild(wrapper);
+    }
+    card.appendChild(imgs);
+    return card;
+}
+
+function renderDetalle(nombre) {
+    const v = catalogGlobal.volcanes[nombre];
+    const panel = document.getElementById('detalle-panel');
+    clearEl(panel);
+
+    const titulo = el('div', 'detalle-titulo', nombre);
+    const coord = el('div', 'detalle-sub', `${v.lat?.toFixed(3)}°, ${v.lon?.toFixed(3)}° | Actualizado: ${(v.actualizado || '').slice(0,10)}`);
+    panel.appendChild(titulo);
+    panel.appendChild(coord);
+
+    const tieneAsc = v.ascendente?.unw_disponible || v.ascendente?.coh_disponible;
+    const tieneDesc = v.descendente?.unw_disponible || v.descendente?.coh_disponible;
+
+    if (!tieneAsc && !tieneDesc) {
+        const sin = document.createElement('div');
+        sin.className = 'sin-datos-card';
+        sin.appendChild(el('div', null, '📡 Sin interferogramas disponibles aún'));
+        const p1 = el('p', null, 'Los datos InSAR se cargarán automáticamente cuando el workflow identifique frames Sentinel-1 para este volcán y descargue los thumbnails LiCSAR.');
+        const p2 = document.createElement('p');
+        p2.textContent = 'Para acelerar: ';
+        const code = el('code', null, 'python frame_finder.py && python licsar_downloader.py');
+        p2.appendChild(code);
+        sin.appendChild(p1);
+        sin.appendChild(p2);
+        panel.appendChild(sin);
+    } else {
+        const grid = document.createElement('div');
+        grid.className = 'ifg-grid';
+        const base = 'licsar/' + nombre.replace(/ /g,'_').replace(/-/g,'_');
+
+        if (tieneAsc) {
+            const info = v.ascendente;
+            const sub = `Track ${info.track} | Par: ${info.par_fechas?.replace('_',' → ')} | ${info.total_interferogramas} interferogramas`;
+            grid.appendChild(crearIfgCard('Ascendente (ASC)', sub, 'asc', base));
+        }
+        if (tieneDesc) {
+            const info = v.descendente;
+            const sub = `Track ${info.track} | Par: ${info.par_fechas?.replace('_',' → ')} | ${info.total_interferogramas} interferogramas`;
+            grid.appendChild(crearIfgCard('Descendente (DESC)', sub, 'desc', base));
+        }
+        panel.appendChild(grid);
+    }
+
+    // Explicación InSAR
+    const info = document.createElement('div');
+    info.className = 'info-insar';
+    info.appendChild(el('h3', null, 'Cómo interpretar los interferogramas'));
+    const textos = [
+        'Fase desenvuelta (unw): cada franja de color = ~2.8 cm de deformación LOS (line-of-sight). Fringes concéntricas sobre un volcán indican inflación (magma subiendo) o deflación (magma saliendo). Inflación = fringes apuntan hacia el satélite.',
+        'Coherencia (coh): valores 0-1. Blanco = alta coherencia (superficie estable, confiable). Negro = baja coherencia (vegetación, nieve, agua). El sur de Chile tiene baja coherencia por vegetación densa.',
+        'Ascendente + Descendente combinados permiten separar deformación vertical de horizontal (útil para distinguir falla tectónica de intrusión magmática).',
+        'Limitaciones: decorrelación en volcanes australes con nieve/vegetación. Corrección atmosférica (GACOS) no incluida. Resolución ~30m.'
+    ];
+    textos.forEach(t => {
+        const p = el('p', null, t);
+        info.appendChild(p);
+    });
+    const leyDiv = document.createElement('div');
+    leyDiv.className = 'leyenda';
+    const leyItems = [
+        ['linear-gradient(to right,#2196F3,#00BCD4,#4CAF50,#FFEB3B,#FF5722)', 'Ciclo de fase completo'],
+        ['linear-gradient(to right,#000,#fff)', 'Coherencia 0→1'],
+        ['#2196F3', 'Movimiento hacia satélite (inflación)'],
+        ['#FF5722', 'Movimiento desde satélite (deflación)'],
+    ];
+    for (const [bg, label] of leyItems) {
+        const item = document.createElement('div');
+        item.className = 'ley-item';
+        const sw = document.createElement('div');
+        sw.className = 'ley-swatch';
+        sw.style.background = bg;
+        item.appendChild(sw);
+        item.appendChild(document.createTextNode(label));
+        leyDiv.appendChild(item);
+    }
+    info.appendChild(leyDiv);
+    panel.appendChild(info);
+}
+
+function seleccionar(nombre) {
+    seleccionado = nombre;
+    renderLista(catalogGlobal.volcanes);
+    renderDetalle(nombre);
+}
+
+async function cargar() {
+    try {
+        const resp = await fetch('licsar/catalog.json?t=' + Date.now());
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        catalogGlobal = await resp.json();
+
+        const n = Object.keys(catalogGlobal.volcanes).length;
+        const conDatos = Object.values(catalogGlobal.volcanes)
+            .filter(v => v.ascendente || v.descendente).length;
+        document.getElementById('header-meta').textContent =
+            `Actualizado: ${(catalogGlobal.actualizado||'').slice(0,10)} | ${conDatos}/${n} volcanes con datos InSAR`;
+
+        renderLista(catalogGlobal.volcanes);
+    } catch (e) {
+        document.getElementById('lista-panel').textContent =
+            'Sin catálogo. Ejecuta: python frame_finder.py && python licsar_downloader.py';
+        document.getElementById('header-meta').textContent = 'Sin datos';
+    }
+}
+
+cargar();
+</script>
+</body>
+</html>

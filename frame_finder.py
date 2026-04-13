@@ -102,6 +102,8 @@ COMET_VOLCANO_URL = (
 REQUEST_TIMEOUT = 30  # seconds
 DELAY_BETWEEN_QUERIES = 1.0  # be polite to APIs
 
+TEST_VOLCANES = ["Laguna del Maule", "Puyehue - Cordon Caulle", "Lascar"]
+
 
 # ---------------------------------------------------------------------------
 # ASF query helpers
@@ -137,7 +139,7 @@ def query_asf_library(lat: float, lon: float, max_results: int = 50) -> list[dic
 def query_asf_api(lat: float, lon: float, max_results: int = 50) -> list[dict]:
     """Query ASF using the REST API directly."""
     params = {
-        "intersectsWith": f"point({lon}+{lat})",
+        "intersectsWith": f"point({lon} {lat})",
         "platform": "Sentinel-1",
         "processingLevel": "SLC",
         "output": "json",
@@ -147,29 +149,27 @@ def query_asf_api(lat: float, lon: float, max_results: int = 50) -> list[dict]:
         resp = requests.get(ASF_API_URL, params=params, timeout=REQUEST_TIMEOUT)
         resp.raise_for_status()
         data = resp.json()
-        # ASF returns a list directly or wrapped in a list
-        records = data if isinstance(data, list) else data.get("results", data)
-        # Handle GeoJSON format
-        if isinstance(records, dict) and "features" in records:
-            records = records["features"]
+        # ASF returns [[item, item, ...]] — unwrap outer list
+        if isinstance(data, list) and data and isinstance(data[0], list):
+            records = data[0]
+        elif isinstance(data, list):
+            records = data
+        elif isinstance(data, dict) and "features" in data:
+            records = [f.get("properties", f) for f in data["features"]]
+        else:
+            records = data.get("results", [])
         scenes = []
         for r in records:
-            props = r.get("properties", r) if isinstance(r, dict) else {}
+            if not isinstance(r, dict):
+                continue
             scenes.append({
-                "granule": props.get("fileID", props.get("granuleName", "")),
-                "platform": props.get("platform", props.get("sensor", "")),
-                "orbit": (
-                    props.get("pathNumber")
-                    or props.get("relativeOrbit")
-                    or props.get("path")
-                ),
-                "flight_direction": (
-                    props.get("flightDirection", "")
-                    or props.get("ascending_descending", "")
-                ),
-                "frame": props.get("frameNumber", props.get("frame", None)),
-                "start_time": props.get("startTime", props.get("acquisitionDate", "")),
-                "url": props.get("url", props.get("downloadUrl", "")),
+                "granule": r.get("granuleName", r.get("fileID", "")),
+                "platform": r.get("platform", r.get("sensor", "")),
+                "orbit": r.get("relativeOrbit", r.get("pathNumber", r.get("track"))),
+                "flight_direction": r.get("flightDirection", ""),
+                "frame": r.get("frameNumber"),
+                "start_time": r.get("startTime", r.get("acquisitionDate", "")),
+                "url": r.get("downloadUrl", r.get("url", "")),
             })
         return scenes
     except Exception as exc:
@@ -324,13 +324,16 @@ def build_licsar_frame_id(track: int, direction: str, lat: float) -> str:
 # Main processing
 # ---------------------------------------------------------------------------
 
-def process_volcanoes() -> tuple[list[dict], dict]:
+def process_volcanoes(test_mode: bool = False) -> tuple[list[dict], dict]:
     """
     Main loop: query ASF for each volcano, group frames, check LiCSAR.
     Returns (csv_rows, full_json_data).
     """
     print("=" * 78)
-    print("  COMET LiCSAR Frame Finder - 43 Chilean Volcanoes")
+    if test_mode:
+        print("  COMET LiCSAR Frame Finder - TEST (3 volcanes)")
+    else:
+        print("  COMET LiCSAR Frame Finder - 43 Chilean Volcanoes")
     print("=" * 78)
     print()
 
@@ -352,13 +355,17 @@ def process_volcanoes() -> tuple[list[dict], dict]:
     csv_rows: list[dict] = []
     json_data: dict[str, dict] = {}
 
-    total = len(VOLCANES)
+    volcanes_activos = (
+        {k: VOLCANES[k] for k in TEST_VOLCANES if k in VOLCANES}
+        if test_mode else VOLCANES
+    )
+    total = len(volcanes_activos)
     print(f"[2/3] Querying ASF for {total} volcanoes ...")
     print("-" * 78)
 
     licsar_cache: dict[int, bool] = {}  # track -> available
 
-    for idx, (name, coords) in enumerate(VOLCANES.items(), 1):
+    for idx, (name, coords) in enumerate(volcanes_activos.items(), 1):
         lat, lon = coords["lat"], coords["lon"]
         print(f"  [{idx:2d}/{total}] {name:<30s} ({lat:8.3f}, {lon:9.3f}) ", end="")
         sys.stdout.flush()
@@ -375,20 +382,30 @@ def process_volcanoes() -> tuple[list[dict], dict]:
         licsar_desc = False
 
         # Check ascending
+        frame_id_asc = None
         if best_asc:
             track = best_asc["orbit"]
             frame_asc_str = f"{track:03d}A"
             if track not in licsar_cache:
                 licsar_cache[track] = check_licsar_track(track)
             licsar_asc = licsar_cache[track]
+            if licsar_asc:
+                frame_id_asc = build_licsar_frame_id(track, "A", lat)
+                if "?????" in frame_id_asc:
+                    frame_id_asc = None
 
         # Check descending
+        frame_id_desc = None
         if best_desc:
             track = best_desc["orbit"]
             frame_desc_str = f"{track:03d}D"
             if track not in licsar_cache:
                 licsar_cache[track] = check_licsar_track(track)
             licsar_desc = licsar_cache[track]
+            if licsar_desc:
+                frame_id_desc = build_licsar_frame_id(track, "D", lat)
+                if "?????" in frame_id_desc:
+                    frame_id_desc = None
 
         licsar_available = licsar_asc or licsar_desc
 
@@ -425,11 +442,13 @@ def process_volcanoes() -> tuple[list[dict], dict]:
             "total_scenes": len(scenes),
             "best_ascending": {
                 "track": best_asc["orbit"] if best_asc else None,
+                "frame_id": frame_id_asc,
                 "scene_count": best_asc["count"] if best_asc else 0,
                 "licsar_available": licsar_asc,
             },
             "best_descending": {
                 "track": best_desc["orbit"] if best_desc else None,
+                "frame_id": frame_id_desc,
                 "scene_count": best_desc["count"] if best_desc else 0,
                 "licsar_available": licsar_desc,
             },
@@ -509,8 +528,11 @@ def print_summary(rows: list[dict]) -> None:
 # ---------------------------------------------------------------------------
 
 def main():
+    test_mode = "--test" in sys.argv
+    if test_mode:
+        print(f"[TEST MODE] Solo: {', '.join(TEST_VOLCANES)}\n")
     try:
-        csv_rows, json_data = process_volcanoes()
+        csv_rows, json_data = process_volcanoes(test_mode=test_mode)
     except KeyboardInterrupt:
         print("\n[INTERRUPTED] Partial results will not be saved.")
         sys.exit(1)

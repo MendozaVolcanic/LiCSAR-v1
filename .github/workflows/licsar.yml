@@ -1,0 +1,82 @@
+name: LiCSAR — Deformación InSAR
+
+on:
+  schedule:
+    # frame_finder: semanal (los frames no cambian frecuente)
+    - cron: '0 6 * * 1'   # Lunes 06:00 UTC — descubrimiento de frames
+    # downloader: 2 veces por semana (interferogramas nuevos cada 6-12 días)
+    - cron: '0 8 * * 1,4' # Lunes y jueves 08:00 UTC — descarga PNGs
+  workflow_dispatch:
+    inputs:
+      solo_descubrimiento:
+        description: 'Solo correr frame_finder (sin descargar PNGs)'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+
+jobs:
+  licsar-sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: pip install requests numpy pandas
+
+      - name: Descubrir frames (frame_finder.py)
+        run: |
+          if [ ! -f "datos/frames_volcanes.json" ] || [ "${{ github.event.inputs.solo_descubrimiento }}" = "true" ]; then
+            echo "Ejecutando frame_finder.py..."
+            python frame_finder.py || echo "frame_finder completado con advertencias"
+          else
+            echo "Catálogo ya existe. Saltando frame_finder."
+          fi
+        continue-on-error: true
+
+      - name: Descargar PNGs interferogramas
+        if: ${{ github.event.inputs.solo_descubrimiento != 'true' }}
+        run: |
+          if [ -f "datos/frames_volcanes.json" ]; then
+            python licsar_downloader.py
+          else
+            echo "No hay catálogo de frames. Ejecuta primero frame_finder."
+          fi
+        continue-on-error: true
+
+      - name: Estimar espacio utilizado
+        run: |
+          echo "=== Espacio en docs/licsar/ ==="
+          du -sh docs/licsar/ 2>/dev/null || echo "Sin datos aún"
+          echo "=== Archivos PNG ==="
+          find docs/licsar/ -name "*.png" 2>/dev/null | wc -l | xargs echo "Total PNGs:"
+
+      - name: Commit resultados
+        run: |
+          git config user.name "LiCSARBot"
+          git config user.email "licsar@insar.com"
+          git add datos/frames_volcanes.json datos/frames_volcanes.csv docs/licsar/ 2>/dev/null || true
+          if git diff --quiet --staged 2>/dev/null; then
+            echo "Sin cambios nuevos"
+          else
+            VOLCANES=$(python -c "
+          import json
+          try:
+              c = json.load(open('docs/licsar/catalog.json'))
+              n = sum(1 for v in c.get('volcanes',{}).values() if v.get('ascendente') or v.get('descendente'))
+              print(f'{n} volcanes con datos')
+          except: print('updated')
+          " 2>/dev/null || echo "updated")
+            git commit -m "licsar: $VOLCANES — $(date +'%Y-%m-%d')"
+            git pull origin main --rebase -X ours || true
+            git push origin main || true
+          fi
