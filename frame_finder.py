@@ -261,12 +261,30 @@ def list_licsar_frames_for_track(track: int) -> list[str]:
         resp = requests.get(url, timeout=REQUEST_TIMEOUT)
         if resp.status_code != 200:
             return []
-        # Simple HTML parsing: look for href="NNNX_NNNNN_NNNNNN/"
         import re
         pattern = re.compile(r'href="(\d{3}[AD]_\d{5}_\d{6})/"')
         return pattern.findall(resp.text)
     except Exception:
         return []
+
+
+def get_frame_center_lat(track: int, frame_id: str) -> float | None:
+    """
+    Read the frame polygon from JASMIN metadata and return its center latitude.
+    Returns None if unavailable.
+    """
+    url = f"{LICSAR_PRODUCTS_URL}/{track}/{frame_id}/metadata/{frame_id}-poly.txt"
+    try:
+        resp = requests.get(url, timeout=REQUEST_TIMEOUT)
+        if resp.status_code != 200:
+            return None
+        import re
+        # Extract all lat values (second number in each "lon lat" pair)
+        coords = re.findall(r'[-\d.]+\s+([-\d.]+)', resp.text)
+        lats = [float(c) for c in coords if c]
+        return sum(lats) / len(lats) if lats else None
+    except Exception:
+        return None
 
 
 # ---------------------------------------------------------------------------
@@ -301,23 +319,29 @@ def check_comet_volcanodb() -> dict[str, str]:
 
 def build_licsar_frame_id(track: int, direction: str, lat: float) -> str:
     """
-    Build a plausible LiCSAR frame ID in the format TTTS_BBBBB_FFFFFF
-    where TTT = zero-padded track, S = A or D,
-    BBBBB and FFFFFF are burst/frame identifiers.
-
-    Since we don't know the exact burst/frame from ASF alone, we attempt
-    to look up the track listing and find the frame closest to the volcano
-    latitude. If that fails, return a placeholder.
+    Find the LiCSAR frame whose center latitude is closest to the volcano.
+    Reads poly.txt metadata from JASMIN for each candidate frame.
+    Falls back to first available frame if metadata is unavailable.
     """
     track_str = f"{track:03d}{direction}"
-    frames = list_licsar_frames_for_track(track)
-    if frames:
-        # Filter to matching track prefix
-        matching = [f for f in frames if f.startswith(track_str)]
-        if matching:
-            # Return the first match (could improve with lat-based selection)
-            return matching[0]
-    return f"{track_str}_?????_??????"
+    all_frames = list_licsar_frames_for_track(track)
+    matching = [f for f in all_frames if f.startswith(track_str)]
+    if not matching:
+        return f"{track_str}_?????_??????"
+
+    # Try to find best frame by center latitude proximity
+    best_frame = None
+    best_dist = float("inf")
+    for frame in matching:
+        center_lat = get_frame_center_lat(track, frame)
+        if center_lat is not None:
+            dist = abs(center_lat - lat)
+            if dist < best_dist:
+                best_dist = dist
+                best_frame = frame
+        time.sleep(0.2)  # polite to JASMIN
+
+    return best_frame if best_frame else matching[0]
 
 
 # ---------------------------------------------------------------------------
