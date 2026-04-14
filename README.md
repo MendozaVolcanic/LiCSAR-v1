@@ -15,7 +15,7 @@ Para cada volcán se muestran los interferogramas más recientes disponibles:
 | **Fase desenvuelta (unw)** | Deformación relativa en cm. Cada franja ≈ 2.8 cm en línea de visión del satélite (LOS). Fringes concéntricos sobre un volcán indican inflación o deflación magmática. |
 | **Coherencia (coh)** | Calidad de la señal (0–1). Blanco = alta coherencia (superficie estable). Negro = baja coherencia (vegetación, nieve, agua). |
 
-Cobertura: **ascendente + descendente** para la mayoría de volcanes. La combinación de ambas geometrías permite separar deformación vertical de horizontal.
+Cobertura: **41/43 volcanes con ascendente + descendente**, 2 solo con una geometría. La combinación de ambas permite separar deformación vertical de horizontal.
 
 ## Volcanes monitoreados (43)
 
@@ -36,7 +36,7 @@ Cobertura: **ascendente + descendente** para la mayoría de volcanes. La combina
 ## Arquitectura
 
 ```
-frame_finder.py          → Identifica tracks LiCSAR vía ASF API + JASMIN
+frame_finder.py          → Identifica el frame LiCSAR más cercano a cada volcán (ASF API + polígonos JASMIN)
 licsar_downloader.py     → Descarga PNGs del interferograma más reciente
 docs/index.html          → Dashboard web (sidebar + panel detalle + zoom)
 docs/licsar/{Volcan}/    → PNGs por volcán (asc_unw, asc_coh, desc_unw, desc_coh)
@@ -75,7 +75,7 @@ cd docs && python -m http.server 8765
 - **Sin corrección atmosférica** (GACOS no incluida)
 - **Resolución ~30 m** en los thumbnails PNG
 - Los interferogramas corresponden al par de fechas más reciente disponible, no necesariamente el más informativo
-- Algunos volcanes comparten frame LiCSAR (el interferograma cubre una franja de ~250 km)
+- Cada volcán usa el frame LiCSAR cuyo centro geográfico está más cercano, minimizando superposición entre volcanes vecinos
 
 ## Contexto
 
