@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LiCSAR — Deformación InSAR Chile</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0e17; color: #e0e0e0; min-height: 100vh; }
@@ -14,7 +13,7 @@
         .header h1 { font-size: 1.1em; color: #58a6ff; }
         .badge { padding: 2px 8px; border-radius: 10px; font-size: 0.7em; font-weight: bold; }
         .badge-sar { background: #8b5cf6; color: #fff; }
-        .badge-exp { background: #f0883e; color: #000; }
+        .badge-comet { background: #238636; color: #fff; }
         .header-meta { font-size: 0.8em; color: #8b949e; }
 
         .info-bar { display: flex; gap: 16px; padding: 8px 20px; background: #161b22; border-bottom: 1px solid #21262d; flex-wrap: wrap; font-size: 0.78em; color: #8b949e; align-items: center; }
@@ -28,18 +27,49 @@
         .volcan-row.selected { background: #1c2333; border-left: 3px solid #8b5cf6; }
         .estado-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
         .dot-ok { background: #3fb950; }
-        .dot-parcial { background: #d29922; }
+        .dot-warn { background: #d29922; }
+        .dot-alert { background: #f85149; }
         .dot-sin { background: #484f58; }
         .vname { font-size: 0.88em; font-weight: 600; color: #e6edf3; flex: 1; }
         .vtracks { font-size: 0.72em; color: #8b949e; }
-        .zona-hdr { padding: 5px 15px; background: #161b22; font-size: 0.72em; font-weight: 700; color: #8b5cf6; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #21262d; position: sticky; top: 0; }
+        .vprob { font-size: 0.65em; padding: 1px 6px; border-radius: 8px; font-weight: 600; }
+        .vprob-ok { background: #1b3d2f; color: #3fb950; }
+        .vprob-warn { background: #3d2f1b; color: #d29922; }
+        .vprob-alert { background: #3d1b1b; color: #f85149; }
+        .zona-hdr { padding: 5px 15px; background: #161b22; font-size: 0.72em; font-weight: 700; color: #8b5cf6; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #21262d; position: sticky; top: 0; z-index: 2; }
 
-        /* Detalle */
-        .detalle-placeholder { display: flex; align-items: center; justify-content: center; height: 100%; color: #484f58; }
+        .detalle-placeholder { display: flex; align-items: center; justify-content: center; height: 100%; color: #484f58; font-size: 0.95em; }
         .detalle-titulo { font-size: 1.3em; font-weight: 700; color: #e6edf3; margin-bottom: 4px; }
-        .detalle-sub { font-size: 0.82em; color: #8b949e; margin-bottom: 20px; }
+        .detalle-sub { font-size: 0.82em; color: #8b949e; margin-bottom: 16px; }
 
-        .ifg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+        .comet-section { background: #161b22; border: 1px solid #21262d; border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
+        .comet-header { padding: 10px 14px; background: #1c2128; border-bottom: 1px solid #21262d; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+        .comet-header-left { display: flex; align-items: center; gap: 8px; }
+        .comet-title { font-size: 0.85em; font-weight: 600; color: #e6edf3; }
+        .comet-badge { font-size: 0.65em; padding: 1px 6px; border-radius: 8px; background: #238636; color: #fff; }
+        .comet-stats { font-size: 0.7em; color: #8b949e; }
+        .comet-selector { display: flex; align-items: center; gap: 8px; }
+        .comet-selector label { font-size: 0.72em; color: #8b949e; }
+        .comet-selector select { background: #0d1117; color: #e6edf3; border: 1px solid #30363d; border-radius: 4px; padding: 3px 6px; font-size: 0.75em; cursor: pointer; }
+        .comet-body { padding: 12px; }
+        .comet-img-container img { width: 100%; display: block; background: #000; cursor: zoom-in; border-radius: 4px; }
+        .comet-fecha { font-size: 0.72em; color: #8b949e; margin-top: 6px; text-align: center; }
+
+        .prob-card { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: #161b22; border: 1px solid #21262d; border-radius: 8px; margin-bottom: 16px; }
+        .prob-icon { font-size: 1.4em; }
+        .prob-info { flex: 1; }
+        .prob-label { font-size: 0.78em; color: #8b949e; }
+        .prob-value { font-size: 1.1em; font-weight: 700; }
+        .prob-value-ok { color: #3fb950; }
+        .prob-value-warn { color: #d29922; }
+        .prob-value-alert { color: #f85149; }
+
+        .frames-section { margin-bottom: 20px; }
+        .frames-toggle { font-size: 0.78em; color: #58a6ff; cursor: pointer; padding: 8px 0; }
+        .frames-toggle:hover { text-decoration: underline; }
+        .frames-content { display: none; }
+        .frames-content.open { display: block; }
+        .ifg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px; }
         .ifg-card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; overflow: hidden; }
         .ifg-header { padding: 8px 12px; background: #1c2128; border-bottom: 1px solid #21262d; }
         .ifg-label { font-size: 0.8em; font-weight: 600; color: #e6edf3; }
@@ -57,9 +87,7 @@
 
         .sin-datos-card { padding: 30px; text-align: center; color: #484f58; background: #161b22; border: 1px solid #21262d; border-radius: 8px; margin-bottom: 20px; }
         .sin-datos-card p { font-size: 0.85em; margin-top: 8px; line-height: 1.6; }
-        .sin-datos-card code { color: #79c0ff; font-size: 0.88em; }
 
-        /* Modal zoom */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; align-items: center; justify-content: center; }
         .modal.open { display: flex; }
         .modal img { max-width: 95vw; max-height: 95vh; object-fit: contain; }
@@ -78,17 +106,17 @@
     <div class="header-left">
         <h1>LiCSAR — Deformación InSAR</h1>
         <span class="badge badge-sar">Sentinel-1</span>
-        <span class="badge badge-exp">EXPERIMENTAL</span>
+        <span class="badge badge-comet">COMET</span>
     </div>
     <div class="header-meta" id="header-meta">Cargando...</div>
 </div>
 
 <div class="info-bar">
-    <span>Fuente: COMET LiCSAR (UK NERC)</span>
+    <span>Fuente: COMET LiCSAR + VolcanoDB (UK NERC)</span>
     <span>|</span>
     <span>Sensor: Sentinel-1 SAR (C-band 5.6 cm)</span>
     <span>|</span>
-    <span>Detección: deformación desde ~1 cm vertical</span>
+    <span>Prob. deformación: deep learning</span>
     <span>|</span>
     <span>Actualización: 2x/semana</span>
 </div>
@@ -128,30 +156,38 @@ for (const [z, vs] of Object.entries(ZONAS)) vs.forEach(v => ZONA_POR_VOLCAN[v] 
 let catalogGlobal = null;
 let seleccionado = null;
 
+function getProb(v) { return v.comet?.prob_deformacion ?? null; }
+function getProbMax(v) { return v.comet?.prob_max ?? null; }
+function probClass(p) {
+    if (p === null || p === undefined) return 'ok';
+    if (p > 0.5) return 'alert';
+    if (p > 0.2) return 'warn';
+    return 'ok';
+}
 function estadoDot(v) {
-    if (v.ascendente && v.descendente) return 'dot-ok';
-    if (v.ascendente || v.descendente) return 'dot-parcial';
+    const p = getProb(v);
+    if (p !== null && p > 0.5) return 'dot-alert';
+    if (p !== null && p > 0.2) return 'dot-warn';
+    if (v.comet?.interferogramas?.length || v.ascendente || v.descendente) return 'dot-ok';
     return 'dot-sin';
 }
-
 function tracksStr(v) {
     const partes = [];
-    if (v.ascendente) partes.push('ASC track ' + v.ascendente.track);
-    if (v.descendente) partes.push('DESC track ' + v.descendente.track);
-    return partes.length ? partes.join(' | ') : 'Sin tracks disponibles';
+    if (v.comet) partes.push(v.comet.total_interferogramas + ' ifgs COMET');
+    if (v.ascendente) partes.push('ASC ' + v.ascendente.track);
+    if (v.descendente) partes.push('DESC ' + v.descendente.track);
+    return partes.length ? partes.join(' | ') : 'Sin datos';
 }
 
 function renderLista(volcanes) {
     const lista = document.getElementById('lista-panel');
     clearEl(lista);
-
     const porZona = {};
     for (const [nombre, v] of Object.entries(volcanes)) {
         const z = ZONA_POR_VOLCAN[nombre] || 'Otro';
         if (!porZona[z]) porZona[z] = [];
         porZona[z].push({ nombre, ...v });
     }
-
     for (const zona of ['Norte','Centro','Sur','Austral']) {
         if (!porZona[zona]) continue;
         lista.appendChild(el('div', 'zona-hdr', zona));
@@ -161,12 +197,17 @@ function renderLista(volcanes) {
             row.addEventListener('click', () => seleccionar(v.nombre));
             row.appendChild(el('div', 'estado-dot ' + estadoDot(v)));
             const info = document.createElement('div');
-            info.style.flex = '1';
-            const nm = el('div', 'vname', v.nombre);
-            const tr = el('div', 'vtracks', tracksStr(v));
-            info.appendChild(nm);
-            info.appendChild(tr);
+            info.style.cssText = 'flex:1;min-width:0;';
+            info.appendChild(el('div', 'vname', v.nombre));
+            info.appendChild(el('div', 'vtracks', tracksStr(v)));
             row.appendChild(info);
+            const p = getProb(v);
+            if (p !== null) {
+                const cls = probClass(p);
+                const badge = el('span', 'vprob vprob-' + cls,
+                    p > 0.5 ? 'ALERTA' : p > 0.2 ? 'Revisar' : 'OK');
+                row.appendChild(badge);
+            }
             lista.appendChild(row);
         }
     }
@@ -179,34 +220,112 @@ function abrirModal(src) {
 function cerrarModal() { document.getElementById('modal').classList.remove('open'); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarModal(); });
 
+function crearCometSection(v, basePath) {
+    const comet = v.comet;
+    if (!comet || !comet.interferogramas?.length) return null;
+    const section = document.createElement('div');
+    section.className = 'comet-section';
+
+    const hdr = document.createElement('div');
+    hdr.className = 'comet-header';
+    const hdrLeft = document.createElement('div');
+    hdrLeft.className = 'comet-header-left';
+    hdrLeft.appendChild(el('span', 'comet-title', 'Interferograma recortado'));
+    hdrLeft.appendChild(el('span', 'comet-badge', 'COMET'));
+    hdrLeft.appendChild(el('span', 'comet-stats',
+        'Frame ' + comet.frame + ' | ' + comet.total_interferogramas + ' ifgs totales'));
+    hdr.appendChild(hdrLeft);
+
+    const selector = document.createElement('div');
+    selector.className = 'comet-selector';
+    selector.appendChild(el('label', null, 'Par de fechas:'));
+    const select = document.createElement('select');
+    const ifgs = comet.interferogramas;
+    for (let i = ifgs.length - 1; i >= 0; i--) {
+        const opt = document.createElement('option');
+        opt.value = String(i);
+        opt.textContent = ifgs[i].fecha || ifgs[i].par;
+        select.appendChild(opt);
+    }
+    selector.appendChild(select);
+    hdr.appendChild(selector);
+    section.appendChild(hdr);
+
+    const body = document.createElement('div');
+    body.className = 'comet-body';
+    const img = document.createElement('img');
+    const lastIdx = ifgs.length - 1;
+    img.src = basePath + '/' + ifgs[lastIdx].imagen + '?t=' + Date.now();
+    img.alt = 'Interferograma COMET';
+    img.addEventListener('click', function() { abrirModal(this.src); });
+    img.onerror = function() {
+        this.style.minHeight = '120px';
+        this.style.background = '#1c2128';
+        this.alt = 'Imagen no disponible';
+    };
+    body.appendChild(img);
+    const fechaLabel = el('div', 'comet-fecha',
+        'Fase + coherencia | ' + (ifgs[lastIdx].fecha || ifgs[lastIdx].par));
+    body.appendChild(fechaLabel);
+    section.appendChild(body);
+
+    select.addEventListener('change', function() {
+        const idx = parseInt(this.value);
+        img.src = basePath + '/' + ifgs[idx].imagen + '?t=' + Date.now();
+        fechaLabel.textContent = 'Fase + coherencia | ' + (ifgs[idx].fecha || ifgs[idx].par);
+    });
+    return section;
+}
+
+function crearProbCard(v) {
+    const p = getProb(v);
+    if (p === null) return null;
+    const pMax = getProbMax(v);
+    const card = document.createElement('div');
+    card.className = 'prob-card';
+    const cls = probClass(p);
+    var iconText = '\u2705';
+    if (cls === 'alert') iconText = '\u26a0\ufe0f';
+    else if (cls === 'warn') iconText = '\ud83d\udfe1';
+    card.appendChild(el('div', 'prob-icon', iconText));
+    const info = document.createElement('div');
+    info.className = 'prob-info';
+    info.appendChild(el('div', 'prob-label', 'Probabilidad de deformación (deep learning)'));
+    var valText = (p * 100).toFixed(1) + '%';
+    if (cls === 'alert') valText += ' — DEFORMACIÓN DETECTADA';
+    else if (cls === 'warn') valText += ' — Revisar manualmente';
+    else valText += ' — Sin deformación';
+    info.appendChild(el('div', 'prob-value prob-value-' + cls, valText));
+    if (pMax !== null && pMax > p) {
+        info.appendChild(el('div', 'prob-label', 'Max reciente: ' + (pMax * 100).toFixed(1) + '%'));
+    }
+    card.appendChild(info);
+    return card;
+}
+
 function crearIfgCard(titulo, subtitulo, prefijo, basePath) {
     const card = document.createElement('div');
     card.className = 'ifg-card';
     const hdr = document.createElement('div');
     hdr.className = 'ifg-header';
-    const lbl = el('div', 'ifg-label', titulo);
-    const sub = el('div', 'ifg-sub', subtitulo);
-    hdr.appendChild(lbl);
-    hdr.appendChild(sub);
+    hdr.appendChild(el('div', 'ifg-label', titulo));
+    hdr.appendChild(el('div', 'ifg-sub', subtitulo));
     card.appendChild(hdr);
-
     const imgs = document.createElement('div');
     imgs.className = 'ifg-images';
-
     for (const [nombre, archivo] of [['Fase desenvuelta', 'unw'], ['Coherencia', 'coh']]) {
         const wrapper = document.createElement('div');
-        const lbl2 = el('div', 'img-mini-label', nombre);
+        wrapper.appendChild(el('div', 'img-mini-label', nombre));
         const img = document.createElement('img');
         img.src = basePath + '/' + prefijo + '_' + archivo + '.png?t=' + Date.now();
         img.alt = nombre;
         img.loading = 'lazy';
-        img.addEventListener('click', () => abrirModal(img.src));
+        img.addEventListener('click', function() { abrirModal(this.src); });
         img.onerror = function() {
             this.alt = 'No disponible';
             this.style.minHeight = '80px';
             this.style.background = '#1c2128';
         };
-        wrapper.appendChild(lbl2);
         wrapper.appendChild(img);
         imgs.appendChild(wrapper);
     }
@@ -219,78 +338,95 @@ function renderDetalle(nombre) {
     const panel = document.getElementById('detalle-panel');
     clearEl(panel);
 
-    const titulo = el('div', 'detalle-titulo', nombre);
-    const coord = el('div', 'detalle-sub', `${v.lat?.toFixed(3)}°, ${v.lon?.toFixed(3)}° | Actualizado: ${(v.actualizado || '').slice(0,10)}`);
-    panel.appendChild(titulo);
-    panel.appendChild(coord);
+    panel.appendChild(el('div', 'detalle-titulo', nombre));
+    var subParts = [];
+    if (v.lat) subParts.push(v.lat.toFixed(3) + '\u00b0, ' + v.lon.toFixed(3) + '\u00b0');
+    if (v.actualizado) subParts.push('Actualizado: ' + (v.actualizado || '').slice(0,10));
+    panel.appendChild(el('div', 'detalle-sub', subParts.join(' | ')));
 
+    const basePath = 'licsar/' + nombre.replace(/ /g,'_').replace(/-/g,'_');
+
+    /* 1. Probabilidad */
+    const probCard = crearProbCard(v);
+    if (probCard) panel.appendChild(probCard);
+
+    /* 2. COMET recortado + selector */
+    const cometSection = crearCometSection(v, basePath);
+    if (cometSection) panel.appendChild(cometSection);
+
+    /* 3. Frames LiCSAR colapsable */
     const tieneAsc = v.ascendente?.unw_disponible || v.ascendente?.coh_disponible;
     const tieneDesc = v.descendente?.unw_disponible || v.descendente?.coh_disponible;
-
-    if (!tieneAsc && !tieneDesc) {
-        const sin = document.createElement('div');
-        sin.className = 'sin-datos-card';
-        sin.appendChild(el('div', null, '📡 Sin interferogramas disponibles aún'));
-        const p1 = el('p', null, 'Los datos InSAR se cargarán automáticamente cuando el workflow identifique frames Sentinel-1 para este volcán y descargue los thumbnails LiCSAR.');
-        const p2 = document.createElement('p');
-        p2.textContent = 'Para acelerar: ';
-        const code = el('code', null, 'python frame_finder.py && python licsar_downloader.py');
-        p2.appendChild(code);
-        sin.appendChild(p1);
-        sin.appendChild(p2);
-        panel.appendChild(sin);
-    } else {
+    if (tieneAsc || tieneDesc) {
+        const framesSection = document.createElement('div');
+        framesSection.className = 'frames-section';
+        var isOpen = false;
+        const toggle = el('div', 'frames-toggle', '\u25b6 Frames LiCSAR completos (ASC/DESC)');
+        const content = document.createElement('div');
+        content.className = 'frames-content';
+        toggle.addEventListener('click', function() {
+            isOpen = !isOpen;
+            content.className = isOpen ? 'frames-content open' : 'frames-content';
+            toggle.textContent = (isOpen ? '\u25bc' : '\u25b6') + ' Frames LiCSAR completos (ASC/DESC)';
+        });
+        framesSection.appendChild(toggle);
         const grid = document.createElement('div');
         grid.className = 'ifg-grid';
-        const base = 'licsar/' + nombre.replace(/ /g,'_').replace(/-/g,'_');
-
         if (tieneAsc) {
-            const info = v.ascendente;
-            const sub = `Track ${info.track} | Par: ${info.par_fechas?.replace('_',' → ')} | ${info.total_interferogramas} interferogramas`;
-            grid.appendChild(crearIfgCard('Ascendente (ASC)', sub, 'asc', base));
+            var info = v.ascendente;
+            grid.appendChild(crearIfgCard('Ascendente (ASC)',
+                'Track ' + info.track + ' | ' + (info.par_fechas||'').replace('_',' \u2192 '),
+                'asc', basePath));
         }
         if (tieneDesc) {
-            const info = v.descendente;
-            const sub = `Track ${info.track} | Par: ${info.par_fechas?.replace('_',' → ')} | ${info.total_interferogramas} interferogramas`;
-            grid.appendChild(crearIfgCard('Descendente (DESC)', sub, 'desc', base));
+            var info2 = v.descendente;
+            grid.appendChild(crearIfgCard('Descendente (DESC)',
+                'Track ' + info2.track + ' | ' + (info2.par_fechas||'').replace('_',' \u2192 '),
+                'desc', basePath));
         }
-        panel.appendChild(grid);
+        content.appendChild(grid);
+        framesSection.appendChild(content);
+        panel.appendChild(framesSection);
     }
 
-    // Explicación InSAR
-    const info = document.createElement('div');
-    info.className = 'info-insar';
-    info.appendChild(el('h3', null, 'Cómo interpretar los interferogramas'));
-    const textos = [
-        'Fase desenvuelta (unw): cada franja de color = ~2.8 cm de deformación LOS (line-of-sight). Fringes concéntricas sobre un volcán indican inflación (magma subiendo) o deflación (magma saliendo). Inflación = fringes apuntan hacia el satélite.',
-        'Coherencia (coh): valores 0-1. Blanco = alta coherencia (superficie estable, confiable). Negro = baja coherencia (vegetación, nieve, agua). El sur de Chile tiene baja coherencia por vegetación densa.',
-        'Ascendente + Descendente combinados permiten separar deformación vertical de horizontal (útil para distinguir falla tectónica de intrusión magmática).',
-        'Limitaciones: decorrelación en volcanes australes con nieve/vegetación. Corrección atmosférica (GACOS) no incluida. Resolución ~30m.'
-    ];
-    textos.forEach(t => {
-        const p = el('p', null, t);
-        info.appendChild(p);
-    });
-    const leyDiv = document.createElement('div');
-    leyDiv.className = 'leyenda';
-    const leyItems = [
-        ['linear-gradient(to right,#2196F3,#00BCD4,#4CAF50,#FFEB3B,#FF5722)', 'Ciclo de fase completo'],
-        ['linear-gradient(to right,#000,#fff)', 'Coherencia 0→1'],
-        ['#2196F3', 'Movimiento hacia satélite (inflación)'],
-        ['#FF5722', 'Movimiento desde satélite (deflación)'],
-    ];
-    for (const [bg, label] of leyItems) {
-        const item = document.createElement('div');
-        item.className = 'ley-item';
-        const sw = document.createElement('div');
-        sw.className = 'ley-swatch';
-        sw.style.background = bg;
-        item.appendChild(sw);
-        item.appendChild(document.createTextNode(label));
-        leyDiv.appendChild(item);
+    /* 4. Sin datos */
+    if (!cometSection && !tieneAsc && !tieneDesc) {
+        const sin = document.createElement('div');
+        sin.className = 'sin-datos-card';
+        sin.appendChild(el('p', null, 'Sin interferogramas disponibles para este volcán.'));
+        panel.appendChild(sin);
     }
-    info.appendChild(leyDiv);
-    panel.appendChild(info);
+
+    /* 5. Guía InSAR */
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'info-insar';
+    infoDiv.appendChild(el('h3', null, 'Cómo interpretar'));
+    var textos = [
+        'Fase desenvuelta (unw): cada franja de color \u2248 2.8 cm de deformación LOS. Fringes concéntricos = inflación o deflación.',
+        'Coherencia (coh): Blanco = señal confiable. Negro = decorrelación (vegetación, nieve).',
+        'Probabilidad > 50% = deformación detectada por deep learning (modelo COMET).'
+    ];
+    textos.forEach(function(t) { infoDiv.appendChild(el('p', null, t)); });
+    var leyDiv = document.createElement('div');
+    leyDiv.className = 'leyenda';
+    var leyItems = [
+        ['linear-gradient(to right,#2196F3,#00BCD4,#4CAF50,#FFEB3B,#FF5722)', 'Ciclo de fase'],
+        ['linear-gradient(to right,#000,#fff)', 'Coherencia 0\u21921'],
+        ['#3fb950', 'Sin deformación (<20%)'],
+        ['#f85149', 'Deformación detectada (>50%)'],
+    ];
+    leyItems.forEach(function(pair) {
+        var item = document.createElement('div');
+        item.className = 'ley-item';
+        var sw = document.createElement('div');
+        sw.className = 'ley-swatch';
+        sw.style.background = pair[0];
+        item.appendChild(sw);
+        item.appendChild(document.createTextNode(pair[1]));
+        leyDiv.appendChild(item);
+    });
+    infoDiv.appendChild(leyDiv);
+    panel.appendChild(infoDiv);
 }
 
 function seleccionar(nombre) {
@@ -301,24 +437,23 @@ function seleccionar(nombre) {
 
 async function cargar() {
     try {
-        const resp = await fetch('licsar/catalog.json?t=' + Date.now());
+        var resp = await fetch('licsar/catalog.json?t=' + Date.now());
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         catalogGlobal = await resp.json();
-
-        const n = Object.keys(catalogGlobal.volcanes).length;
-        const conDatos = Object.values(catalogGlobal.volcanes)
-            .filter(v => v.ascendente || v.descendente).length;
+        var n = Object.keys(catalogGlobal.volcanes).length;
+        var conComet = Object.values(catalogGlobal.volcanes)
+            .filter(function(v) { return v.comet?.interferogramas?.length; }).length;
+        var conDatos = Object.values(catalogGlobal.volcanes)
+            .filter(function(v) { return v.comet || v.ascendente || v.descendente; }).length;
         document.getElementById('header-meta').textContent =
-            `Actualizado: ${(catalogGlobal.actualizado||'').slice(0,10)} | ${conDatos}/${n} volcanes con datos InSAR`;
-
+            (catalogGlobal.actualizado||'').slice(0,10) + ' | ' + conDatos + '/' + n + ' volcanes | ' + conComet + ' con COMET';
         renderLista(catalogGlobal.volcanes);
     } catch (e) {
         document.getElementById('lista-panel').textContent =
-            'Sin catálogo. Ejecuta: python frame_finder.py && python licsar_downloader.py';
+            'Sin catálogo. Ejecuta: python frame_finder.py && python licsar_downloader.py && python comet_downloader.py';
         document.getElementById('header-meta').textContent = 'Sin datos';
     }
 }
-
 cargar();
 </script>
 </body>
