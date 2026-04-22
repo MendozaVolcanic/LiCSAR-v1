@@ -2,8 +2,8 @@ name: LiCSAR — Deformación InSAR
 
 on:
   schedule:
-    # Diario a las 07:00 UTC (~04:00 Chile)
-    - cron: '0 7 * * *'
+    # Dos veces al día: 07:00 y 19:00 UTC (~04:00 y 16:00 Chile)
+    - cron: '0 7,19 * * *'
   workflow_dispatch:
     inputs:
       solo_descubrimiento:
