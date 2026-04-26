@@ -8,14 +8,20 @@
 
 ## Qué muestra
 
-Para cada volcán se muestran los interferogramas más recientes disponibles:
+Para cada volcán el dashboard despliega tres bloques de información:
 
-| Imagen | Descripción |
-|--------|-------------|
-| **Fase desenvuelta (unw)** | Deformación relativa en cm. Cada franja ≈ 2.8 cm en línea de visión del satélite (LOS). Fringes concéntricos sobre un volcán indican inflación o deflación magmática. |
+1. **Serie temporal de desplazamiento (LiCSBAS)** — gráfico interactivo Plotly con desplazamiento en cm vs fecha (2014→presente). Se calcula velocidad lineal en cm/año y cambio de los últimos 180 días sobre un ROI de 20×20 píxeles centrado en el cráter.
+2. **Interferogramas COMET recortados** — selector de los 10 pares de fechas más recientes, JPG cropeado al volcán (no al frame de 250 km).
+3. **Frames LiCSAR completos** — sección colapsable con los PNGs originales (asc/desc, fase desenvuelta + coherencia).
+
+| Producto | Descripción |
+|----------|-------------|
+| **Serie temporal LiCSBAS** | Desplazamiento promedio en línea de visión (LOS). Tendencia ascendente = inflación, descendente = deflación. Versión con corrección atmosférica GACOS cuando está disponible. |
+| **Probabilidad de deformación** | Score deep learning (0–1) por par. Semáforo en sidebar: rojo si >0.5, amarillo si >0.2. |
+| **Fase desenvuelta (unw)** | Deformación relativa en cm. Cada franja ≈ 2.8 cm en LOS. Fringes concéntricos = inflación/deflación magmática. |
 | **Coherencia (coh)** | Calidad de la señal (0–1). Blanco = alta coherencia (superficie estable). Negro = baja coherencia (vegetación, nieve, agua). |
 
-Cobertura: **41/43 volcanes con ascendente + descendente**, 2 solo con una geometría. La combinación de ambas permite separar deformación vertical de horizontal.
+Cobertura: **41/43 volcanes con ascendente + descendente**, 2 solo con una geometría. La combinación de ambas permite separar deformación vertical de horizontal. **41/43 con datos COMET** (interferogramas recortados + serie temporal LiCSBAS).
 
 ## Volcanes monitoreados (43)
 
@@ -36,21 +42,27 @@ Cobertura: **41/43 volcanes con ascendente + descendente**, 2 solo con una geome
 ## Arquitectura
 
 ```
-frame_finder.py          → Identifica el frame LiCSAR más cercano a cada volcán (ASF API + polígonos JASMIN)
-licsar_downloader.py     → Descarga PNGs del interferograma más reciente
-docs/index.html          → Dashboard web (sidebar + panel detalle + zoom)
-docs/licsar/{Volcan}/    → PNGs por volcán (asc_unw, asc_coh, desc_unw, desc_coh)
-docs/licsar/catalog.json → Índice de disponibilidad
-datos/frames_volcanes.*  → Catálogo de tracks por volcán (CSV + JSON)
-.github/workflows/       → Actualización automática 2x/semana
+frame_finder.py            → Identifica el frame LiCSAR más cercano a cada volcán (ASF API + polígonos JASMIN)
+licsar_downloader.py       → Descarga PNGs del interferograma más reciente desde JASMIN
+comet_downloader.py        → Descarga interferogramas recortados + probabilidad ML desde COMET VolcanoDB
+timeseries_downloader.py   → Descarga JSONs de desplazamiento LiCSBAS (~22MB c/u) y los reduce a series 1D (~5KB)
+docs/index.html            → Dashboard web (Plotly time series + COMET + frames colapsables)
+docs/licsar/{Volcan}/      → Archivos por volcán: PNGs LiCSAR + comet/*.jpg + timeseries.json
+docs/licsar/catalog.json   → Índice unificado (frames + COMET + flags timeseries)
+datos/frames_volcanes.*    → Catálogo de tracks por volcán (CSV + JSON)
+.github/workflows/         → Actualización automática 2x/día
 ```
 
 ## Actualización automática (GitHub Actions)
 
-| Workflow | Horario | Acción |
-|----------|---------|--------|
-| `frame_finder` | Lunes 06:00 UTC | Redescubre frames disponibles |
-| `licsar_downloader` | Lunes + Jueves 08:00 UTC | Descarga interferogramas nuevos |
+El workflow corre **2 veces al día** (07:00 y 19:00 UTC ≈ 04:00 y 16:00 Chile):
+
+| Step | Cuándo se ejecuta | Acción |
+|------|-------------------|--------|
+| `frame_finder` | Solo lunes (o primera vez) | Redescubre frames disponibles |
+| `licsar_downloader` | Lunes y jueves | Descarga PNGs LiCSAR del frame completo |
+| `comet_downloader` | Cada ejecución (2x/día) | Interferogramas recortados + probabilidad ML |
+| `timeseries_downloader` | Solo lunes | Series temporales LiCSBAS (descarga pesada) |
 
 ## Correr localmente
 

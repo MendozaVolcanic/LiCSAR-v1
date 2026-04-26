@@ -17,7 +17,7 @@ permissions:
 jobs:
   licsar-sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 180
 
     steps:
       - name: Checkout
@@ -66,6 +66,19 @@ jobs:
         run: |
           echo "Descargando datos COMET..."
           python comet_downloader.py
+        continue-on-error: true
+
+      # Timeseries downloader: solo lunes (descarga JSONs grandes ~22MB c/u)
+      - name: Descargar series temporales LiCSBAS
+        if: ${{ github.event.inputs.solo_descubrimiento != 'true' }}
+        run: |
+          DOW=$(date +%u)
+          if [ "$DOW" = "1" ]; then
+            echo "Descargando series temporales LiCSBAS (lunes)..."
+            python timeseries_downloader.py
+          else
+            echo "No es lunes. Saltando timeseries downloader."
+          fi
         continue-on-error: true
 
       - name: Resumen de espacio

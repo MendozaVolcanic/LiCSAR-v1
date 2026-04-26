@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LiCSAR — Deformación InSAR Chile</title>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0e17; color: #e0e0e0; min-height: 100vh; }
@@ -84,6 +85,13 @@
         .leyenda { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
         .ley-item { display: flex; align-items: center; gap: 8px; font-size: 0.75em; color: #c9d1d9; }
         .ley-swatch { width: 30px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+
+        .ts-section { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 14px; margin-bottom: 20px; }
+        .ts-section h3 { font-size: 0.9em; color: #58a6ff; margin-bottom: 10px; }
+        .ts-stats { display: flex; flex-wrap: wrap; gap: 16px; font-size: 0.78em; color: #c9d1d9; margin-bottom: 10px; }
+        .ts-stats b { color: #e6edf3; }
+        .ts-footer { font-size: 0.7em; color: #8b949e; margin-top: 6px; text-align: center; }
+        .ts-empty { font-size: 0.8em; color: #8b949e; padding: 20px; text-align: center; }
 
         .sin-datos-card { padding: 30px; text-align: center; color: #484f58; background: #161b22; border: 1px solid #21262d; border-radius: 8px; margin-bottom: 20px; }
         .sin-datos-card p { font-size: 0.85em; margin-top: 8px; line-height: 1.6; }
@@ -333,6 +341,93 @@ function crearIfgCard(titulo, subtitulo, prefijo, basePath) {
     return card;
 }
 
+async function renderTimeseries(volcanData, basePath, container) {
+    if (!volcanData.comet || volcanData.comet.timeseries !== true) {
+        container.style.display = 'none';
+        return;
+    }
+    container.style.display = '';
+    try {
+        var resp = await fetch(basePath + '/timeseries.json?t=' + Date.now());
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        var ts = await resp.json();
+
+        var velEl = container.querySelector('#ts-vel');
+        var deltaEl = container.querySelector('#ts-delta');
+        var nEl = container.querySelector('#ts-n');
+        var pxEl = container.querySelector('#ts-px');
+        if (velEl) velEl.textContent = ts.velocity_cm_yr != null ? ts.velocity_cm_yr.toFixed(2) : '—';
+        if (deltaEl) deltaEl.textContent = ts.delta_cm_180d != null ? ts.delta_cm_180d.toFixed(2) : '—';
+        if (nEl) nEl.textContent = ts.n_fechas != null ? ts.n_fechas : (ts.dates ? ts.dates.length : '—');
+        if (pxEl) pxEl.textContent = ts.roi && ts.roi.px_validos != null ? ts.roi.px_validos : '—';
+
+        var traces = [];
+        traces.push({
+            x: ts.dates, y: ts.los_cm_filt,
+            type: 'scatter', mode: 'lines+markers',
+            name: 'LOS filt', line: { color: '#58a6ff', width: 2 },
+            marker: { size: 4, color: '#58a6ff' }
+        });
+        if (ts.los_cm_gacos) {
+            traces.push({
+                x: ts.dates, y: ts.los_cm_gacos,
+                type: 'scatter', mode: 'lines',
+                name: 'Con corrección GACOS',
+                line: { color: '#f0883e', width: 1.5 },
+                opacity: 0.7
+            });
+        }
+        var hasProb = volcanData.comet.prob_serie && volcanData.comet.prob_serie.dates && volcanData.comet.prob_serie.means;
+        if (hasProb) {
+            var ps = volcanData.comet.prob_serie;
+            traces.push({
+                x: ps.dates, y: ps.means,
+                type: 'scatter', mode: 'lines', fill: 'tozeroy',
+                name: 'Probabilidad deformación',
+                line: { color: '#f85149', width: 1 },
+                fillcolor: 'rgba(248,81,73,0.25)',
+                yaxis: 'y2'
+            });
+        }
+        var layout = {
+            paper_bgcolor: '#161b22', plot_bgcolor: '#0d1117',
+            font: { color: '#c9d1d9', size: 11 },
+            margin: { l: 55, r: hasProb ? 55 : 20, t: 10, b: 40 },
+            hovermode: 'x unified',
+            showlegend: true,
+            legend: { orientation: 'h', y: -0.18, x: 0.5, xanchor: 'center', font: { size: 10 } },
+            xaxis: { type: 'date', tickformat: '%Y-%m', gridcolor: '#21262d', zerolinecolor: '#30363d' },
+            yaxis: { title: { text: 'Desplazamiento LOS (cm)', font: { size: 11 } }, gridcolor: '#21262d', zerolinecolor: '#30363d' }
+        };
+        if (hasProb) {
+            layout.yaxis2 = { title: { text: 'Probabilidad', font: { size: 11 } }, overlaying: 'y', side: 'right', range: [0,1], showgrid: false };
+        }
+        var plotDiv = container.querySelector('#ts-plot');
+        Plotly.newPlot(plotDiv, traces, layout, { responsive: true, displayModeBar: false });
+    } catch (e) {
+        var plotDiv = container.querySelector('#ts-plot');
+        if (plotDiv) {
+            plotDiv.innerHTML = '<div class="ts-empty">Serie temporal no disponible</div>';
+        }
+    }
+}
+
+function crearTimeseriesSection() {
+    var section = document.createElement('section');
+    section.className = 'ts-section';
+    section.innerHTML =
+        '<h3>Serie temporal de desplazamiento (LiCSBAS)</h3>' +
+        '<div class="ts-stats">' +
+            '<span>Velocidad: <b id="ts-vel">—</b> cm/año</span>' +
+            '<span>Δ últimos 180d: <b id="ts-delta">—</b> cm</span>' +
+            '<span>Fechas: <b id="ts-n">—</b></span>' +
+            '<span>Píxeles ROI: <b id="ts-px">—</b></span>' +
+        '</div>' +
+        '<div id="ts-plot" style="width:100%;height:380px"></div>' +
+        '<p class="ts-footer">Fuente: COMET LiCSBAS · ROI 20×20 px centrado · Línea de visión satélite (LOS)</p>';
+    return section;
+}
+
 function renderDetalle(nombre) {
     const v = catalogGlobal.volcanes[nombre];
     const panel = document.getElementById('detalle-panel');
@@ -349,6 +444,13 @@ function renderDetalle(nombre) {
     /* 1. Probabilidad */
     const probCard = crearProbCard(v);
     if (probCard) panel.appendChild(probCard);
+
+    /* 1.5 Serie temporal LiCSBAS (antes de COMET) */
+    if (v.comet && v.comet.timeseries === true) {
+        const tsSection = crearTimeseriesSection();
+        panel.appendChild(tsSection);
+        renderTimeseries(v, basePath, tsSection);
+    }
 
     /* 2. COMET recortado + selector */
     const cometSection = crearCometSection(v, basePath);

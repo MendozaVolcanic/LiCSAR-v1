@@ -358,14 +358,10 @@ def main():
         resultado = procesar_volcan_comet(nombre, comet_key, frames)
 
         if resultado:
-            # Agregar datos COMET al catálogo existente
-            if nombre in catalog.get("volcanes", {}):
-                catalog["volcanes"][nombre]["comet"] = resultado
-            else:
-                catalog["volcanes"][nombre] = {
-                    "nombre": nombre,
-                    "comet": resultado,
-                }
+            # Merge datos COMET con bloque existente (preserva flags como timeseries:true)
+            vol = catalog.setdefault("volcanes", {}).setdefault(nombre, {"nombre": nombre})
+            comet_block = vol.setdefault("comet", {})
+            comet_block.update(resultado)
 
             if resultado["interferogramas"]:
                 con_datos += 1
