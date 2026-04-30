@@ -342,15 +342,15 @@ function crearIfgCard(titulo, subtitulo, prefijo, basePath) {
 }
 
 async function renderTimeseries(volcanData, basePath, container) {
-    if (!volcanData.comet || volcanData.comet.timeseries !== true) {
-        container.style.display = 'none';
-        return;
-    }
-    container.style.display = '';
+    // Robusto: intenta fetch directo. Si 404 o error, oculta la sección.
+    // No depende del flag catalog.json que se pierde con sync de workflow.
+    container.style.display = 'none';
     try {
         var resp = await fetch(basePath + '/timeseries.json?t=' + Date.now());
-        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        if (!resp.ok) return;  // 404 -> sin serie, sección oculta
         var ts = await resp.json();
+        if (!ts || !ts.dates || !ts.los_cm_filt) return;
+        container.style.display = '';
 
         var velEl = container.querySelector('#ts-vel');
         var deltaEl = container.querySelector('#ts-delta');
@@ -405,10 +405,8 @@ async function renderTimeseries(volcanData, basePath, container) {
         var plotDiv = container.querySelector('#ts-plot');
         Plotly.newPlot(plotDiv, traces, layout, { responsive: true, displayModeBar: false });
     } catch (e) {
-        var plotDiv = container.querySelector('#ts-plot');
-        if (plotDiv) {
-            plotDiv.innerHTML = '<div class="ts-empty">Serie temporal no disponible</div>';
-        }
+        // Silenciar: si hay error de fetch o parsing, simplemente no mostrar la sección
+        container.style.display = 'none';
     }
 }
 
@@ -445,12 +443,10 @@ function renderDetalle(nombre) {
     const probCard = crearProbCard(v);
     if (probCard) panel.appendChild(probCard);
 
-    /* 1.5 Serie temporal LiCSBAS (antes de COMET) */
-    if (v.comet && v.comet.timeseries === true) {
-        const tsSection = crearTimeseriesSection();
-        panel.appendChild(tsSection);
-        renderTimeseries(v, basePath, tsSection);
-    }
+    /* 1.5 Serie temporal LiCSBAS (antes de COMET) — siempre intenta, oculta si 404 */
+    const tsSection = crearTimeseriesSection();
+    panel.appendChild(tsSection);
+    renderTimeseries(v, basePath, tsSection);
 
     /* 2. COMET recortado + selector */
     const cometSection = crearCometSection(v, basePath);

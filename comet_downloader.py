@@ -370,7 +370,18 @@ def main():
 
         print()
 
-    # 4. Guardar catálogo
+    # 4. Re-marcar flags timeseries:true escaneando archivos en disco
+    # (defensa contra pérdida del flag por sync de workflow)
+    ts_marcados = 0
+    for nombre, vol in catalog.get("volcanes", {}).items():
+        ts_path = DOCS_DIR / safe_dir_name(nombre) / "timeseries.json"
+        if ts_path.exists():
+            vol.setdefault("comet", {})["timeseries"] = True
+            ts_marcados += 1
+    if ts_marcados:
+        print(f"  Flags timeseries re-marcados: {ts_marcados} volcanes")
+
+    # 5. Guardar catálogo
     print(f"[4/4] Guardando catálogo...")
     catalog["actualizado"] = datetime.now(timezone.utc).isoformat()
     catalog["fuente_comet"] = "COMET VolcanoDB (comet-volcanodb.org)"
