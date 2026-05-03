@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-05-02T20:02:28.278375+00:00",
+  "actualizado": "2026-05-03T08:50:26.603932+00:00",
   "fuente": "COMET LiCSAR (Sentinel-1 InSAR)",
   "url_base": "https://gws-access.jasmin.ac.uk/public/nceo_geohazards/LiCSAR_products",
   "nota": "Solo thumbnails PNG, no GeoTIFF completos",
@@ -840,7 +840,7 @@
           }
         ],
         "prob_deformacion": 0.0,
-        "prob_max": 0.0,
+        "prob_max": 0.01,
         "timeseries": true
       }
     },
@@ -924,7 +924,7 @@
           }
         ],
         "prob_deformacion": 0.0,
-        "prob_max": 0.02,
+        "prob_max": 0.04,
         "timeseries": true
       }
     },
@@ -1008,7 +1008,7 @@
           }
         ],
         "prob_deformacion": 0.0,
-        "prob_max": 0.06,
+        "prob_max": 0.0,
         "timeseries": true
       }
     },
@@ -1146,43 +1146,8 @@
       "comet": {
         "key": "laguna_del_maule",
         "frame": "018A_12668_131313",
-        "total_interferogramas": 2150,
+        "total_interferogramas": 2162,
         "interferogramas": [
-          {
-            "par": "20260325_20260331",
-            "fecha": "2026-03-25 - 2026-03-31",
-            "imagen": "comet/20260325_20260331.jpg"
-          },
-          {
-            "par": "20260325_20260406",
-            "fecha": "2026-03-25 - 2026-04-06",
-            "imagen": "comet/20260325_20260406.jpg"
-          },
-          {
-            "par": "20260325_20260412",
-            "fecha": "2026-03-25 - 2026-04-12",
-            "imagen": "comet/20260325_20260412.jpg"
-          },
-          {
-            "par": "20260325_20260418",
-            "fecha": "2026-03-25 - 2026-04-18",
-            "imagen": "comet/20260325_20260418.jpg"
-          },
-          {
-            "par": "20260331_20260406",
-            "fecha": "2026-03-31 - 2026-04-06",
-            "imagen": "comet/20260331_20260406.jpg"
-          },
-          {
-            "par": "20260331_20260412",
-            "fecha": "2026-03-31 - 2026-04-12",
-            "imagen": "comet/20260331_20260412.jpg"
-          },
-          {
-            "par": "20260331_20260418",
-            "fecha": "2026-03-31 - 2026-04-18",
-            "imagen": "comet/20260331_20260418.jpg"
-          },
           {
             "par": "20260406_20260412",
             "fecha": "2026-04-06 - 2026-04-12",
@@ -1194,13 +1159,48 @@
             "imagen": "comet/20260406_20260418.jpg"
           },
           {
+            "par": "20260406_20260424",
+            "fecha": "2026-04-06 - 2026-04-24",
+            "imagen": "comet/20260406_20260424.jpg"
+          },
+          {
+            "par": "20260406_20260430",
+            "fecha": "2026-04-06 - 2026-04-30",
+            "imagen": "comet/20260406_20260430.jpg"
+          },
+          {
             "par": "20260412_20260418",
             "fecha": "2026-04-12 - 2026-04-18",
             "imagen": "comet/20260412_20260418.jpg"
+          },
+          {
+            "par": "20260412_20260424",
+            "fecha": "2026-04-12 - 2026-04-24",
+            "imagen": "comet/20260412_20260424.jpg"
+          },
+          {
+            "par": "20260412_20260430",
+            "fecha": "2026-04-12 - 2026-04-30",
+            "imagen": "comet/20260412_20260430.jpg"
+          },
+          {
+            "par": "20260418_20260424",
+            "fecha": "2026-04-18 - 2026-04-24",
+            "imagen": "comet/20260418_20260424.jpg"
+          },
+          {
+            "par": "20260418_20260430",
+            "fecha": "2026-04-18 - 2026-04-30",
+            "imagen": "comet/20260418_20260430.jpg"
+          },
+          {
+            "par": "20260424_20260430",
+            "fecha": "2026-04-24 - 2026-04-30",
+            "imagen": "comet/20260424_20260430.jpg"
           }
         ],
-        "prob_deformacion": 0.0,
-        "prob_max": 0.06,
+        "prob_deformacion": 0.04,
+        "prob_max": 0.57,
         "timeseries": true
       }
     },
