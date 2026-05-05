@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-05-04T20:38:49.822404+00:00",
+  "actualizado": "2026-05-05T09:19:05.210358+00:00",
   "fuente": "COMET LiCSAR (Sentinel-1 InSAR)",
   "url_base": "https://gws-access.jasmin.ac.uk/public/nceo_geohazards/LiCSAR_products",
   "nota": "Solo thumbnails PNG, no GeoTIFF completos",
@@ -2070,6 +2070,90 @@
       "comet": {
         "key": "lanin",
         "frame": "083D_13027_131313",
+        "total_interferogramas": 2521,
+        "interferogramas": [
+          {
+            "par": "20260228_20260312",
+            "fecha": "2026-02-28 - 2026-03-12",
+            "imagen": "comet/20260228_20260312.jpg"
+          },
+          {
+            "par": "20260228_20260318",
+            "fecha": "2026-02-28 - 2026-03-18",
+            "imagen": "comet/20260228_20260318.jpg"
+          },
+          {
+            "par": "20260228_20260324",
+            "fecha": "2026-02-28 - 2026-03-24",
+            "imagen": "comet/20260228_20260324.jpg"
+          },
+          {
+            "par": "20260228_20260330",
+            "fecha": "2026-02-28 - 2026-03-30",
+            "imagen": "comet/20260228_20260330.jpg"
+          },
+          {
+            "par": "20260312_20260318",
+            "fecha": "2026-03-12 - 2026-03-18",
+            "imagen": "comet/20260312_20260318.jpg"
+          },
+          {
+            "par": "20260312_20260324",
+            "fecha": "2026-03-12 - 2026-03-24",
+            "imagen": "comet/20260312_20260324.jpg"
+          },
+          {
+            "par": "20260312_20260330",
+            "fecha": "2026-03-12 - 2026-03-30",
+            "imagen": "comet/20260312_20260330.jpg"
+          },
+          {
+            "par": "20260318_20260324",
+            "fecha": "2026-03-18 - 2026-03-24",
+            "imagen": "comet/20260318_20260324.jpg"
+          },
+          {
+            "par": "20260318_20260330",
+            "fecha": "2026-03-18 - 2026-03-30",
+            "imagen": "comet/20260318_20260330.jpg"
+          },
+          {
+            "par": "20260324_20260330",
+            "fecha": "2026-03-24 - 2026-03-30",
+            "imagen": "comet/20260324_20260330.jpg"
+          }
+        ],
+        "prob_deformacion": 0.01,
+        "prob_max": 0.11,
+        "timeseries": true
+      }
+    },
+    "Mocho-Choshuenco": {
+      "nombre": "Mocho-Choshuenco",
+      "lat": -39.934,
+      "lon": -72.003,
+      "ascendente": {
+        "track": 91,
+        "frame_id": "091A_12777_131313",
+        "par_fechas": "20260411_20260417",
+        "total_interferogramas": 1211,
+        "unw_disponible": true,
+        "coh_disponible": true,
+        "ruta_local": "licsar/Mocho_Choshuenco"
+      },
+      "descendente": {
+        "track": 83,
+        "frame_id": "083D_13027_131313",
+        "par_fechas": "20260324_20260330",
+        "total_interferogramas": 2521,
+        "unw_disponible": false,
+        "coh_disponible": true,
+        "ruta_local": "licsar/Mocho_Choshuenco"
+      },
+      "actualizado": "2026-05-04T20:28:36.465574+00:00",
+      "comet": {
+        "key": "mocho-choshuenco",
+        "frame": "083D_13027_131313",
         "total_interferogramas": 2302,
         "interferogramas": [
           {
@@ -2123,92 +2207,8 @@
             "imagen": "comet/20260228_20260312.jpg"
           }
         ],
-        "prob_deformacion": 0.01,
-        "prob_max": 0.11,
-        "timeseries": true
-      }
-    },
-    "Mocho-Choshuenco": {
-      "nombre": "Mocho-Choshuenco",
-      "lat": -39.934,
-      "lon": -72.003,
-      "ascendente": {
-        "track": 91,
-        "frame_id": "091A_12777_131313",
-        "par_fechas": "20260411_20260417",
-        "total_interferogramas": 1211,
-        "unw_disponible": true,
-        "coh_disponible": true,
-        "ruta_local": "licsar/Mocho_Choshuenco"
-      },
-      "descendente": {
-        "track": 83,
-        "frame_id": "083D_13027_131313",
-        "par_fechas": "20260324_20260330",
-        "total_interferogramas": 2521,
-        "unw_disponible": false,
-        "coh_disponible": true,
-        "ruta_local": "licsar/Mocho_Choshuenco"
-      },
-      "actualizado": "2026-05-04T20:28:36.465574+00:00",
-      "comet": {
-        "key": "mocho-choshuenco",
-        "frame": "164A_12971_071312",
-        "total_interferogramas": 1679,
-        "interferogramas": [
-          {
-            "par": "20260122_20260227",
-            "fecha": "2026-01-22 - 2026-02-27",
-            "imagen": "comet/20260122_20260227.jpg"
-          },
-          {
-            "par": "20260128_20260203",
-            "fecha": "2026-01-28 - 2026-02-03",
-            "imagen": "comet/20260128_20260203.jpg"
-          },
-          {
-            "par": "20260128_20260209",
-            "fecha": "2026-01-28 - 2026-02-09",
-            "imagen": "comet/20260128_20260209.jpg"
-          },
-          {
-            "par": "20260128_20260215",
-            "fecha": "2026-01-28 - 2026-02-15",
-            "imagen": "comet/20260128_20260215.jpg"
-          },
-          {
-            "par": "20260128_20260227",
-            "fecha": "2026-01-28 - 2026-02-27",
-            "imagen": "comet/20260128_20260227.jpg"
-          },
-          {
-            "par": "20260203_20260209",
-            "fecha": "2026-02-03 - 2026-02-09",
-            "imagen": "comet/20260203_20260209.jpg"
-          },
-          {
-            "par": "20260203_20260215",
-            "fecha": "2026-02-03 - 2026-02-15",
-            "imagen": "comet/20260203_20260215.jpg"
-          },
-          {
-            "par": "20260203_20260227",
-            "fecha": "2026-02-03 - 2026-02-27",
-            "imagen": "comet/20260203_20260227.jpg"
-          },
-          {
-            "par": "20260209_20260215",
-            "fecha": "2026-02-09 - 2026-02-15",
-            "imagen": "comet/20260209_20260215.jpg"
-          },
-          {
-            "par": "20260215_20260227",
-            "fecha": "2026-02-15 - 2026-02-27",
-            "imagen": "comet/20260215_20260227.jpg"
-          }
-        ],
         "prob_deformacion": 0.0,
-        "prob_max": 0.0,
+        "prob_max": 0.02,
         "timeseries": true
       }
     },
@@ -2345,58 +2345,58 @@
       "actualizado": "2026-05-04T20:29:11.483518+00:00",
       "comet": {
         "key": "antillanca_group",
-        "frame": "164A_13146_131313",
-        "total_interferogramas": 1505,
+        "frame": "083D_13027_131313",
+        "total_interferogramas": 2302,
         "interferogramas": [
           {
-            "par": "20260305_20260311",
-            "fecha": "2026-03-05 - 2026-03-11",
-            "imagen": "comet/20260305_20260311.jpg"
+            "par": "20260123_20260204",
+            "fecha": "2026-01-23 - 2026-02-04",
+            "imagen": "comet/20260123_20260204.jpg"
           },
           {
-            "par": "20260305_20260317",
-            "fecha": "2026-03-05 - 2026-03-17",
-            "imagen": "comet/20260305_20260317.jpg"
+            "par": "20260123_20260216",
+            "fecha": "2026-01-23 - 2026-02-16",
+            "imagen": "comet/20260123_20260216.jpg"
           },
           {
-            "par": "20260305_20260323",
-            "fecha": "2026-03-05 - 2026-03-23",
-            "imagen": "comet/20260305_20260323.jpg"
+            "par": "20260123_20260228",
+            "fecha": "2026-01-23 - 2026-02-28",
+            "imagen": "comet/20260123_20260228.jpg"
           },
           {
-            "par": "20260305_20260329",
-            "fecha": "2026-03-05 - 2026-03-29",
-            "imagen": "comet/20260305_20260329.jpg"
+            "par": "20260123_20260312",
+            "fecha": "2026-01-23 - 2026-03-12",
+            "imagen": "comet/20260123_20260312.jpg"
           },
           {
-            "par": "20260311_20260317",
-            "fecha": "2026-03-11 - 2026-03-17",
-            "imagen": "comet/20260311_20260317.jpg"
+            "par": "20260204_20260216",
+            "fecha": "2026-02-04 - 2026-02-16",
+            "imagen": "comet/20260204_20260216.jpg"
           },
           {
-            "par": "20260311_20260323",
-            "fecha": "2026-03-11 - 2026-03-23",
-            "imagen": "comet/20260311_20260323.jpg"
+            "par": "20260204_20260228",
+            "fecha": "2026-02-04 - 2026-02-28",
+            "imagen": "comet/20260204_20260228.jpg"
           },
           {
-            "par": "20260311_20260329",
-            "fecha": "2026-03-11 - 2026-03-29",
-            "imagen": "comet/20260311_20260329.jpg"
+            "par": "20260204_20260312",
+            "fecha": "2026-02-04 - 2026-03-12",
+            "imagen": "comet/20260204_20260312.jpg"
           },
           {
-            "par": "20260317_20260323",
-            "fecha": "2026-03-17 - 2026-03-23",
-            "imagen": "comet/20260317_20260323.jpg"
+            "par": "20260216_20260228",
+            "fecha": "2026-02-16 - 2026-02-28",
+            "imagen": "comet/20260216_20260228.jpg"
           },
           {
-            "par": "20260317_20260329",
-            "fecha": "2026-03-17 - 2026-03-29",
-            "imagen": "comet/20260317_20260329.jpg"
+            "par": "20260216_20260312",
+            "fecha": "2026-02-16 - 2026-03-12",
+            "imagen": "comet/20260216_20260312.jpg"
           },
           {
-            "par": "20260323_20260329",
-            "fecha": "2026-03-23 - 2026-03-29",
-            "imagen": "comet/20260323_20260329.jpg"
+            "par": "20260228_20260312",
+            "fecha": "2026-02-28 - 2026-03-12",
+            "imagen": "comet/20260228_20260312.jpg"
           }
         ],
         "prob_deformacion": 0.0,
@@ -3185,62 +3185,62 @@
       "actualizado": "2026-05-04T20:31:15.708385+00:00",
       "comet": {
         "key": "mentolat",
-        "frame": "010D_13416_131313",
-        "total_interferogramas": 748,
+        "frame": "083D_13416_131313",
+        "total_interferogramas": 792,
         "interferogramas": [
           {
-            "par": "20260118_20260331",
-            "fecha": "2026-01-18 - 2026-03-31",
-            "imagen": "comet/20260118_20260331.jpg"
+            "par": "20250901_20250907",
+            "fecha": "2025-09-01 - 2025-09-07",
+            "imagen": "comet/20250901_20250907.jpg"
           },
           {
-            "par": "20260211_20260307",
-            "fecha": "2026-02-11 - 2026-03-07",
-            "imagen": "comet/20260211_20260307.jpg"
+            "par": "20250901_20250913",
+            "fecha": "2025-09-01 - 2025-09-13",
+            "imagen": "comet/20250901_20250913.jpg"
           },
           {
-            "par": "20260211_20260331",
-            "fecha": "2026-02-11 - 2026-03-31",
-            "imagen": "comet/20260211_20260331.jpg"
+            "par": "20250901_20250919",
+            "fecha": "2025-09-01 - 2025-09-19",
+            "imagen": "comet/20250901_20250919.jpg"
           },
           {
-            "par": "20260211_20260412",
-            "fecha": "2026-02-11 - 2026-04-12",
-            "imagen": "comet/20260211_20260412.jpg"
+            "par": "20250901_20250925",
+            "fecha": "2025-09-01 - 2025-09-25",
+            "imagen": "comet/20250901_20250925.jpg"
           },
           {
-            "par": "20260223_20260307",
-            "fecha": "2026-02-23 - 2026-03-07",
-            "imagen": "comet/20260223_20260307.jpg"
+            "par": "20250907_20250913",
+            "fecha": "2025-09-07 - 2025-09-13",
+            "imagen": "comet/20250907_20250913.jpg"
           },
           {
-            "par": "20260223_20260331",
-            "fecha": "2026-02-23 - 2026-03-31",
-            "imagen": "comet/20260223_20260331.jpg"
+            "par": "20250907_20250919",
+            "fecha": "2025-09-07 - 2025-09-19",
+            "imagen": "comet/20250907_20250919.jpg"
           },
           {
-            "par": "20260223_20260412",
-            "fecha": "2026-02-23 - 2026-04-12",
-            "imagen": "comet/20260223_20260412.jpg"
+            "par": "20250907_20250925",
+            "fecha": "2025-09-07 - 2025-09-25",
+            "imagen": "comet/20250907_20250925.jpg"
           },
           {
-            "par": "20260307_20260331",
-            "fecha": "2026-03-07 - 2026-03-31",
-            "imagen": "comet/20260307_20260331.jpg"
+            "par": "20250913_20250919",
+            "fecha": "2025-09-13 - 2025-09-19",
+            "imagen": "comet/20250913_20250919.jpg"
           },
           {
-            "par": "20260307_20260412",
-            "fecha": "2026-03-07 - 2026-04-12",
-            "imagen": "comet/20260307_20260412.jpg"
+            "par": "20250913_20250925",
+            "fecha": "2025-09-13 - 2025-09-25",
+            "imagen": "comet/20250913_20250925.jpg"
           },
           {
-            "par": "20260331_20260412",
-            "fecha": "2026-03-31 - 2026-04-12",
-            "imagen": "comet/20260331_20260412.jpg"
+            "par": "20250919_20250925",
+            "fecha": "2025-09-19 - 2025-09-25",
+            "imagen": "comet/20250919_20250925.jpg"
           }
         ],
         "prob_deformacion": 0.0,
-        "prob_max": 0.0,
+        "prob_max": 0.03,
         "timeseries": true
       }
     },
