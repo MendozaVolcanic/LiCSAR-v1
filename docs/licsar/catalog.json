@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-05-12T20:42:39.065295+00:00",
+  "actualizado": "2026-05-13T09:48:52.957081+00:00",
   "fuente": "COMET LiCSAR (Sentinel-1 InSAR)",
   "url_base": "https://gws-access.jasmin.ac.uk/public/nceo_geohazards/LiCSAR_products",
   "nota": "Solo thumbnails PNG, no GeoTIFF completos",
@@ -756,7 +756,7 @@
           }
         ],
         "prob_deformacion": 0.03,
-        "prob_max": 0.45,
+        "prob_max": 0.53,
         "timeseries": true
       }
     },
