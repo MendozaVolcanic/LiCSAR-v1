@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-05-16T20:14:36.831422+00:00",
+  "actualizado": "2026-05-17T09:13:22.593296+00:00",
   "fuente": "COMET LiCSAR (Sentinel-1 InSAR)",
   "url_base": "https://gws-access.jasmin.ac.uk/public/nceo_geohazards/LiCSAR_products",
   "nota": "Solo thumbnails PNG, no GeoTIFF completos",
@@ -2346,13 +2346,8 @@
       "comet": {
         "key": "antillanca_group",
         "frame": "164A_13146_131313",
-        "total_interferogramas": 1506,
+        "total_interferogramas": 1509,
         "interferogramas": [
-          {
-            "par": "20260305_20260311",
-            "fecha": "2026-03-05 - 2026-03-11",
-            "imagen": "comet/20260305_20260311.jpg"
-          },
           {
             "par": "20260305_20260317",
             "fecha": "2026-03-05 - 2026-03-17",
@@ -2392,6 +2387,11 @@
             "par": "20260317_20260329",
             "fecha": "2026-03-17 - 2026-03-29",
             "imagen": "comet/20260317_20260329.jpg"
+          },
+          {
+            "par": "20260317_20260404",
+            "fecha": "2026-03-17 - 2026-04-04",
+            "imagen": "comet/20260317_20260404.jpg"
           },
           {
             "par": "20260323_20260329",
@@ -2430,13 +2430,8 @@
       "comet": {
         "key": "osorno",
         "frame": "164A_13146_131313",
-        "total_interferogramas": 1506,
+        "total_interferogramas": 1509,
         "interferogramas": [
-          {
-            "par": "20260305_20260311",
-            "fecha": "2026-03-05 - 2026-03-11",
-            "imagen": "comet/20260305_20260311.jpg"
-          },
           {
             "par": "20260305_20260317",
             "fecha": "2026-03-05 - 2026-03-17",
@@ -2476,6 +2471,11 @@
             "par": "20260317_20260329",
             "fecha": "2026-03-17 - 2026-03-29",
             "imagen": "comet/20260317_20260329.jpg"
+          },
+          {
+            "par": "20260317_20260404",
+            "fecha": "2026-03-17 - 2026-04-04",
+            "imagen": "comet/20260317_20260404.jpg"
           },
           {
             "par": "20260323_20260329",
@@ -2514,13 +2514,8 @@
       "comet": {
         "key": "calbuco",
         "frame": "164A_13146_131313",
-        "total_interferogramas": 1506,
+        "total_interferogramas": 1509,
         "interferogramas": [
-          {
-            "par": "20260305_20260311",
-            "fecha": "2026-03-05 - 2026-03-11",
-            "imagen": "comet/20260305_20260311.jpg"
-          },
           {
             "par": "20260305_20260317",
             "fecha": "2026-03-05 - 2026-03-17",
@@ -2560,6 +2555,11 @@
             "par": "20260317_20260329",
             "fecha": "2026-03-17 - 2026-03-29",
             "imagen": "comet/20260317_20260329.jpg"
+          },
+          {
+            "par": "20260317_20260404",
+            "fecha": "2026-03-17 - 2026-04-04",
+            "imagen": "comet/20260317_20260404.jpg"
           },
           {
             "par": "20260323_20260329",
