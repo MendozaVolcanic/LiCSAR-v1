@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-05-19T20:39:03.788401+00:00",
+  "actualizado": "2026-05-20T10:33:03.671405+00:00",
   "fuente": "COMET LiCSAR (Sentinel-1 InSAR)",
   "url_base": "https://gws-access.jasmin.ac.uk/public/nceo_geohazards/LiCSAR_products",
   "nota": "Solo thumbnails PNG, no GeoTIFF completos",
@@ -3430,7 +3430,7 @@
       "comet": {
         "key": "cerro_hudson",
         "frame": "010D_13610_131313",
-        "total_interferogramas": 804,
+        "total_interferogramas": 818,
         "interferogramas": [
           {
             "par": "20260223_20260424",
