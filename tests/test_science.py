@@ -178,6 +178,82 @@ def test_delta_180d_reporta_dias_reales():
 
 
 # ---------------------------------------------------------------------------
+# Interpolación GACOS (fechas distintas -> reproyectar sobre fechas filt)
+# ---------------------------------------------------------------------------
+
+def test_interp_lineal_valores_exactos():
+    """Interpolación lineal entre puntos conocidos -> valores exactos."""
+    x_src = [0.0, 10.0, 20.0]
+    y_src = [0.0, 10.0, 30.0]   # pendiente 1 luego 2
+    # Targets dentro del rango
+    x_tgt = [5.0, 10.0, 15.0]
+    out = ts.interp_lineal(x_src, y_src, x_tgt)
+    assert math.isclose(out[0], 5.0)    # mitad de [0,10]->[0,10]
+    assert math.isclose(out[1], 10.0)   # nodo exacto
+    assert math.isclose(out[2], 20.0)   # mitad de [10,20]->[10,30]
+
+
+def test_interp_lineal_clamp_extremos():
+    """Targets fuera del rango fuente -> valor del extremo más cercano (clamp)."""
+    x_src = [10.0, 20.0]
+    y_src = [1.0, 2.0]
+    out = ts.interp_lineal(x_src, y_src, [5.0, 25.0])
+    assert out[0] == 1.0   # clamp izquierdo
+    assert out[1] == 2.0   # clamp derecho
+
+
+def test_interp_lineal_sobre_fechas_filt():
+    """Serie GACOS con fechas distintas -> interpola sobre ordinales filt."""
+    fechas_gacos = _fechas_mensuales(6, inicio="2015-01-01")
+    fechas_filt = _fechas_mensuales(6, inicio="2015-01-16")  # desfasadas 15 días
+    x_src = [ts._date_to_ordinal(f) for f in fechas_gacos]
+    y_src = [float(i) for i in range(6)]   # rampa 0..5
+    x_tgt = [ts._date_to_ordinal(f) for f in fechas_filt]
+    out = ts.interp_lineal(x_src, y_src, x_tgt)
+    # Cada target está a mitad de camino (15 de 30 días) entre dos nodos GACOS,
+    # salvo el último que cae más allá del último nodo GACOS (clamp a 5.0).
+    assert math.isclose(out[0], 0.5, abs_tol=1e-6)
+    assert math.isclose(out[-1], 5.0, abs_tol=1e-6)
+
+
+def test_solape_temporal_fraccion():
+    x_src = [10.0, 20.0]
+    # 2 de 4 targets dentro de [10,20]
+    assert math.isclose(ts.solape_temporal([5.0, 12.0, 18.0, 25.0], x_src), 0.5)
+    assert ts.solape_temporal([], x_src) == 0.0
+    assert ts.solape_temporal([12.0], []) == 0.0
+
+
+def test_gacos_solape_insuficiente_no_se_acepta():
+    """Si GACOS casi no solapa las fechas filt, no debe aceptarse."""
+    # GACOS cubre 2015; filt cubre 2020 -> solape ~0
+    fechas_gacos = _fechas_mensuales(6, inicio="2015-01-01")
+    fechas_filt = _fechas_mensuales(6, inicio="2020-01-01")
+    x_src = [ts._date_to_ordinal(f) for f in fechas_gacos]
+    x_tgt = [ts._date_to_ordinal(f) for f in fechas_filt]
+    solape = ts.solape_temporal(x_tgt, x_src)
+    assert solape < ts.GACOS_SOLAPE_MIN
+
+
+# ---------------------------------------------------------------------------
+# Fallback a frame hermano de la misma dirección
+# ---------------------------------------------------------------------------
+
+def test_frames_misma_direccion_ordena_por_size():
+    """Lista frames de la MISMA dirección, orden size desc, sin _dev."""
+    db = {"x": {"frames": [
+        {"id": "018A_1_1", "size": 100},
+        {"id": "018A_2_2", "size": 300},
+        {"id": "018A_3_3_dev", "size": 999},
+        {"id": "083D_9_9", "size": 500},
+    ]}}
+    asc = ts.frames_misma_direccion("x", db, "A")
+    assert asc == ["018A_2_2", "018A_1_1"]   # mayor size primero, _dev excluido
+    desc = ts.frames_misma_direccion("x", db, "D")
+    assert desc == ["083D_9_9"]
+
+
+# ---------------------------------------------------------------------------
 # Utilidades comunes
 # ---------------------------------------------------------------------------
 
@@ -244,6 +320,17 @@ def test_descomposicion_geometria_degenerada():
     """Dos geometrías idénticas -> sistema singular -> None."""
     vec = {"e": -0.5, "u": 0.8}
     assert ts.descomponer_vertical_este(0.5, vec, 0.5, vec) is None
+
+
+def test_coherencia_roi():
+    """Coherencia media del ROI sobre píxeles >0; None si no hay datos."""
+    data = {"coh": [[0.8, 0.6, None], [0.4, 0.0, 0.9], [1.0, 0.2, 0.5]]}
+    # ROI completo 0:3 x 0:3; ignora None y 0.0
+    c = ts.coherencia_roi(data, (0, 3, 0, 3))
+    vals = [0.8, 0.6, 0.4, 0.9, 1.0, 0.2, 0.5]
+    assert abs(c - sum(vals) / len(vals)) < 1e-3   # función redondea a 3 decimales
+    assert ts.coherencia_roi({}, (0, 3, 0, 3)) is None
+    assert ts.coherencia_roi({"coh": [[0.0, 0.0]]}, (0, 1, 0, 2)) is None
 
 
 def test_vector_los_crater():

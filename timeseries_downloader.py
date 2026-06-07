@@ -246,6 +246,38 @@ def reducir_cubo(data: dict, roi: tuple[int, int, int, int]) -> tuple[list[float
     return serie, len(coords)
 
 
+def coherencia_roi(data: dict, roi: tuple[int, int, int, int]) -> float | None:
+    """
+    Coherencia media (0-1) del ROI. Métrica de CALIDAD: la coherencia mide cuán
+    estable es la fase entre adquisiciones. Coherencia baja (<~0.3) = vegetación,
+    nieve o agua -> la serie de desplazamiento es poco confiable aunque exista.
+    Complementa a px_validos: un ROI con muchos píxeles pero baja coherencia sigue
+    siendo ruidoso. Retorna None si no hay datos de coherencia.
+    """
+    coh = data.get("coh") or []
+    r0, r1, c0, c1 = roi
+    vals = []
+    for i in range(r0, r1):
+        if i >= len(coh):
+            continue
+        fila = coh[i]
+        for j in range(c0, c1):
+            if j >= len(fila):
+                continue
+            v = fila[j]
+            if v is None:
+                continue
+            try:
+                fv = float(v)
+            except (TypeError, ValueError):
+                continue
+            if fv > 0:
+                vals.append(fv)
+    if not vals:
+        return None
+    return round(sum(vals) / len(vals), 3)
+
+
 def _theil_sen(xs: list[float], ys: list[float]) -> tuple[float, float]:
     """
     Pendiente robusta de Theil-Sen = mediana de las pendientes de todos los
@@ -352,6 +384,68 @@ def gacos_valido(serie: list[float] | None) -> bool:
     return len(no_cero) >= max(3, len(serie) // 10)
 
 
+def interp_lineal(x_src: list[float], y_src: list[float],
+                  x_target: list[float]) -> list[float]:
+    """
+    Interpolación lineal en Python puro (sin numpy).
+
+    Fenómeno: la versión GACOS de un frame se calcula sobre su PROPIA red de
+    pares, que casi nunca coincide fecha-a-fecha con la versión filt. En vez de
+    descartar la corrección atmosférica (que vale varios cm), reproyectamos la
+    serie GACOS sobre las fechas de la serie filt interpolando linealmente.
+
+    `x_src` deben venir ORDENADOS ascendentemente (son ordinales de fecha, que
+    ya están ordenados). Para targets fuera del rango de `x_src` se usa el valor
+    del extremo más cercano (clamp), de modo que la serie alineada nunca tenga
+    huecos None; el solape temporal se valida aparte antes de aceptar GACOS.
+    Retorna [] si no hay puntos fuente.
+    """
+    if not x_src or not y_src or len(x_src) != len(y_src):
+        return []
+    out: list[float] = []
+    n = len(x_src)
+    for xt in x_target:
+        if xt <= x_src[0]:
+            out.append(y_src[0])           # clamp izquierdo
+            continue
+        if xt >= x_src[-1]:
+            out.append(y_src[-1])          # clamp derecho
+            continue
+        # Buscar el intervalo [x_src[k], x_src[k+1]] que contiene xt
+        lo, hi = 0, n - 1
+        while hi - lo > 1:
+            mid = (lo + hi) // 2
+            if x_src[mid] <= xt:
+                lo = mid
+            else:
+                hi = mid
+        x0, x1 = x_src[lo], x_src[hi]
+        y0, y1 = y_src[lo], y_src[hi]
+        if x1 == x0:
+            out.append(y0)
+        else:
+            t = (xt - x0) / (x1 - x0)
+            out.append(y0 + t * (y1 - y0))
+    return out
+
+
+def solape_temporal(x_target: list[float], x_src: list[float]) -> float:
+    """
+    Fracción de fechas target que caen DENTRO del rango cubierto por x_src.
+    Sirve para decidir si la interpolación GACOS es confiable (vs. extrapolación
+    masiva por clamp). Retorna 0.0 si faltan datos.
+    """
+    if not x_target or not x_src:
+        return 0.0
+    lo, hi = x_src[0], x_src[-1]
+    dentro = sum(1 for xt in x_target if lo <= xt <= hi)
+    return dentro / len(x_target)
+
+
+# Solape mínimo de fechas filt dentro del rango GACOS para aceptar interpolación
+GACOS_SOLAPE_MIN = 0.5
+
+
 # ---------------------------------------------------------------------------
 # Descomposición ascendente + descendente -> vertical + este
 # ---------------------------------------------------------------------------
@@ -387,6 +481,28 @@ def frames_por_direccion(comet_key: str, comet_db: dict) -> dict:
         if lst:
             out[d] = max(lst, key=lambda f: f.get("size", 0))["id"]
     return out
+
+
+def frames_misma_direccion(comet_key: str, comet_db: dict, direccion: str) -> list[str]:
+    """
+    Lista de frame_ids de la MISMA dirección ('A' o 'D') que `direccion`,
+    ordenados por size descendente. Ignora frames _dev.
+
+    Fenómeno: COMET suele tener varios frames por dirección que solapan la zona.
+    Si el frame primario tiene la cumbre decorrelacionada (nieve/vegetación
+    permanente), un frame hermano de la misma órbita puede tener coherencia en
+    el cráter. Probarlos antes de declarar 'sin_datos' recupera volcanes.
+    """
+    frames = comet_db.get(comet_key, {}).get("frames", [])
+    cands = []
+    for f in frames:
+        fid = f.get("id", "")
+        if "_dev" in fid:
+            continue
+        if direccion_frame(fid) == direccion:
+            cands.append(f)
+    cands.sort(key=lambda f: f.get("size", 0), reverse=True)
+    return [f["id"] for f in cands]
 
 
 def vector_los_crater(data: dict, lat: float | None, lon: float | None) -> dict | None:
@@ -484,10 +600,53 @@ def procesar_volcan(nombre: str, comet_key: str, frame_id: str,
     # adaptativa si la cumbre está decorrelacionada.
     serie_filt, px_validos, roi, centrado, half_usado = reducir_con_roi_adaptativo(data, lat, lon)
     sin_datos = px_validos < MIN_PIXELS
+
+    # --- Fallback a frame hermano si la cumbre está decorrelacionada ---
+    # El frame primario (mayor size) no garantiza coherencia en el cráter. Si da
+    # sin_datos, probamos los OTROS frames de la MISMA dirección (orden size desc)
+    # hasta hallar uno con >= MIN_PIXELS coherentes en la cumbre. Respetamos la
+    # guarda geográfica: el frame hermano también debe contener el cráter.
+    frame_fallback = False
+    if sin_datos and comet_db is not None and lat is not None and lon is not None:
+        dir_pri = direccion_frame(frame_id)
+        hermanos = [h for h in frames_misma_direccion(comet_key, comet_db, dir_pri)
+                    if h != frame_id]
+        for h in hermanos:
+            time.sleep(DELAY)
+            print(f"  Cumbre sin datos en {frame_id}; probando frame hermano {h}...")
+            data_h, url_h, st_h, sz_h = fetch_disp_json(comet_key, h, gacos=False)
+            print(f"    GET {url_h} -> HTTP {st_h}, {sz_h/1024/1024:.2f} MB")
+            if data_h is None:
+                continue
+            dates_h = data_h.get("dates", [])
+            if not dates_h:
+                continue
+            xs_h, ys_h = data_h.get("x") or [], data_h.get("y") or []
+            if xs_h and ys_h:
+                dentro_h = (min(xs_h) <= lon <= max(xs_h)) and (min(ys_h) <= lat <= max(ys_h))
+                if not dentro_h:
+                    print(f"    {h} no contiene el cráter; se descarta")
+                    continue
+            serie_h, px_h, roi_h, centrado_h, half_h = reducir_con_roi_adaptativo(data_h, lat, lon)
+            if px_h >= MIN_PIXELS:
+                print(f"    ✓ {h} recupera la cumbre ({px_h} px); se usa como primario")
+                data, url, frame_id = data_h, url_h, h
+                dates = dates_h
+                serie_filt, px_validos, roi, centrado, half_usado = (
+                    serie_h, px_h, roi_h, centrado_h, half_h)
+                sin_datos = False
+                frame_fallback = True
+                break
+            else:
+                print(f"    {h} también decorrelacionado ({px_h} px)")
+
     print(f"  ROI filas {roi[0]}:{roi[1]} cols {roi[2]}:{roi[3]} "
           f"({'centrado en cráter' if centrado else 'FALLBACK centro frame'}"
           f"{f', semilado {half_usado}' if half_usado else ''})")
-    print(f"  Píxeles ROI válidos: {px_validos}" + ("  [SIN DATOS COHERENTES]" if sin_datos else ""))
+    coh_roi = coherencia_roi(data, roi)
+    print(f"  Píxeles ROI válidos: {px_validos}"
+          f"{f' | coherencia {coh_roi}' if coh_roi is not None else ''}"
+          + ("  [SIN DATOS COHERENTES]" if sin_datos else ""))
     print(f"  Primeros 5 valores los_cm_filt: {serie_filt[:5]}")
 
     if sin_datos:
@@ -503,8 +662,13 @@ def procesar_volcan(nombre: str, comet_key: str, frame_id: str,
         print(f"  Delta ~180d: {d180} cm (ventana real {dias_ventana} días)")
 
     # Intentar también GACOS como complemento (solo si la versión principal era filt)
+    # La versión GACOS suele tener fechas DISTINTAS (su red de pares difiere). En
+    # vez de descartarla, reducimos GACOS a su propia serie y la INTERPOLAMOS
+    # linealmente sobre las fechas filt. Solo se acepta si el solape temporal es
+    # razonable (>= GACOS_SOLAPE_MIN) y la serie interpolada tiene señal real.
     serie_gacos = None
     gacos_ok = False
+    gacos_metodo = None
     if "disp_data_gacos" not in url:
         time.sleep(DELAY)
         print(f"  Intentando complemento GACOS...")
@@ -512,17 +676,36 @@ def procesar_volcan(nombre: str, comet_key: str, frame_id: str,
         print(f"    GET {url_g} -> HTTP {status_g}, {size_g/1024/1024:.2f} MB")
         if data_g is not None:
             dates_g = data_g.get("dates", [])
+            roi_g = roi_centrado(data_g, lat, lon)
+            serie_g, _ = reducir_cubo(data_g, roi_g)
             if dates_g == dates:
-                roi_g = roi_centrado(data_g, lat, lon)
-                serie_g, _ = reducir_cubo(data_g, roi_g)
+                # Caso ideal: fechas idénticas, sin interpolación.
                 if gacos_valido(serie_g):
                     serie_gacos = serie_g
                     gacos_ok = True
-                    print(f"    GACOS válido (con señal)")
+                    gacos_metodo = "exacto"
+                    print(f"    GACOS válido (fechas exactas)")
                 else:
                     print(f"    GACOS descartado (todo cero/None)")
+            elif dates_g and serie_g:
+                # Fechas distintas: interpolar GACOS sobre las fechas filt.
+                x_src = [float(_date_to_ordinal(d)) for d in dates_g]
+                x_tgt = [float(_date_to_ordinal(d)) for d in dates]
+                solape = solape_temporal(x_tgt, x_src)
+                if solape < GACOS_SOLAPE_MIN:
+                    print(f"    GACOS sin solape temporal suficiente "
+                          f"({solape*100:.0f}% < {GACOS_SOLAPE_MIN*100:.0f}%), omitido")
+                else:
+                    serie_interp = interp_lineal(x_src, serie_g, x_tgt)
+                    if gacos_valido(serie_interp):
+                        serie_gacos = [round(v, 4) for v in serie_interp]
+                        gacos_ok = True
+                        gacos_metodo = "interpolado"
+                        print(f"    GACOS válido (interpolado, solape {solape*100:.0f}%)")
+                    else:
+                        print(f"    GACOS interpolado sin señal real, descartado")
             else:
-                print(f"    GACOS tiene fechas distintas, omitido")
+                print(f"    GACOS sin fechas/serie utilizable, omitido")
 
     # --- Descomposición vertical/este usando la geometría opuesta (asc + desc) ---
     # Un solo frame mide LOS (mezcla vertical+horizontal). Con la geometría opuesta
@@ -611,12 +794,16 @@ def procesar_volcan(nombre: str, comet_key: str, frame_id: str,
             "px_validos": px_validos,
             "centrado_en_crater": centrado,
             "semilado_px": half_usado,
+            "coherencia": coh_roi,
         },
+        "coherencia_roi": coh_roi,
         "sin_datos": sin_datos,
+        "frame_fallback": frame_fallback,
         "dates": dates,
         "los_cm_filt": serie_filt,
         "los_cm_gacos": serie_gacos,
         "gacos_valido": gacos_ok,
+        "gacos_metodo": gacos_metodo,
         "velocity_cm_yr": vstats["velocity_cm_yr"],
         "velocity_se_cm_yr": vstats["velocity_se_cm_yr"],
         "velocity_tstat": vstats["velocity_tstat"],
@@ -737,6 +924,17 @@ def main() -> int:
             comet_block["key"] = comet_key
             comet_block["frame"] = frame_id
             comet_block["timeseries"] = True
+            # Resumen de métricas clave en el catálogo (para el panel de ranking,
+            # que así lee un solo archivo en vez de 42 timeseries.json).
+            dec = res.get("descomposicion") or {}
+            comet_block["resumen"] = {
+                "velocity_cm_yr": res.get("velocity_cm_yr"),
+                "vertical_cm_yr": dec.get("vertical_cm_yr"),
+                "calidad": res.get("calidad"),
+                "dias_latencia": res.get("dias_latencia"),
+                "coherencia": res.get("coherencia_roi"),
+                "n_fechas": res.get("n_fechas"),
+            }
         else:
             fallidos += 1
         print()

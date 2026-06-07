@@ -1,7 +1,7 @@
 {
   "volcan": "Lonquimay",
   "frame": "083D_12832_131313",
-  "actualizado": "2026-06-07T11:01:29.035819+00:00",
+  "actualizado": "2026-06-07T12:21:07.665865+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 389,
   "rango_fechas": [
@@ -16,9 +16,12 @@
     "col_max": 66,
     "px_validos": 135,
     "centrado_en_crater": true,
-    "semilado_px": 15
+    "semilado_px": 15,
+    "coherencia": 0.241
   },
+  "coherencia_roi": 0.241,
   "sin_datos": false,
+  "frame_fallback": false,
   "dates": [
     "2014-10-23",
     "2014-11-16",
@@ -803,6 +806,7 @@
   ],
   "los_cm_gacos": null,
   "gacos_valido": false,
+  "gacos_metodo": null,
   "velocity_cm_yr": -0.008,
   "velocity_se_cm_yr": 0.002,
   "velocity_tstat": -3.93,

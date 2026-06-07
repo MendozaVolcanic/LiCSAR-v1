@@ -218,6 +218,29 @@
         .comet-body img:hover { opacity: 0.92; }
         .comet-fecha { font-size: 0.72rem; color: var(--text-muted); margin-top: var(--space-2); text-align: center; }
 
+        /* ===== COMET: interferograma + mapa de probabilidad lado a lado ===== */
+        .comet-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+        .comet-pane { display: flex; flex-direction: column; min-width: 0; }
+        .comet-pane-label {
+            font-size: 0.7rem; font-weight: 600; color: var(--text-soft);
+            margin-bottom: var(--space-1); display: flex; align-items: center; gap: var(--space-2);
+        }
+        .comet-pane-label .comet-ml-tag {
+            font-size: 0.58rem; font-weight: 700; letter-spacing: 0.2px;
+            padding: 1px 7px; border-radius: var(--radius-pill);
+            background: var(--alert-bg); color: var(--alert);
+        }
+        .comet-pane img {
+            width: 100%; display: block; background: #000; cursor: zoom-in;
+            border-radius: var(--radius-sm); transition: opacity var(--trans);
+        }
+        .comet-pane img:hover { opacity: 0.92; }
+        .comet-probmap-note {
+            font-size: 0.66rem; color: var(--text-muted); margin-top: var(--space-1);
+            line-height: 1.5; text-align: center;
+        }
+        @media (max-width: 700px) { .comet-pair { grid-template-columns: 1fr; } }
+
         /* ===== Tarjeta de score ML ===== */
         .prob-card { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4); margin-bottom: var(--space-4); }
         .prob-icon { font-size: 1.5rem; line-height: 1; flex-shrink: 0; }
@@ -295,6 +318,55 @@
         }
         .modal-close:hover { background: rgba(255,255,255,0.12); }
 
+        /* ===== Botón de vista (Resumen / Detalle) ===== */
+        .view-toggle {
+            display: inline-flex; align-items: center; gap: var(--space-2);
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--radius-pill); padding: 5px var(--space-3);
+            font-size: 0.78rem; font-weight: 600; color: var(--text-soft);
+            cursor: pointer; transition: background var(--trans), border-color var(--trans), color var(--trans);
+        }
+        .view-toggle:hover { background: var(--surface-2); border-color: var(--accent); color: var(--text); }
+        .view-toggle.active { background: var(--surface-3); border-color: var(--accent-2); color: var(--text); }
+
+        /* ===== Vista de resumen / ranking ===== */
+        .resumen-wrap { width: 100%; }
+        .resumen-titulo { font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: var(--space-1); letter-spacing: -0.2px; }
+        .resumen-sub { font-size: 0.82rem; color: var(--text-muted); margin-bottom: var(--space-5); }
+        .resumen-table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+        table.resumen-table {
+            width: 100%; border-collapse: collapse; font-size: 0.78rem;
+            background: var(--surface); min-width: 760px;
+        }
+        table.resumen-table thead th {
+            position: sticky; top: 0; z-index: 1;
+            background: var(--surface-2); color: var(--text-soft);
+            font-weight: 700; text-align: right; white-space: nowrap;
+            padding: var(--space-3) var(--space-3);
+            border-bottom: 1px solid var(--border);
+            cursor: pointer; user-select: none;
+            transition: background var(--trans), color var(--trans);
+        }
+        table.resumen-table thead th:first-child,
+        table.resumen-table tbody td:first-child { text-align: left; }
+        table.resumen-table thead th:nth-child(2),
+        table.resumen-table tbody td:nth-child(2),
+        table.resumen-table thead th.col-cal,
+        table.resumen-table tbody td.col-cal { text-align: left; }
+        table.resumen-table thead th:hover { background: var(--surface-3); color: var(--text); }
+        table.resumen-table thead th .sort-ind { color: var(--accent); font-size: 0.7rem; margin-left: 4px; }
+        table.resumen-table tbody td {
+            padding: var(--space-2) var(--space-3); text-align: right; white-space: nowrap;
+            border-bottom: 1px solid var(--border-soft); color: var(--text-soft);
+        }
+        table.resumen-table tbody tr { cursor: pointer; transition: background var(--trans); }
+        table.resumen-table tbody tr:hover { background: var(--surface-2); }
+        table.resumen-table tbody td.col-vol { font-weight: 600; color: var(--text); }
+        table.resumen-table .cell-alert { color: var(--alert); font-weight: 700; }
+        table.resumen-table .cell-warn { color: var(--warn); font-weight: 700; }
+        table.resumen-table .cell-muted { color: var(--text-muted); }
+        table.resumen-table .cell-empty { color: var(--text-faint); }
+
         /* ===== Responsive ===== */
         @media (max-width: 900px) {
             .main { flex-direction: column; height: auto; }
@@ -323,6 +395,9 @@
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/></svg>
             <input type="text" id="buscador" placeholder="Buscar volcán..." aria-label="Buscar volcán" autocomplete="off">
         </label>
+        <button type="button" class="view-toggle" id="view-toggle" aria-pressed="false" title="Alternar entre vista de detalle y tabla de resumen de los 42 volcanes">
+            <span id="view-toggle-label">Resumen</span>
+        </button>
         <div class="header-meta" id="header-meta">Cargando...</div>
     </div>
 </div>
@@ -372,6 +447,8 @@ for (const [z, vs] of Object.entries(ZONAS)) vs.forEach(v => ZONA_POR_VOLCAN[v] 
 let catalogGlobal = null;
 let seleccionado = null;
 let filtroTexto = '';
+let vistaResumen = false;            // false = detalle por-volcán, true = tabla de ranking
+let resumenSort = { key: 'vertical_cm_yr', dir: 'desc' };  // orden inicial: |vertical| desc
 
 function getProb(v) { return v.comet?.prob_deformacion ?? null; }
 function getProbMax(v) { return v.comet?.prob_max ?? null; }
@@ -479,8 +556,26 @@ function crearCometSection(v, basePath) {
 
     const body = document.createElement('div');
     body.className = 'comet-body';
-    const img = document.createElement('img');
     const lastIdx = ifgs.length - 1;
+
+    // Mapa de probabilidad de deformación (opcional). Emparejado por `par`,
+    // no por índice, para robustez si las listas difieren en orden/longitud.
+    const probmaps = (comet.probmaps && comet.probmaps.length) ? comet.probmaps : null;
+    const probmapByPar = {};
+    if (probmaps) probmaps.forEach(function(pm) { if (pm && pm.par) probmapByPar[pm.par] = pm; });
+
+    // Contenedor en par (interferograma | mapa de probabilidad). Si no hay
+    // probmaps, queda una sola columna y el comportamiento es el de siempre.
+    const pair = document.createElement('div');
+    pair.className = 'comet-pair';
+    if (!probmaps) pair.style.gridTemplateColumns = '1fr';
+
+    // --- Pane interferograma ---
+    const ifgPane = document.createElement('div');
+    ifgPane.className = 'comet-pane';
+    const ifgPaneLabel = el('div', 'comet-pane-label', 'Interferograma (fase + coherencia)');
+    ifgPane.appendChild(ifgPaneLabel);
+    const img = document.createElement('img');
     img.src = basePath + '/' + ifgs[lastIdx].imagen + '?t=' + Date.now();
     img.alt = 'Interferograma COMET';
     img.addEventListener('click', function() { abrirModal(this.src); });
@@ -489,16 +584,63 @@ function crearCometSection(v, basePath) {
         this.style.background = '#1c2128';
         this.alt = 'Imagen no disponible';
     };
-    body.appendChild(img);
+    ifgPane.appendChild(img);
+    pair.appendChild(ifgPane);
+
+    // --- Pane mapa de probabilidad (solo si hay probmaps) ---
+    let probPane = null, probImg = null, probNote = null;
+    if (probmaps) {
+        probPane = document.createElement('div');
+        probPane.className = 'comet-pane';
+        const probPaneLabel = document.createElement('div');
+        probPaneLabel.className = 'comet-pane-label';
+        probPaneLabel.appendChild(document.createTextNode('Mapa de prob. de deformación'));
+        probPaneLabel.appendChild(el('span', 'comet-ml-tag', 'ML COMET'));
+        probPane.appendChild(probPaneLabel);
+        probImg = document.createElement('img');
+        probImg.alt = 'Mapa de probabilidad de deformación (COMET)';
+        probImg.addEventListener('click', function() { if (this.src) abrirModal(this.src); });
+        probImg.onerror = function() {
+            this.style.minHeight = '120px';
+            this.style.background = '#1c2128';
+            this.alt = 'Mapa no disponible';
+        };
+        probPane.appendChild(probImg);
+        probNote = el('div', 'comet-probmap-note',
+            'Score ML por píxel (deep learning, COMET) — dónde el modelo cree que hay deformación. Sin validar.');
+        probPane.appendChild(probNote);
+        pair.appendChild(probPane);
+    }
+
+    body.appendChild(pair);
     const fechaLabel = el('div', 'comet-fecha',
         'Fase + coherencia | ' + (ifgs[lastIdx].fecha || ifgs[lastIdx].par));
     body.appendChild(fechaLabel);
     section.appendChild(body);
 
+    // Actualiza la imagen del probmap buscando por `par`; oculta si no hay match.
+    function actualizarProbmap(par) {
+        if (!probImg) return;
+        const pm = probmapByPar[par];
+        if (pm && pm.imagen) {
+            probImg.src = basePath + '/' + pm.imagen + '?t=' + Date.now();
+            probPane.style.display = '';
+        } else {
+            probImg.removeAttribute('src');
+            probPane.style.display = 'none';
+            pair.style.gridTemplateColumns = '1fr';
+        }
+    }
+    if (probmaps) actualizarProbmap(ifgs[lastIdx].par);
+
     select.addEventListener('change', function() {
         const idx = parseInt(this.value);
         img.src = basePath + '/' + ifgs[idx].imagen + '?t=' + Date.now();
         fechaLabel.textContent = 'Fase + coherencia | ' + (ifgs[idx].fecha || ifgs[idx].par);
+        if (probmaps) {
+            pair.style.gridTemplateColumns = '1fr 1fr';
+            actualizarProbmap(ifgs[idx].par);
+        }
     });
     return section;
 }
@@ -579,7 +721,7 @@ async function renderTimeseries(volcanData, basePath, container) {
             container.querySelector('#ts-plot').innerHTML =
                 '<div class="ts-empty">Sin datos coherentes en la cumbre (decorrelación por ' +
                 'nieve/vegetación permanente). No hay serie temporal medible en este frame.</div>';
-            ['#ts-vert','#ts-vel','#ts-delta','#ts-n','#ts-px','#ts-lat'].forEach(function(id){
+            ['#ts-vert','#ts-vel','#ts-delta','#ts-n','#ts-px','#ts-lat','#ts-coh'].forEach(function(id){
                 var e = container.querySelector(id); if (e) e.textContent = '—';
             });
             var cal0 = container.querySelector('#ts-cal');
@@ -635,6 +777,19 @@ async function renderTimeseries(volcanData, basePath, container) {
             latEl.textContent = ts.dias_latencia + ' días';
             latEl.style.color = ts.dias_latencia > 60 ? '#d29922' : '#c9d1d9';
         }
+        // Coherencia media del ROI: métrica de calidad (baja = serie poco confiable)
+        var cohEl = container.querySelector('#ts-coh');
+        if (cohEl) {
+            var cohVal = ts.coherencia_roi;
+            if (cohVal == null && ts.roi && ts.roi.coherencia != null) cohVal = ts.roi.coherencia;
+            if (cohVal != null) {
+                cohEl.textContent = cohVal.toFixed(2);
+                cohEl.style.color = cohVal < 0.3 ? 'var(--alert)' : (cohVal < 0.5 ? 'var(--warn)' : 'var(--text)');
+            } else {
+                cohEl.textContent = '—';
+                cohEl.style.color = 'var(--text)';
+            }
+        }
 
         var traces = [];
         traces.push({
@@ -652,9 +807,10 @@ async function renderTimeseries(volcanData, basePath, container) {
                 opacity: 0.7
             });
         }
-        var hasProb = volcanData.comet.prob_serie && volcanData.comet.prob_serie.dates && volcanData.comet.prob_serie.means;
+        var probSerie = volcanData.comet && volcanData.comet.prob_serie;
+        var hasProb = probSerie && probSerie.dates && probSerie.means;
         if (hasProb) {
-            var ps = volcanData.comet.prob_serie;
+            var ps = probSerie;
             traces.push({
                 x: ps.dates, y: ps.means,
                 type: 'scatter', mode: 'lines', fill: 'tozeroy',
@@ -700,6 +856,7 @@ function crearTimeseriesSection() {
             '<span title="Días desde la última observación InSAR">Latencia: <b id="ts-lat">—</b></span>' +
             '<span>Fechas: <b id="ts-n">—</b></span>' +
             '<span title="Píxeles válidos en el ROI centrado en el cráter">Píxeles ROI: <b id="ts-px">—</b></span>' +
+            '<span title="Coherencia media del ROI (0-1): estabilidad de la fase; baja = serie poco confiable">Coherencia: <b id="ts-coh">—</b></span>' +
         '</div>' +
         '<div id="ts-plot" style="width:100%;height:380px"></div>' +
         '<p class="ts-footer">Fuente: cubo LiCSBAS de COMET (cm) · Serie/velocidad calculadas por LiCSAR-v1 · ' +
@@ -810,8 +967,240 @@ function renderDetalle(nombre) {
     panel.appendChild(infoDiv);
 }
 
+/* ===== Vista de resumen / ranking (tabla de los 42) ===== */
+// Columnas: key = campo de comet.resumen (o derivado); abs = ordenar por valor absoluto.
+var RESUMEN_COLS = [
+    { key: 'nombre',          label: 'Volcán',           type: 'text' },
+    { key: 'zona',            label: 'Zona',             type: 'text' },
+    { key: 'vertical_cm_yr',  label: 'Vertical (cm/año)', type: 'num', abs: true },
+    { key: 'velocity_cm_yr',  label: 'Vel LOS',          type: 'num' },
+    { key: 'calidad',         label: 'Calidad',          type: 'text' },
+    { key: 'coherencia',      label: 'Coherencia',       type: 'num' },
+    { key: 'dias_latencia',   label: 'Latencia (días)',  type: 'num' },
+    { key: 'n_fechas',        label: 'Nº fechas',        type: 'num' }
+];
+
+// Aplana el catálogo a filas con los campos del resumen; tolera resumen ausente.
+function filasResumen(volcanes) {
+    var filas = [];
+    for (var nombre in volcanes) {
+        if (!Object.prototype.hasOwnProperty.call(volcanes, nombre)) continue;
+        var v = volcanes[nombre];
+        var r = (v.comet && v.comet.resumen) ? v.comet.resumen : null;
+        filas.push({
+            nombre: nombre,
+            zona: ZONA_POR_VOLCAN[nombre] || 'Otro',
+            tieneResumen: !!r,
+            velocity_cm_yr: r && r.velocity_cm_yr != null ? r.velocity_cm_yr : null,
+            vertical_cm_yr: r && r.vertical_cm_yr != null ? r.vertical_cm_yr : null,
+            calidad: r && r.calidad != null ? r.calidad : null,
+            coherencia: r && r.coherencia != null ? r.coherencia : null,
+            dias_latencia: r && r.dias_latencia != null ? r.dias_latencia : null,
+            n_fechas: r && r.n_fechas != null ? r.n_fechas : null
+        });
+    }
+    return filas;
+}
+
+function ordenarFilas(filas) {
+    var col = null;
+    for (var i = 0; i < RESUMEN_COLS.length; i++) if (RESUMEN_COLS[i].key === resumenSort.key) col = RESUMEN_COLS[i];
+    if (!col) col = RESUMEN_COLS[2];
+    var dir = resumenSort.dir === 'asc' ? 1 : -1;
+    var useAbs = !!col.abs;
+    return filas.slice().sort(function(a, b) {
+        // Volcanes sin resumen siempre al final, sin importar dirección.
+        if (a.tieneResumen !== b.tieneResumen) return a.tieneResumen ? -1 : 1;
+        var av = a[col.key], bv = b[col.key];
+        if (col.type === 'text') {
+            av = (av == null ? '' : String(av)).toLowerCase();
+            bv = (bv == null ? '' : String(bv)).toLowerCase();
+            if (av < bv) return -1 * dir;
+            if (av > bv) return 1 * dir;
+            return a.nombre < b.nombre ? -1 : 1;
+        }
+        // Numérico: nulos al final siempre.
+        var an = (av == null), bn = (bv == null);
+        if (an && bn) return a.nombre < b.nombre ? -1 : 1;
+        if (an) return 1;
+        if (bn) return -1;
+        var ax = useAbs ? Math.abs(av) : av;
+        var bx = useAbs ? Math.abs(bv) : bv;
+        if (ax < bx) return -1 * dir;
+        if (ax > bx) return 1 * dir;
+        return a.nombre < b.nombre ? -1 : 1;
+    });
+}
+
+function fmtNum(x, dec) { return x == null ? '—' : (x.toFixed(dec)); }
+function fmtSigned(x, dec) { return x == null ? '—' : ((x >= 0 ? '+' : '') + x.toFixed(dec)); }
+
+var CALIDAD_LABEL = {
+    significativa: 'Tendencia significativa',
+    no_significativa: 'Sin tendencia signif.',
+    insuficiente: 'Datos insuficientes',
+    discontinua: 'Serie discontinua',
+    sin_datos: 'Sin datos'
+};
+
+function renderResumen() {
+    var panel = document.getElementById('detalle-panel');
+    clearEl(panel);
+    if (!catalogGlobal || !catalogGlobal.volcanes) {
+        panel.appendChild(el('div', 'detalle-placeholder', 'Catálogo no disponible.'));
+        return;
+    }
+    var wrap = document.createElement('div');
+    wrap.className = 'resumen-wrap';
+    wrap.appendChild(el('div', 'resumen-titulo', 'Resumen de monitoreo'));
+    wrap.appendChild(el('div', 'resumen-sub',
+        'Ranking de los volcanes por actividad. Ordenado por |velocidad vertical| descendente. ' +
+        'Clic en una columna para reordenar; clic en una fila para abrir el detalle. ' +
+        'Volcanes sin resumen al final.'));
+
+    var filas = ordenarFilas(filasResumen(catalogGlobal.volcanes));
+
+    var scroll = document.createElement('div');
+    scroll.className = 'resumen-table-scroll';
+    var table = document.createElement('table');
+    table.className = 'resumen-table';
+
+    // --- thead ---
+    var thead = document.createElement('thead');
+    var trh = document.createElement('tr');
+    RESUMEN_COLS.forEach(function(col) {
+        var th = document.createElement('th');
+        if (col.key === 'calidad') th.className = 'col-cal';
+        th.appendChild(document.createTextNode(col.label));
+        if (resumenSort.key === col.key) {
+            th.appendChild(el('span', 'sort-ind', resumenSort.dir === 'asc' ? '▲' : '▼'));
+        }
+        th.addEventListener('click', function() {
+            if (resumenSort.key === col.key) {
+                resumenSort.dir = (resumenSort.dir === 'asc') ? 'desc' : 'asc';
+            } else {
+                resumenSort.key = col.key;
+                resumenSort.dir = (col.type === 'text') ? 'asc' : 'desc';
+            }
+            renderResumen();
+        });
+        trh.appendChild(th);
+    });
+    thead.appendChild(trh);
+    table.appendChild(thead);
+
+    // --- tbody ---
+    var tbody = document.createElement('tbody');
+    filas.forEach(function(f) {
+        var tr = document.createElement('tr');
+        tr.addEventListener('click', function() { seleccionar(f.nombre); });
+
+        // Volcán
+        var tdVol = document.createElement('td');
+        tdVol.className = 'col-vol';
+        tdVol.appendChild(document.createTextNode(f.nombre));
+        tr.appendChild(tdVol);
+
+        // Zona
+        tr.appendChild(el('td', null, f.zona));
+
+        // Vertical (cm/año) — coloreado por magnitud
+        var tdVert = document.createElement('td');
+        if (f.vertical_cm_yr == null) {
+            tdVert.className = 'cell-empty';
+            tdVert.textContent = '—';
+        } else {
+            var av = Math.abs(f.vertical_cm_yr);
+            if (av > 0.5) tdVert.className = 'cell-alert';
+            else if (av > 0.2) tdVert.className = 'cell-warn';
+            tdVert.textContent = fmtSigned(f.vertical_cm_yr, 2);
+        }
+        tr.appendChild(tdVert);
+
+        // Vel LOS
+        var tdVel = document.createElement('td');
+        if (f.velocity_cm_yr == null) { tdVel.className = 'cell-empty'; tdVel.textContent = '—'; }
+        else tdVel.textContent = fmtSigned(f.velocity_cm_yr, 2);
+        tr.appendChild(tdVel);
+
+        // Calidad
+        var tdCal = document.createElement('td');
+        tdCal.className = 'col-cal';
+        if (f.calidad == null) { tdCal.className += ' cell-empty'; tdCal.textContent = '—'; }
+        else {
+            tdCal.textContent = CALIDAD_LABEL[f.calidad] || f.calidad;
+            if (f.calidad === 'sin_datos' || f.calidad === 'insuficiente' || f.calidad === 'discontinua') {
+                tdCal.className += ' cell-warn';
+            } else if (f.calidad === 'no_significativa') {
+                tdCal.className += ' cell-muted';
+            }
+        }
+        tr.appendChild(tdCal);
+
+        // Coherencia — <0.3 en alerta
+        var tdCoh = document.createElement('td');
+        if (f.coherencia == null) { tdCoh.className = 'cell-empty'; tdCoh.textContent = '—'; }
+        else {
+            if (f.coherencia < 0.3) tdCoh.className = 'cell-alert';
+            else if (f.coherencia < 0.5) tdCoh.className = 'cell-warn';
+            tdCoh.textContent = fmtNum(f.coherencia, 2);
+        }
+        tr.appendChild(tdCoh);
+
+        // Latencia (días)
+        var tdLat = document.createElement('td');
+        if (f.dias_latencia == null) { tdLat.className = 'cell-empty'; tdLat.textContent = '—'; }
+        else {
+            if (f.dias_latencia > 60) tdLat.className = 'cell-warn';
+            tdLat.textContent = String(f.dias_latencia);
+        }
+        tr.appendChild(tdLat);
+
+        // Nº fechas
+        var tdN = document.createElement('td');
+        if (f.n_fechas == null) { tdN.className = 'cell-empty'; tdN.textContent = '—'; }
+        else tdN.textContent = String(f.n_fechas);
+        tr.appendChild(tdN);
+
+        tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    scroll.appendChild(table);
+    wrap.appendChild(scroll);
+    panel.appendChild(wrap);
+}
+
+function aplicarVistaToggleUI() {
+    var btn = document.getElementById('view-toggle');
+    var lbl = document.getElementById('view-toggle-label');
+    if (!btn || !lbl) return;
+    btn.classList.toggle('active', vistaResumen);
+    btn.setAttribute('aria-pressed', vistaResumen ? 'true' : 'false');
+    lbl.textContent = vistaResumen ? 'Ver detalle' : 'Resumen';
+}
+
+function mostrarResumen() {
+    vistaResumen = true;
+    aplicarVistaToggleUI();
+    renderResumen();
+}
+
+function mostrarDetalle() {
+    vistaResumen = false;
+    aplicarVistaToggleUI();
+    var panel = document.getElementById('detalle-panel');
+    if (seleccionado && catalogGlobal && catalogGlobal.volcanes[seleccionado]) {
+        renderDetalle(seleccionado);
+    } else {
+        clearEl(panel);
+        panel.appendChild(el('div', 'detalle-placeholder', 'Selecciona un volcán para ver los interferogramas'));
+    }
+}
+
 function seleccionar(nombre) {
     seleccionado = nombre;
+    vistaResumen = false;            // un clic en volcán siempre vuelve al detalle
+    aplicarVistaToggleUI();
     renderLista(catalogGlobal.volcanes);
     renderDetalle(nombre);
 }
@@ -843,6 +1232,12 @@ async function cargar() {
         buscador.addEventListener('input', function () {
             filtroTexto = this.value;
             if (catalogGlobal && catalogGlobal.volcanes) renderLista(catalogGlobal.volcanes);
+        });
+    }
+    var viewToggle = document.getElementById('view-toggle');
+    if (viewToggle) {
+        viewToggle.addEventListener('click', function () {
+            if (vistaResumen) mostrarDetalle(); else mostrarResumen();
         });
     }
 })();

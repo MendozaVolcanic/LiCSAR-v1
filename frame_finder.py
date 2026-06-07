@@ -52,7 +52,7 @@ VOLCANES = {
     "Tatara-San Pedro": {"lat": -35.998, "lon": -70.845},
     "Laguna del Maule": {"lat": -36.071, "lon": -70.498},
     "Nevado de Longavi": {"lat": -36.200, "lon": -71.170},
-    "Nevados de Chillan": {"lat": -37.411, "lon": -71.352},
+    "Nevados de Chillan": {"lat": -36.868, "lon": -71.378},  # FIX: antes tenía coords de Antuco (copy-paste)
     "Antuco": {"lat": -37.419, "lon": -71.341},
     "Copahue": {"lat": -37.857, "lon": -71.168},
     "Callaqui": {"lat": -37.926, "lon": -71.461},
@@ -72,7 +72,7 @@ VOLCANES = {
     "Huequi": {"lat": -42.378, "lon": -72.578},
     "Michinmahuida": {"lat": -42.790, "lon": -72.440},
     "Chaiten": {"lat": -42.839, "lon": -72.650},
-    "Corcovado": {"lat": -43.192, "lon": -72.079},
+    "Corcovado": {"lat": -43.180, "lon": -72.790},  # FIX: longitud estaba mal (-72.079)
     "Yate": {"lat": -41.755, "lon": -72.396},
     "Melimoyu": {"lat": -44.081, "lon": -72.857},
     "Mentolat": {"lat": -44.700, "lon": -73.082},

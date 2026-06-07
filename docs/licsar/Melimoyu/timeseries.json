@@ -1,7 +1,7 @@
 {
   "volcan": "Melimoyu",
   "frame": "010D_13416_131313",
-  "actualizado": "2026-06-07T11:12:34.036967+00:00",
+  "actualizado": "2026-06-07T12:26:11.385186+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 143,
   "rango_fechas": [
@@ -16,9 +16,12 @@
     "col_max": 65,
     "px_validos": 316,
     "centrado_en_crater": true,
-    "semilado_px": 10
+    "semilado_px": 10,
+    "coherencia": 0.13
   },
+  "coherencia_roi": 0.13,
   "sin_datos": false,
+  "frame_fallback": false,
   "dates": [
     "2015-09-07",
     "2015-10-01",
@@ -455,6 +458,7 @@
     0.2343
   ],
   "gacos_valido": true,
+  "gacos_metodo": "exacto",
   "velocity_cm_yr": 0.021,
   "velocity_se_cm_yr": 0.003,
   "velocity_tstat": 5.73,

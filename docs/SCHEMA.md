@@ -37,6 +37,10 @@ sobre `catalog.json` (deben **mergear**, no sobrescribir, el bloque `comet`).
           "means": [0.0, "..."],                 // probabilidad media por par
           "maxs":  [0.0, "..."]                  // probabilidad máxima por par
         },
+        "probmaps": [                            // mapas de probabilidad (heatmaps: DÓNDE se detecta)
+          { "par": "20260202_20260214", "fecha": "2026-02-02 - 2026-02-14",
+            "imagen": "probmap/20260202_20260214.jpg" }
+        ],
         "timeseries": true                       // existe docs/licsar/{vol}/timeseries.json
       }
     }
@@ -72,8 +76,10 @@ sobre `catalog.json` (deben **mergear**, no sobrescribir, el bloque `comet`).
   },
   "dates": ["2014-10-06", "..."],      // N fechas
   "los_cm_filt": [0.0, -0.42, "..."],  // desplazamiento LOS en cm (ya /100)
-  "los_cm_gacos": null,                // serie con corrección GACOS o null
+  "los_cm_gacos": null,                // serie con corrección GACOS alineada a dates, o null
   "gacos_valido": false,
+  "gacos_metodo": null,                // "exacto" | "interpolado" | null
+  "frame_fallback": false,             // true si se usó un frame hermano (cumbre primaria decorrelacionada)
   "velocity_cm_yr": 0.70,              // Theil-Sen (robusto); null si sin_datos
   "velocity_se_cm_yr": 0.01,           // error estándar (OLS)
   "velocity_tstat": 141.06,            // |t|>=2 => distinguible de cero

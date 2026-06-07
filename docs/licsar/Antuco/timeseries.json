@@ -1,7 +1,7 @@
 {
   "volcan": "Antuco",
   "frame": "091A_12777_131313",
-  "actualizado": "2026-06-07T11:00:14.976883+00:00",
+  "actualizado": "2026-06-07T12:20:05.803733+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 228,
   "rango_fechas": [
@@ -16,9 +16,12 @@
     "col_max": 62,
     "px_validos": 90,
     "centrado_en_crater": true,
-    "semilado_px": 10
+    "semilado_px": 10,
+    "coherencia": 0.315
   },
+  "coherencia_roi": 0.315,
   "sin_datos": false,
+  "frame_fallback": false,
   "dates": [
     "2014-10-11",
     "2014-11-04",
@@ -481,6 +484,7 @@
   ],
   "los_cm_gacos": null,
   "gacos_valido": false,
+  "gacos_metodo": null,
   "velocity_cm_yr": -0.028,
   "velocity_se_cm_yr": 0.003,
   "velocity_tstat": -10.16,

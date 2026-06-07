@@ -1,7 +1,7 @@
 {
   "volcan": "Hudson",
   "frame": "010D_13610_131313",
-  "actualizado": "2026-06-07T11:13:40.464313+00:00",
+  "actualizado": "2026-06-07T12:26:58.646974+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 148,
   "rango_fechas": [
@@ -16,9 +16,12 @@
     "col_max": 60,
     "px_validos": 291,
     "centrado_en_crater": true,
-    "semilado_px": 10
+    "semilado_px": 10,
+    "coherencia": 0.074
   },
+  "coherencia_roi": 0.074,
   "sin_datos": false,
+  "frame_fallback": false,
   "dates": [
     "2014-10-18",
     "2014-11-11",
@@ -321,6 +324,7 @@
   ],
   "los_cm_gacos": null,
   "gacos_valido": false,
+  "gacos_metodo": null,
   "velocity_cm_yr": 0.081,
   "velocity_se_cm_yr": 0.004,
   "velocity_tstat": 21.69,

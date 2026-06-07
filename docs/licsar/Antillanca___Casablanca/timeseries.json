@@ -1,7 +1,7 @@
 {
   "volcan": "Antillanca - Casablanca",
   "frame": "164A_13146_131313",
-  "actualizado": "2026-06-07T11:05:37.341442+00:00",
+  "actualizado": "2026-06-07T12:23:40.598749+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 319,
   "rango_fechas": [
@@ -16,9 +16,12 @@
     "col_max": 60,
     "px_validos": 202,
     "centrado_en_crater": true,
-    "semilado_px": 10
+    "semilado_px": 10,
+    "coherencia": 0.21
   },
+  "coherencia_roi": 0.21,
   "sin_datos": false,
+  "frame_fallback": false,
   "dates": [
     "2015-01-08",
     "2015-02-25",
@@ -663,6 +666,7 @@
   ],
   "los_cm_gacos": null,
   "gacos_valido": false,
+  "gacos_metodo": null,
   "velocity_cm_yr": -0.022,
   "velocity_se_cm_yr": 0.003,
   "velocity_tstat": -8.91,

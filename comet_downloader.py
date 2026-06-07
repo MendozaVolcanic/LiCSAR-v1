@@ -54,6 +54,11 @@ REQUEST_TIMEOUT = 45
 DELAY = 1.0
 MAX_INTERFEROGRAMAS = 10  # últimos N pares a descargar
 
+# Los mapas de probabilidad (heatmaps ML) viven en una carpeta distinta a los
+# interferogramas: .../images/prob_images/ en vez de .../images/licsar_images/.
+# Se deriva de COMET_IMGS_BASE para mantenerse en sync si cambia el host.
+COMET_PROBMAP_BASE = COMET_IMGS_BASE.replace("licsar_images", "prob_images")
+
 
 # ---------------------------------------------------------------------------
 # Funciones de descarga
@@ -153,6 +158,7 @@ def procesar_volcan_comet(nombre: str, comet_key: str, frames: list) -> dict | N
     prob_deformacion = None
     prob_max_reciente = None
     prob_serie = None
+    probmaps = []
     if prob_data and prob_data.get("count", 0) > 0:
         means = prob_data.get("means", [])
         maxs = prob_data.get("maxs", [])
@@ -179,6 +185,43 @@ def procesar_volcan_comet(nombre: str, comet_key: str, frames: list) -> dict | N
             prob_serie = {"dates": sd, "means": sm, "maxs": sx}
         print(f"  Probabilidad: mean={prob_deformacion:.3f}, max={prob_max_reciente:.3f}"
               f" (serie {len(prob_serie['dates']) if prob_serie else 0} pts)")
+
+        # --- Mapas de probabilidad (heatmaps ML: DÓNDE detecta deformación) ---
+        # Reutiliza la MISMA respuesta prob_data; no se vuelve a descargar el JSON.
+        pimages = prob_data.get("images", [])
+        if pimages:
+            n_pm = min(MAX_INTERFEROGRAMAS, len(pimages))
+            probmap_dir = DOCS_DIR / safe_dir_name(nombre) / "probmap"
+            probmap_dir.mkdir(parents=True, exist_ok=True)
+
+            pm_descargados = 0
+            for i in range(len(pimages) - n_pm, len(pimages)):
+                img_name = pimages[i]
+                date_pair = pdates[i] if i < len(pdates) else ""
+                # Formato par: YYYYMMDD_YYYYMMDD (igual que interferogramas)
+                par_clean = date_pair.replace(" - ", "_").replace("-", "")
+                parts = date_pair.split(" - ")
+                if len(parts) == 2:
+                    par_clean = parts[0].replace("-", "") + "_" + parts[1].replace("-", "")
+
+                dest = probmap_dir / f"{par_clean}.jpg"
+                img_url = f"{COMET_PROBMAP_BASE}/{REGION}/{comet_key}_{frame_id}/{img_name}"
+
+                if not dest.exists() or dest.stat().st_size < 100:
+                    ok = descargar_jpg(img_url, dest)
+                    if ok:
+                        pm_descargados += 1
+                    time.sleep(DELAY * 0.5)
+                else:
+                    pm_descargados += 1  # ya existe
+
+                probmaps.append({
+                    "par": par_clean,
+                    "fecha": date_pair,
+                    "imagen": f"probmap/{par_clean}.jpg",
+                })
+
+            print(f"  Mapas de probabilidad: {pm_descargados}/{n_pm} JPGs")
     else:
         print(f"  Sin datos de probabilidad")
 
@@ -190,6 +233,7 @@ def procesar_volcan_comet(nombre: str, comet_key: str, frames: list) -> dict | N
         "prob_deformacion": prob_deformacion,
         "prob_max": prob_max_reciente,
         "prob_serie": prob_serie,
+        "probmaps": probmaps,
     }
 
 
