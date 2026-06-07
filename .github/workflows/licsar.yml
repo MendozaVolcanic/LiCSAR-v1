@@ -13,23 +13,31 @@ on:
 
 permissions:
   contents: write
+  issues: write
+
+# Evita que dos corridas se solapen y pisen el commit de la otra (causa raíz de
+# la pérdida previa de flags timeseries). La nueva espera a que termine la anterior.
+concurrency:
+  group: licsar-sync
+  cancel-in-progress: false
 
 jobs:
   licsar-sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 150
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: 'pip'
 
       - name: Instalar dependencias
-        run: pip install requests
+        run: pip install -r requirements.txt
 
       # Frame finder: solo lunes (frames no cambian frecuente)
       - name: Descubrir frames (frame_finder.py)
@@ -89,6 +97,23 @@ jobs:
           find docs/licsar/ -name "*.png" 2>/dev/null | wc -l | xargs echo "PNGs:"
           find docs/licsar/ -name "*.jpg" 2>/dev/null | wc -l | xargs echo "JPGs COMET:"
 
+      # Chequeo de salud: falla ruidosamente si el catálogo quedó corrupto o vacío.
+      # Antes los fallos quedaban ocultos por continue-on-error y se commiteaba basura.
+      - name: Verificar salud del catálogo
+        run: |
+          python -c "
+          import json, sys
+          try:
+              c = json.load(open('docs/licsar/catalog.json'))
+          except Exception as e:
+              print(f'::error::catalog.json ilegible: {e}'); sys.exit(1)
+          vs = c.get('volcanes', {})
+          con_datos = sum(1 for v in vs.values() if v.get('comet', {}).get('interferogramas'))
+          print(f'Volcanes totales: {len(vs)} | con datos COMET: {con_datos}')
+          if con_datos == 0:
+              print('::error::Ningún volcán tiene datos COMET — descarga falló'); sys.exit(1)
+          "
+
       - name: Commit resultados
         run: |
           git config user.name "LiCSARBot"
@@ -108,6 +133,32 @@ jobs:
           except: print('updated')
           " 2>/dev/null || echo "updated")
             git commit -m "auto: $RESUMEN — $(date +'%Y-%m-%d %H:%M UTC')"
-            git pull origin main --rebase -X ours || true
-            git push origin main || true
+            # Push con reintentos: rebase preservando NUESTROS cambios y push hasta 3 veces.
+            # -X theirs en rebase = preferir la rama que se reaplica (la nuestra, el commit local).
+            ok=0
+            for i in 1 2 3; do
+              git pull origin main --rebase -X theirs || true
+              if git push origin main; then ok=1; break; fi
+              echo "Push falló (intento $i), reintentando en 5s..."
+              sleep 5
+            done
+            if [ "$ok" != "1" ]; then
+              echo "::error::No se pudo pushear tras 3 intentos"
+              exit 1
+            fi
           fi
+
+      # Notificación: si algo crítico falló, abre un Issue para enterarse.
+      - name: Notificar fallo
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const titulo = `Fallo en sincronización LiCSAR — ${new Date().toISOString().slice(0,10)}`;
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: titulo,
+              body: `La corrida automática falló.\n\nVer logs: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              labels: ['automated', 'pipeline-failure']
+            });

@@ -213,7 +213,8 @@ function renderLista(volcanes) {
             if (p !== null) {
                 const cls = probClass(p);
                 const badge = el('span', 'vprob vprob-' + cls,
-                    p > 0.5 ? 'ALERTA' : p > 0.2 ? 'Revisar' : 'OK');
+                    p > 0.5 ? '⚠ Alto' : p > 0.2 ? 'Medio' : 'OK');
+                badge.title = 'Score ML COMET (sin validar): ' + (p * 100).toFixed(0) + '%';
                 row.appendChild(badge);
             }
             lista.appendChild(row);
@@ -298,15 +299,18 @@ function crearProbCard(v) {
     card.appendChild(el('div', 'prob-icon', iconText));
     const info = document.createElement('div');
     info.className = 'prob-info';
-    info.appendChild(el('div', 'prob-label', 'Probabilidad de deformación (deep learning)'));
+    info.appendChild(el('div', 'prob-label', 'Score ML de deformación (COMET, deep learning — no validado)'));
     var valText = (p * 100).toFixed(1) + '%';
-    if (cls === 'alert') valText += ' — DEFORMACIÓN DETECTADA';
-    else if (cls === 'warn') valText += ' — Revisar manualmente';
-    else valText += ' — Sin deformación';
+    if (cls === 'alert') valText += ' — Score alto: requiere validación';
+    else if (cls === 'warn') valText += ' — Score medio: revisar';
+    else valText += ' — Score bajo';
     info.appendChild(el('div', 'prob-value prob-value-' + cls, valText));
     if (pMax !== null && pMax > p) {
-        info.appendChild(el('div', 'prob-label', 'Max reciente: ' + (pMax * 100).toFixed(1) + '%'));
+        info.appendChild(el('div', 'prob-label', 'Máx reciente: ' + (pMax * 100).toFixed(1) + '%'));
     }
+    info.appendChild(el('div', 'prob-label',
+        'Probabilidad estimada por el modelo de COMET, sin calibración local. ' +
+        'Confirmar siempre con la serie temporal y ambas geometrías (asc+desc) antes de alertar.'));
     card.appendChild(info);
     return card;
 }
@@ -352,14 +356,54 @@ async function renderTimeseries(volcanData, basePath, container) {
         if (!ts || !ts.dates || !ts.los_cm_filt) return;
         container.style.display = '';
 
+        // Cumbre decorrelacionada: no hay píxeles coherentes en el cráter.
+        // Mostrar aviso en vez de una línea plana en cero (que parecería "estable").
+        if (ts.sin_datos || ts.calidad === 'sin_datos') {
+            container.querySelector('#ts-plot').innerHTML =
+                '<div class="ts-empty">Sin datos coherentes en la cumbre (decorrelación por ' +
+                'nieve/vegetación permanente). No hay serie temporal medible en este frame.</div>';
+            ['#ts-vel','#ts-delta','#ts-n','#ts-px','#ts-lat'].forEach(function(id){
+                var e = container.querySelector(id); if (e) e.textContent = '—';
+            });
+            var cal0 = container.querySelector('#ts-cal');
+            if (cal0) { cal0.textContent = 'Sin datos coherentes'; cal0.style.color = '#8b949e'; }
+            return;
+        }
+
         var velEl = container.querySelector('#ts-vel');
         var deltaEl = container.querySelector('#ts-delta');
         var nEl = container.querySelector('#ts-n');
         var pxEl = container.querySelector('#ts-px');
-        if (velEl) velEl.textContent = ts.velocity_cm_yr != null ? ts.velocity_cm_yr.toFixed(2) : '—';
-        if (deltaEl) deltaEl.textContent = ts.delta_cm_180d != null ? ts.delta_cm_180d.toFixed(2) : '—';
+        var calEl = container.querySelector('#ts-cal');
+        var latEl = container.querySelector('#ts-lat');
+        // Velocidad con incertidumbre: "v ± SE cm/año"
+        if (velEl) {
+            if (ts.velocity_cm_yr != null) {
+                var vtxt = (ts.velocity_cm_yr >= 0 ? '+' : '') + ts.velocity_cm_yr.toFixed(2);
+                if (ts.velocity_se_cm_yr != null) vtxt += ' ± ' + ts.velocity_se_cm_yr.toFixed(2);
+                velEl.textContent = vtxt;
+            } else velEl.textContent = '—';
+        }
+        if (deltaEl) deltaEl.textContent = ts.delta_cm_180d != null ? ((ts.delta_cm_180d >= 0 ? '+' : '') + ts.delta_cm_180d.toFixed(2)) : '—';
         if (nEl) nEl.textContent = ts.n_fechas != null ? ts.n_fechas : (ts.dates ? ts.dates.length : '—');
         if (pxEl) pxEl.textContent = ts.roi && ts.roi.px_validos != null ? ts.roi.px_validos : '—';
+        // Calidad / significancia
+        if (calEl) {
+            var calMap = {
+                significativa: ['Tendencia significativa', '#3fb950'],
+                no_significativa: ['Sin tendencia significativa', '#8b949e'],
+                insuficiente: ['Datos insuficientes', '#d29922'],
+                discontinua: ['Serie discontinua', '#d29922']
+            };
+            var cm = calMap[ts.calidad] || ['—', '#8b949e'];
+            calEl.textContent = cm[0] + (ts.r2 != null ? ' (R²=' + ts.r2.toFixed(2) + ')' : '');
+            calEl.style.color = cm[1];
+        }
+        // Latencia: ¿qué tan reciente es el último dato?
+        if (latEl && ts.dias_latencia != null) {
+            latEl.textContent = ts.dias_latencia + ' días';
+            latEl.style.color = ts.dias_latencia > 60 ? '#d29922' : '#c9d1d9';
+        }
 
         var traces = [];
         traces.push({
@@ -403,6 +447,8 @@ async function renderTimeseries(volcanData, basePath, container) {
             layout.yaxis2 = { title: { text: 'Probabilidad', font: { size: 11 } }, overlaying: 'y', side: 'right', range: [0,1], showgrid: false };
         }
         var plotDiv = container.querySelector('#ts-plot');
+        if (!window.Plotly) { plotDiv.innerHTML = '<div class="ts-empty">Gráfico no disponible (Plotly no cargó)</div>'; return; }
+        Plotly.purge(plotDiv);  // evita acumular listeners al cambiar de volcán
         Plotly.newPlot(plotDiv, traces, layout, { responsive: true, displayModeBar: false });
     } catch (e) {
         // Silenciar: si hay error de fetch o parsing, simplemente no mostrar la sección
@@ -416,13 +462,17 @@ function crearTimeseriesSection() {
     section.innerHTML =
         '<h3>Serie temporal de desplazamiento (LiCSBAS)</h3>' +
         '<div class="ts-stats">' +
-            '<span>Velocidad: <b id="ts-vel">—</b> cm/año</span>' +
-            '<span>Δ últimos 180d: <b id="ts-delta">—</b> cm</span>' +
+            '<span title="Velocidad robusta (Theil-Sen) ± error estándar (OLS), en línea de visión del satélite">Velocidad: <b id="ts-vel">—</b> cm/año</span>' +
+            '<span id="ts-cal-wrap">Estado: <b id="ts-cal">—</b></span>' +
+            '<span title="Cambio en ~180 días">Δ ~180d: <b id="ts-delta">—</b> cm</span>' +
+            '<span title="Días desde la última observación InSAR">Latencia: <b id="ts-lat">—</b></span>' +
             '<span>Fechas: <b id="ts-n">—</b></span>' +
-            '<span>Píxeles ROI: <b id="ts-px">—</b></span>' +
+            '<span title="Píxeles válidos en el ROI centrado en el cráter">Píxeles ROI: <b id="ts-px">—</b></span>' +
         '</div>' +
         '<div id="ts-plot" style="width:100%;height:380px"></div>' +
-        '<p class="ts-footer">Fuente: COMET LiCSBAS · ROI 20×20 px centrado · Línea de visión satélite (LOS)</p>';
+        '<p class="ts-footer">Fuente: cubo LiCSBAS de COMET (cm) · Serie/velocidad calculadas por LiCSAR-v1 · ' +
+        'ROI ~21×21 px centrado en el cráter · Velocidad robusta Theil-Sen ± SE (OLS) · LOS = línea de visión del satélite · ' +
+        'Valores positivos ≈ acercamiento al satélite (posible inflación)</p>';
     return section;
 }
 

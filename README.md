@@ -81,13 +81,38 @@ cd docs && python -m http.server 8765
 # Abrir: http://localhost:8765
 ```
 
+## Series temporales — cómo se calculan (productos derivados)
+
+> **Importante:** el cubo de desplazamiento LiCSBAS es de COMET y nunca se modifica.
+> La serie 1D, la velocidad y los flags de calidad son **cálculos propios** de este
+> repo sobre ese cubo. Si un número parece raro, el origen es nuestro procesamiento.
+
+- **Unidad:** el cubo viene como `_web_x100_` (cambio de rango LOS ×100). Se divide
+  por 100 para obtener **cm reales** (verificado: el scatter crudo ±42 → ±0.42 cm = ±4 mm,
+  ruido típico de una serie filtrada; ±42 cm en 12 días sería físicamente imposible).
+- **ROI centrado en el cráter:** se ubica el píxel más cercano a la lat/lon real del
+  volcán (grillas `x`/`y` del JSON) y se promedia una ventana ~21×21 px. Evita medir
+  roca estable cuando el cráter no cae en el centro del frame.
+- **Velocidad robusta (Theil-Sen):** mediana de pendientes pareadas, inmune a los
+  outliers de las primeras adquisiciones de Sentinel-1 (antes inflaban la velocidad ×100+).
+- **Incertidumbre:** error estándar, t-statistic y R² por OLS. Se marca
+  `velocity_significativa` solo si |t|≥2, n≥20 fechas y ≤3 huecos.
+- **Latencia:** días desde la última observación InSAR (un volcán puede estar
+  "desactualizado" semanas por decorrelación estacional o degradación de la constelación).
+
 ## Limitaciones conocidas
 
 - **Decorrelación alta** en volcanes del sur (vegetación densa, nieve permanente)
-- **Sin corrección atmosférica** (GACOS no incluida)
-- **Resolución ~30 m** en los thumbnails PNG
-- Los interferogramas corresponden al par de fechas más reciente disponible, no necesariamente el más informativo
-- Cada volcán usa el frame LiCSAR cuyo centro geográfico está más cercano, minimizando superposición entre volcanes vecinos
+- **GACOS** (corrección troposférica) solo se aplica cuando la red de fechas coincide
+  con la versión filtrada; si la serie GACOS viene vacía/nula se descarta
+- **Score ML de deformación:** la "probabilidad" es un modelo de deep learning de COMET
+  **sin calibración local**. Es un disparador de revisión, no una confirmación. Validar
+  siempre con la serie temporal y, idealmente, con ambas geometrías (asc + desc)
+- **Una sola geometría:** hoy se procesa el frame de mayor cobertura (asc *o* desc), por lo
+  que aún no se separa deformación vertical de horizontal
+- **Resolución ~30 m** en los thumbnails; los interferogramas COMET son pares diferenciales
+  (deformación entre 2 fechas), no desplazamiento acumulado
+- Cada volcán usa el frame cuyo centro geográfico está más cercano, minimizando superposición
 
 ## Contexto
 

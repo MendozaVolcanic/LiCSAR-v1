@@ -9,12 +9,22 @@ de desplazamiento (~22MB) desde:
 y lo reduce a una serie temporal pequeña (~5KB) en:
   docs/licsar/{Volcán_safe}/timeseries.json
 
-Reducción:
-  - ROI cuadrado central 20x20 (filas 40:60, cols 40:60)
-  - Filtra por máscara (mask==1) y descarta nulls
-  - Promedio espacial por fecha -> los_cm_filt[N]
-  - Velocidad lineal cm/año por regresión simple
-  - Cambio últimos 180 días
+IMPORTANTE — qué dato es "nuestro" y qué dato es de COMET:
+  - El CUBO de desplazamiento (data_filt) es de COMET y NUNCA se modifica.
+  - La SERIE 1D, la velocidad, la incertidumbre y los flags de calidad son
+    productos DERIVADOS que calcula este script. Si están mal, es nuestro
+    cálculo el que se corrige, no el dato de origen.
+
+Reducción (productos derivados):
+  - ROI ~20x20 px CENTRADO EN EL CRÁTER (usa lat/lon del volcán + grillas x/y
+    del JSON), no en el centro geométrico del frame.
+  - Filtra por máscara (mask==1) y descarta nulls.
+  - Re-referencia a la mediana de los primeros N puntos (robusta a 1 outlier).
+  - Velocidad robusta por Theil-Sen (mediana de pendientes pareadas).
+  - Incertidumbre y significancia por OLS (error estándar, t-stat, R2).
+  - Flag `velocity_significativa` = |t|>=2 y n suficiente y pocos gaps.
+  - Latencia: días desde la última observación.
+  - GACOS validado: se descarta si es todo cero/None.
 
 Uso:
   python timeseries_downloader.py                     # todos los volcanes
@@ -25,9 +35,10 @@ Uso:
 from __future__ import annotations
 
 import json
+import statistics
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 import requests
@@ -58,9 +69,30 @@ REQUEST_TIMEOUT = 120
 DELAY = 1.5
 MAX_RETRIES = 2
 
-# ROI cuadrado central
-ROI_R0, ROI_R1 = 40, 60
-ROI_C0, ROI_C1 = 40, 60
+# Factor de escala de COMET: los archivos "_web_x100_" almacenan el cambio de
+# rango LOS multiplicado por 100. La documentación oficial (/about-tools) declara
+# que los productos están en cm; dividiendo por 100 obtenemos cm reales.
+# Verificación física: el scatter crudo (~±42) /100 = ±0.42 cm = ±4 mm, que es el
+# ruido residual típico de una serie LiCSBAS filtrada en banda C (imposible que
+# fueran ±42 cm en 12 días por atmósfera).
+COMET_SCALE = 100.0
+
+# ROI: semilado en píxeles alrededor del cráter (ventana ~21x21)
+ROI_HALF = 10
+# Semilados a probar progresivamente si la cumbre está decorrelacionada (sin
+# píxeles coherentes en la ventana ajustada). Crecer permite recuperar señal de
+# flancos coherentes antes de declarar "sin datos".
+ROI_HALF_STEPS = [10, 15, 22]
+# Mínimo de píxeles coherentes para considerar la serie utilizable
+MIN_PIXELS = 5
+# Fallback cuando no hay lat/lon o grillas x/y: centro geométrico del frame
+ROI_FALLBACK = (40, 60, 40, 60)
+
+# Umbrales de calidad para declarar una velocidad como significativa/confiable
+MIN_FECHAS = 20        # menos épocas -> tendencia no confiable
+MAX_GAPS = 3           # demasiados huecos -> serie discontinua
+T_SIGNIF = 2.0         # |t| >= 2 ~ 95% de confianza para n moderado
+REF_N = 5              # nº de puntos iniciales para la referencia robusta
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -121,24 +153,77 @@ def _date_to_ordinal(date_str: str) -> int:
     return datetime.strptime(date_str, "%Y-%m-%d").toordinal()
 
 
-def reducir_cubo(data: dict) -> tuple[list[float], int]:
+def roi_centrado(data: dict, lat: float | None, lon: float | None, half: int = ROI_HALF):
     """
-    Promedio espacial por fecha sobre el ROI 40:60 x 40:60, usando mask==1
-    y descartando None/null. Retorna (serie[N], px_validos).
+    Devuelve (r0, r1, c0, c1) de una ventana cuadrada de semilado `half` px
+    CENTRADA en el cráter.
+
+    Fenómeno: el frame LiCSAR cubre ~250 km; el centro geométrico del recorte
+    100x100 no necesariamente coincide con el edificio volcánico. Promediar un
+    ROI fijo en el centro puede caer sobre roca estable y dar "deformación" que
+    en realidad es ruido instrumental. Aquí ubicamos el píxel más cercano a las
+    coordenadas reales del cráter usando las grillas de lon (x) y lat (y).
+    """
+    xs = data.get("x") or []   # longitudes por columna
+    ys = data.get("y") or []   # latitudes por fila
+    if not xs or not ys or lat is None or lon is None:
+        return ROI_FALLBACK
+    ci = min(range(len(xs)), key=lambda k: abs(xs[k] - lon))   # columna ~ lon
+    ri = min(range(len(ys)), key=lambda k: abs(ys[k] - lat))   # fila ~ lat
+    r0 = max(0, ri - half)
+    r1 = min(len(ys), ri + half + 1)
+    c0 = max(0, ci - half)
+    c1 = min(len(xs), ci + half + 1)
+    return r0, r1, c0, c1
+
+
+def reducir_con_roi_adaptativo(data: dict, lat: float | None, lon: float | None):
+    """
+    Reduce el cubo probando ventanas crecientes hasta juntar >= MIN_PIXELS
+    coherentes. Retorna (serie, px_validos, roi, centrado, half_usado).
+
+    Si ni la ventana más amplia tiene píxeles coherentes, la cumbre está
+    decorrelacionada (típico en volcanes con nieve/vegetación permanente) y la
+    serie no es utilizable -> px_validos quedará 0 y se marcará 'sin_datos'.
+    """
+    centrado = (data.get("x") and data.get("y") and lat is not None and lon is not None)
+    if not centrado:
+        serie, px = reducir_cubo(data, ROI_FALLBACK)
+        return serie, px, ROI_FALLBACK, False, None
+    mejor = ([], 0, None, None)
+    for half in ROI_HALF_STEPS:
+        roi = roi_centrado(data, lat, lon, half=half)
+        serie, px = reducir_cubo(data, roi)
+        if px > mejor[1]:
+            mejor = (serie, px, roi, half)
+        if px >= MIN_PIXELS:
+            return serie, px, roi, True, half
+    serie, px, roi, half = mejor
+    return serie, px, roi or ROI_FALLBACK, True, half
+
+
+def reducir_cubo(data: dict, roi: tuple[int, int, int, int]) -> tuple[list[float], int]:
+    """
+    Promedio espacial por fecha sobre el ROI dado, usando mask==1 y descartando
+    None/null. Retorna (serie[N], px_validos).
+
+    Referencia robusta: el cubo de COMET ya está referenciado a su `refarea`,
+    pero re-referenciar a un único primer valor ruidoso sesga toda la serie.
+    Usamos la mediana de los primeros REF_N puntos como cero relativo.
     """
     cubo = data.get("data_filt") or data.get("data") or []
     mask = data.get("mask") or []
+    r0, r1, c0, c1 = roi
     n = len(cubo)
     if n == 0:
         return [], 0
 
-    # Construir lista de coordenadas válidas según máscara
     coords = []
-    for i in range(ROI_R0, ROI_R1):
+    for i in range(r0, r1):
         if i >= len(mask):
             continue
         row_mask = mask[i]
-        for j in range(ROI_C0, ROI_C1):
+        for j in range(c0, c1):
             if j >= len(row_mask):
                 continue
             m = row_mask[j]
@@ -165,52 +250,128 @@ def reducir_cubo(data: dict) -> tuple[list[float], int]:
                 continue
             suma += fv
             cnt += 1
-        serie.append(suma / cnt if cnt > 0 else 0.0)
+        # Escalar a cm reales (COMET almacena cambio de rango LOS x100)
+        serie.append((suma / cnt) / COMET_SCALE if cnt > 0 else 0.0)
 
-    # Re-referenciar a primer valor (desplazamiento relativo)
+    # Referencia robusta: mediana de los primeros REF_N puntos (no 1 solo punto)
     if serie:
-        ref = serie[0]
+        ref = statistics.median(serie[:min(REF_N, len(serie))])
         serie = [round(v - ref, 4) for v in serie]
     return serie, len(coords)
 
 
-def velocidad_lineal(dates: list[str], serie: list[float]) -> float:
-    """Regresión lineal simple cm/año."""
-    if len(dates) < 2 or len(serie) < 2:
-        return 0.0
-    xs = [_date_to_ordinal(d) for d in dates]
+def _theil_sen(xs: list[float], ys: list[float]) -> tuple[float, float]:
+    """
+    Pendiente robusta de Theil-Sen = mediana de las pendientes de todos los
+    pares de puntos. Inmune a outliers (las primeras adquisiciones ruidosas de
+    Sentinel-1 ya no dominan el ajuste, como sí pasaba con mínimos cuadrados).
+    Retorna (pendiente_por_dia, intercepto).
+    """
     n = len(xs)
+    slopes = []
+    for i in range(n):
+        xi, yi = xs[i], ys[i]
+        for j in range(i + 1, n):
+            dx = xs[j] - xi
+            if dx != 0:
+                slopes.append((ys[j] - yi) / dx)
+    if not slopes:
+        return 0.0, (ys[0] if ys else 0.0)
+    slope = statistics.median(slopes)
+    intercept = statistics.median([ys[i] - slope * xs[i] for i in range(n)])
+    return slope, intercept
+
+
+def _ols_stats(xs: list[float], ys: list[float]) -> tuple[float, float, float] | None:
+    """
+    Mínimos cuadrados para cuantificar incertidumbre de la pendiente.
+    Retorna (se_pendiente_por_dia, t_stat, r2) o None si n<3.
+    """
+    n = len(xs)
+    if n < 3:
+        return None
     mx = sum(xs) / n
-    my = sum(serie) / n
-    num = sum((xs[i] - mx) * (serie[i] - my) for i in range(n))
-    den = sum((xs[i] - mx) ** 2 for i in range(n))
-    if den == 0:
-        return 0.0
-    slope_per_day = num / den
-    return round(slope_per_day * 365.25, 4)
+    my = sum(ys) / n
+    sxx = sum((x - mx) ** 2 for x in xs)
+    if sxx == 0:
+        return None
+    sxy = sum((xs[i] - mx) * (ys[i] - my) for i in range(n))
+    syy = sum((y - my) ** 2 for y in ys)
+    slope = sxy / sxx
+    intercept = my - slope * mx
+    ss_res = sum((ys[i] - (slope * xs[i] + intercept)) ** 2 for i in range(n))
+    r2 = (1 - ss_res / syy) if syy > 0 else 0.0
+    s2 = ss_res / (n - 2)
+    se_slope = (s2 / sxx) ** 0.5 if s2 > 0 else 0.0
+    t_stat = slope / se_slope if se_slope > 0 else 0.0
+    return se_slope, t_stat, r2
 
 
-def delta_180d(dates: list[str], serie: list[float]) -> float:
-    """Cambio (cm) entre la última fecha y la fecha más cercana hace 180 días."""
+def velocidad_robusta(dates: list[str], serie: list[float]) -> dict:
+    """
+    Velocidad de deformación con incertidumbre.
+
+    Reporta la velocidad robusta (Theil-Sen) como titular, y el error estándar /
+    t-stat / R2 de OLS como medida de confianza. Un geólogo necesita saber no
+    solo "cuánto" sino "qué tan seguro": una pendiente con |t|<2 es indistinguible
+    de cero (sin deformación detectable).
+    """
+    out = {
+        "velocity_cm_yr": 0.0,
+        "velocity_se_cm_yr": None,
+        "velocity_tstat": None,
+        "r2": None,
+    }
+    if len(dates) < 2 or len(serie) < 2:
+        return out
+    xs = [float(_date_to_ordinal(d)) for d in dates]
+    slope_day, _ = _theil_sen(xs, serie)
+    out["velocity_cm_yr"] = round(slope_day * 365.25, 3)
+    stats = _ols_stats(xs, serie)
+    if stats:
+        se_day, t_stat, r2 = stats
+        out["velocity_se_cm_yr"] = round(se_day * 365.25, 3)
+        out["velocity_tstat"] = round(t_stat, 2)
+        out["r2"] = round(r2, 3)
+    return out
+
+
+def delta_180d(dates: list[str], serie: list[float]) -> tuple[float, int]:
+    """
+    Cambio (cm) en ~180 días. Retorna (delta, dias_reales_en_ventana).
+
+    Como los pares no son uniformes (decorrelación estacional: nieve/vegetación
+    en invierno austral), informamos también cuántos días reales abarca la
+    ventana, para no llamar "180 días" a algo que en realidad son 300.
+    """
     if not dates or not serie:
-        return 0.0
+        return 0.0, 0
     last_ord = _date_to_ordinal(dates[-1])
     target = last_ord - 180
-    # buscar índice más cercano <= target
     idx = 0
     for i, d in enumerate(dates):
         if _date_to_ordinal(d) <= target:
             idx = i
         else:
             break
-    return round(serie[-1] - serie[idx], 4)
+    dias_reales = last_ord - _date_to_ordinal(dates[idx])
+    return round(serie[-1] - serie[idx], 4), dias_reales
+
+
+def gacos_valido(serie: list[float] | None) -> bool:
+    """True si la serie GACOS tiene señal real (no todo cero/None)."""
+    if not serie:
+        return False
+    no_cero = [v for v in serie if v is not None and abs(v) > 1e-9]
+    return len(no_cero) >= max(3, len(serie) // 10)
 
 
 # ---------------------------------------------------------------------------
 # Procesamiento por volcán
 # ---------------------------------------------------------------------------
 
-def procesar_volcan(nombre: str, comet_key: str, frame_id: str) -> dict | None:
+def procesar_volcan(nombre: str, comet_key: str, frame_id: str,
+                    lat: float | None = None, lon: float | None = None) -> dict | None:
     print(f"  Frame: {frame_id}")
     print(f"  Descargando disp_data (filt)...")
     data, url, status, size = fetch_disp_json(comet_key, frame_id, gacos=False)
@@ -234,16 +395,31 @@ def procesar_volcan(nombre: str, comet_key: str, frame_id: str) -> dict | None:
 
     print(f"  N fechas: {len(dates)} ({dates[0]} -> {dates[-1]})")
 
-    serie_filt, px_validos = reducir_cubo(data)
-    print(f"  Píxeles ROI válidos: {px_validos}")
+    # ROI centrado en el cráter (no en el centro del frame), con expansión
+    # adaptativa si la cumbre está decorrelacionada.
+    serie_filt, px_validos, roi, centrado, half_usado = reducir_con_roi_adaptativo(data, lat, lon)
+    sin_datos = px_validos < MIN_PIXELS
+    print(f"  ROI filas {roi[0]}:{roi[1]} cols {roi[2]}:{roi[3]} "
+          f"({'centrado en cráter' if centrado else 'FALLBACK centro frame'}"
+          f"{f', semilado {half_usado}' if half_usado else ''})")
+    print(f"  Píxeles ROI válidos: {px_validos}" + ("  [SIN DATOS COHERENTES]" if sin_datos else ""))
     print(f"  Primeros 5 valores los_cm_filt: {serie_filt[:5]}")
 
-    vel = velocidad_lineal(dates, serie_filt)
-    d180 = delta_180d(dates, serie_filt)
-    print(f"  Velocidad: {vel} cm/año | Delta 180d: {d180} cm")
+    if sin_datos:
+        vstats = {"velocity_cm_yr": None, "velocity_se_cm_yr": None,
+                  "velocity_tstat": None, "r2": None}
+        d180, dias_ventana = None, None
+        print(f"  Cumbre decorrelacionada — serie no utilizable")
+    else:
+        vstats = velocidad_robusta(dates, serie_filt)
+        d180, dias_ventana = delta_180d(dates, serie_filt)
+        print(f"  Velocidad (Theil-Sen): {vstats['velocity_cm_yr']} cm/año "
+              f"| SE {vstats['velocity_se_cm_yr']} | t {vstats['velocity_tstat']} | R2 {vstats['r2']}")
+        print(f"  Delta ~180d: {d180} cm (ventana real {dias_ventana} días)")
 
     # Intentar también GACOS como complemento (solo si la versión principal era filt)
     serie_gacos = None
+    gacos_ok = False
     if "disp_data_gacos" not in url:
         time.sleep(DELAY)
         print(f"  Intentando complemento GACOS...")
@@ -252,34 +428,76 @@ def procesar_volcan(nombre: str, comet_key: str, frame_id: str) -> dict | None:
         if data_g is not None:
             dates_g = data_g.get("dates", [])
             if dates_g == dates:
-                serie_g, _ = reducir_cubo(data_g)
-                if serie_g:
+                roi_g = roi_centrado(data_g, lat, lon)
+                serie_g, _ = reducir_cubo(data_g, roi_g)
+                if gacos_valido(serie_g):
                     serie_gacos = serie_g
+                    gacos_ok = True
+                    print(f"    GACOS válido (con señal)")
+                else:
+                    print(f"    GACOS descartado (todo cero/None)")
             else:
                 print(f"    GACOS tiene fechas distintas, omitido")
 
     gaps = data.get("gaps", []) or []
+    n_fechas = len(dates)
+    n_gaps = len(gaps)
+
+    # Latencia: días desde la última observación (¿está "en vivo"?)
+    dias_latencia = (date.today() - datetime.strptime(dates[-1], "%Y-%m-%d").date()).days
+
+    # Significancia: ¿la pendiente es distinguible de cero y hay datos suficientes?
+    t = vstats.get("velocity_tstat")
+    significativa = (
+        not sin_datos
+        and t is not None and abs(t) >= T_SIGNIF
+        and n_fechas >= MIN_FECHAS
+        and n_gaps <= MAX_GAPS
+    )
+    if sin_datos:
+        calidad = "sin_datos"
+    elif n_fechas < MIN_FECHAS:
+        calidad = "insuficiente"
+    elif n_gaps > MAX_GAPS:
+        calidad = "discontinua"
+    elif significativa:
+        calidad = "significativa"
+    else:
+        calidad = "no_significativa"
+    print(f"  Calidad: {calidad} | latencia {dias_latencia} días | gaps {n_gaps}")
 
     out = {
         "volcan": nombre,
         "frame": frame_id,
         "actualizado": datetime.now(timezone.utc).isoformat(),
-        "fuente": "COMET LiCSBAS x100 filt",
-        "n_fechas": len(dates),
+        "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
+        "n_fechas": n_fechas,
         "rango_fechas": [dates[0], dates[-1]],
+        "dias_latencia": dias_latencia,
         "roi": {
-            "row_min": ROI_R0,
-            "row_max": ROI_R1,
-            "col_min": ROI_C0,
-            "col_max": ROI_C1,
+            "row_min": roi[0],
+            "row_max": roi[1],
+            "col_min": roi[2],
+            "col_max": roi[3],
             "px_validos": px_validos,
+            "centrado_en_crater": centrado,
+            "semilado_px": half_usado,
         },
+        "sin_datos": sin_datos,
         "dates": dates,
         "los_cm_filt": serie_filt,
         "los_cm_gacos": serie_gacos,
-        "velocity_cm_yr": vel,
+        "gacos_valido": gacos_ok,
+        "velocity_cm_yr": vstats["velocity_cm_yr"],
+        "velocity_se_cm_yr": vstats["velocity_se_cm_yr"],
+        "velocity_tstat": vstats["velocity_tstat"],
+        "velocity_significativa": significativa,
+        "r2": vstats["r2"],
+        "calidad": calidad,
         "delta_cm_180d": d180,
-        "n_gaps": len(gaps),
+        "delta_dias_reales": dias_ventana,
+        "n_gaps": n_gaps,
+        "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
     }
 
     out_dir = DOCS_DIR / safe_dir_name(nombre)
@@ -383,8 +601,11 @@ def main() -> int:
             fallidos += 1
             continue
         comet_key, frame_id = info
+        vol_meta = catalog.get("volcanes", {}).get(nombre, {})
+        lat = vol_meta.get("lat")
+        lon = vol_meta.get("lon")
         try:
-            res = procesar_volcan(nombre, comet_key, frame_id)
+            res = procesar_volcan(nombre, comet_key, frame_id, lat=lat, lon=lon)
         except Exception as e:
             print(f"  ERROR: {e}")
             res = None

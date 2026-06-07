@@ -1,3 +1,4 @@
-requests
-numpy
-pandas
+# Dependencias del pipeline LiCSAR-v1.
+# Solo se usa `requests`; toda la estadística (Theil-Sen, OLS) es Python puro
+# (módulo stdlib `statistics`), por lo que NO se requieren numpy/pandas.
+requests>=2.32,<3.0
