@@ -46,36 +46,30 @@ import requests
 if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-# Reutiliza el mapping y funciones existentes
-from comet_downloader import (
+# Configuración y utilidades compartidas
+from licsar_common import (
+    DOCS_DIR,
+    CATALOG_PATH,
+    REGION,
+    TIMESERIES_BASE,
+    TIMESERIES_GACOS_BASE,
+    COMET_SCALE,
+    HEADERS,
+    MAX_RETRIES,
     NOMBRE_A_COMET,
+    TEST_VOLCANES,
+    safe_dir_name,
     cargar_comet_frames,
     mapear_volcanes,
-    safe_dir_name,
+    cargar_catalog,
+    guardar_catalog,
 )
 
 # ---------------------------------------------------------------------------
-# Configuración
+# Configuración específica de este script
 # ---------------------------------------------------------------------------
-BASE_DIR = Path(__file__).resolve().parent
-DOCS_DIR = BASE_DIR / "docs" / "licsar"
-CATALOG_PATH = DOCS_DIR / "catalog.json"
-
-REGION = "south_america"
-TIMESERIES_BASE = "https://comet-volcanodb.org/data/disp_data"
-TIMESERIES_GACOS_BASE = "https://comet-volcanodb.org/data/disp_data_gacos"
-
-REQUEST_TIMEOUT = 120
+REQUEST_TIMEOUT = 120   # los JSON de desplazamiento pesan ~22 MB
 DELAY = 1.5
-MAX_RETRIES = 2
-
-# Factor de escala de COMET: los archivos "_web_x100_" almacenan el cambio de
-# rango LOS multiplicado por 100. La documentación oficial (/about-tools) declara
-# que los productos están en cm; dividiendo por 100 obtenemos cm reales.
-# Verificación física: el scatter crudo (~±42) /100 = ±0.42 cm = ±4 mm, que es el
-# ruido residual típico de una serie LiCSBAS filtrada en banda C (imposible que
-# fueran ±42 cm en 12 días por atmósfera).
-COMET_SCALE = 100.0
 
 # ROI: semilado en píxeles alrededor del cráter (ventana ~21x21)
 ROI_HALF = 10
@@ -93,14 +87,6 @@ MIN_FECHAS = 20        # menos épocas -> tendencia no confiable
 MAX_GAPS = 3           # demasiados huecos -> serie discontinua
 T_SIGNIF = 2.0         # |t| >= 2 ~ 95% de confianza para n moderado
 REF_N = 5              # nº de puntos iniciales para la referencia robusta
-
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                  "(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-    "Accept": "application/json, */*",
-}
-
-TEST_VOLCANES = ["Laguna del Maule", "Lascar", "Villarrica"]
 
 
 # ---------------------------------------------------------------------------
@@ -509,23 +495,12 @@ def procesar_volcan(nombre: str, comet_key: str, frame_id: str,
     return out
 
 
+# cargar_catalog y guardar_catalog ahora viven en licsar_common (importados arriba)
+
+
 # ---------------------------------------------------------------------------
 # Catálogo
 # ---------------------------------------------------------------------------
-
-def cargar_catalog() -> dict:
-    if CATALOG_PATH.exists():
-        with open(CATALOG_PATH, encoding="utf-8") as f:
-            return json.load(f)
-    return {"volcanes": {}, "actualizado": "", "fuente": ""}
-
-
-def guardar_catalog(catalog: dict) -> None:
-    CATALOG_PATH.write_text(
-        json.dumps(catalog, indent=2, ensure_ascii=False), encoding="utf-8"
-    )
-    print(f"\nCatálogo actualizado: {CATALOG_PATH}")
-
 
 def frame_id_para(nombre: str, catalog: dict, comet_db: dict) -> tuple[str, str] | None:
     """

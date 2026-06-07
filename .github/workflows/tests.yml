@@ -1,0 +1,30 @@
+name: Tests
+
+# CI ligero: corre los tests científicos (sin red) en cada push/PR que toque
+# el código Python. Independiente del pipeline de datos (licsar.yml).
+on:
+  push:
+    paths:
+      - '**.py'
+      - 'tests/**'
+      - 'requirements*.txt'
+      - '.github/workflows/tests.yml'
+  pull_request:
+    paths:
+      - '**.py'
+      - 'tests/**'
+
+permissions:
+  contents: read
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -r requirements-dev.txt
+      - run: pytest -q

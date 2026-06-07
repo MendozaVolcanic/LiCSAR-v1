@@ -31,110 +31,33 @@ if sys.platform == 'win32':
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 # ---------------------------------------------------------------------------
-# Configuración
+# Configuración: lo compartido viene de licsar_common; aquí solo lo específico.
 # ---------------------------------------------------------------------------
-BASE_DIR = Path(__file__).resolve().parent
-DOCS_DIR = BASE_DIR / "docs" / "licsar"
+from licsar_common import (
+    DOCS_DIR,
+    REGION,
+    COMET_DATA_BASE,
+    COMET_IMGS_BASE,
+    HEADERS,
+    NOMBRE_A_COMET,
+    TEST_VOLCANES,
+    MAX_RETRIES,
+    safe_dir_name,
+    fetch_json,
+    cargar_comet_frames,
+    mapear_volcanes,
+)
+
 DOCS_DIR.mkdir(parents=True, exist_ok=True)
 
-COMET_DATA_BASE = "https://comet-volcanodb.org/data"
-COMET_IMGS_BASE = "https://comet-volcanodb.org/images/licsar_images"
-COMET_FRAMES_URL = f"{COMET_DATA_BASE}/volcanoes_frames/volcanoes_frames.js"
-
-REGION = "south_america"
 REQUEST_TIMEOUT = 45
 DELAY = 1.0
 MAX_INTERFEROGRAMAS = 10  # últimos N pares a descargar
-MAX_RETRIES = 2
-
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                  "(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-    "Accept": "image/*, application/json, */*",
-}
-
-TEST_VOLCANES = ["Laguna del Maule", "Lascar", "Villarrica"]
-
-# ---------------------------------------------------------------------------
-# Mapping: nombre dashboard → posibles keys COMET
-# ---------------------------------------------------------------------------
-NOMBRE_A_COMET = {
-    "Taapaca": "taapaca",
-    "Parinacota": "parinacota",
-    "Guallatiri": "guallatiri",
-    "Isluga": "isluga",
-    "Irruputuncu": "irruputuncu",
-    "Ollague": "ollague",
-    "San Pedro": "san_pedro",
-    "Lascar": "lascar",
-    "Tupungatito": "tupungatito",
-    "San Jose": "san_jose",
-    "Tinguiririca": "tinguiririca",
-    "Planchon-Peteroa": "planchon-peteroa",
-    "Descabezado Grande": "descabezado_grande",
-    "Tatara-San Pedro": "tatara-san_pedro",
-    "Laguna del Maule": "laguna_del_maule",
-    "Nevado de Longavi": "nevado_de_longavi",
-    "Nevados de Chillan": "nevados_de_chillan",
-    "Antuco": "antuco",
-    "Copahue": "copahue",
-    "Callaqui": "callaqui",
-    "Lonquimay": "lonquimay",
-    "Llaima": "llaima",
-    "Sollipulli": "sollipulli",
-    "Villarrica": "villarrica",
-    "Quetrupillan": "quetrupillan",
-    "Lanin": "lanin",
-    "Mocho-Choshuenco": "mocho-choshuenco",
-    "Carran - Los Venados": "carran-los_venados",
-    "Puyehue - Cordon Caulle": "puyehue_cordon_caulle",
-    "Antillanca - Casablanca": "antillanca",
-    "Osorno": "osorno",
-    "Calbuco": "calbuco",
-    "Hornopiren": "hornopiren",
-    "Huequi": "huequi",
-    "Michinmahuida": "michinmahuida",
-    "Chaiten": "chaiten",
-    "Corcovado": "corcovado",
-    "Yate": "yate",
-    "Melimoyu": "melimoyu",
-    "Mentolat": "mentolat",
-    "Maca": "maca",
-    "Cay": "cay",
-    "Hudson": "cerro_hudson",
-}
-
-
-def safe_dir_name(nombre: str) -> str:
-    """Convierte nombre de volcán a nombre de directorio."""
-    return nombre.replace(" ", "_").replace("-", "_")
 
 
 # ---------------------------------------------------------------------------
 # Funciones de descarga
 # ---------------------------------------------------------------------------
-
-def fetch_json(url: str) -> dict | None:
-    """Descarga un JSON con reintentos."""
-    for attempt in range(MAX_RETRIES + 1):
-        try:
-            r = requests.get(url, timeout=REQUEST_TIMEOUT, headers=HEADERS)
-            if r.status_code == 200:
-                return r.json()
-            if r.status_code == 404:
-                return None
-            print(f"    WARN HTTP {r.status_code} en {url}")
-        except requests.exceptions.Timeout:
-            if attempt < MAX_RETRIES:
-                print(f"    timeout, reintentando ({attempt+1}/{MAX_RETRIES})...")
-                time.sleep(3)
-            else:
-                print(f"    timeout definitivo")
-        except Exception as e:
-            print(f"    ERROR: {e}")
-            break
-    return None
-
 
 def descargar_jpg(url: str, dest: Path) -> bool:
     """Descarga un JPG. Retorna True si exitoso."""
@@ -155,49 +78,7 @@ def descargar_jpg(url: str, dest: Path) -> bool:
     return False
 
 
-# ---------------------------------------------------------------------------
-# Catálogo COMET
-# ---------------------------------------------------------------------------
-
-def cargar_comet_frames() -> dict:
-    """Descarga y parsea volcanoes_frames.js."""
-    print("[1/4] Descargando catálogo COMET...")
-    for attempt in range(MAX_RETRIES + 1):
-        try:
-            r = requests.get(COMET_FRAMES_URL, timeout=60, headers=HEADERS)
-            if r.status_code == 200:
-                text = r.text.replace("var volcanoes_frames = ", "")
-                if text.endswith(";"):
-                    text = text[:-1]
-                data = json.loads(text)
-                sa = {k: v for k, v in data.items()
-                      if v.get("region") == REGION}
-                print(f"    {len(sa)} volcanes sudamericanos en COMET")
-                return sa
-        except requests.exceptions.Timeout:
-            if attempt < MAX_RETRIES:
-                print(f"    timeout, reintentando...")
-                time.sleep(5)
-        except Exception as e:
-            print(f"    ERROR: {e}")
-    return {}
-
-
-def mapear_volcanes(comet_db: dict) -> dict:
-    """Mapea nuestros volcanes a keys COMET. Retorna {nombre_nuestro: (comet_key, frames)}."""
-    mapping = {}
-    for nombre, comet_key in NOMBRE_A_COMET.items():
-        if comet_key in comet_db:
-            frames = comet_db[comet_key].get("frames", [])
-            mapping[nombre] = (comet_key, frames)
-        else:
-            # Buscar por substring
-            found = [k for k in comet_db if comet_key in k or k in comet_key]
-            if found:
-                key = found[0]
-                frames = comet_db[key].get("frames", [])
-                mapping[nombre] = (key, frames)
-    return mapping
+# cargar_comet_frames y mapear_volcanes ahora viven en licsar_common (importados arriba)
 
 
 # ---------------------------------------------------------------------------

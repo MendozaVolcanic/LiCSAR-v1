@@ -42,16 +42,31 @@ Cobertura: **41/43 volcanes con ascendente + descendente**, 2 solo con una geome
 ## Arquitectura
 
 ```
+licsar_common.py           → Config y utilidades compartidas (URLs COMET, NOMBRE_A_COMET, fetch, mapeo)
 frame_finder.py            → Identifica el frame LiCSAR más cercano a cada volcán (ASF API + polígonos JASMIN)
 licsar_downloader.py       → Descarga PNGs del interferograma más reciente desde JASMIN
-comet_downloader.py        → Descarga interferogramas recortados + probabilidad ML desde COMET VolcanoDB
-timeseries_downloader.py   → Descarga JSONs de desplazamiento LiCSBAS (~22MB c/u) y los reduce a series 1D (~5KB)
+comet_downloader.py        → Descarga interferogramas recortados + score ML desde COMET VolcanoDB
+timeseries_downloader.py   → Descarga JSONs LiCSBAS (~22MB c/u) y los reduce a series 1D + velocidad robusta (~5KB)
 docs/index.html            → Dashboard web (Plotly time series + COMET + frames colapsables)
+docs/SCHEMA.md             → Contrato de catalog.json y timeseries.json
 docs/licsar/{Volcan}/      → Archivos por volcán: PNGs LiCSAR + comet/*.jpg + timeseries.json
 docs/licsar/catalog.json   → Índice unificado (frames + COMET + flags timeseries)
 datos/frames_volcanes.*    → Catálogo de tracks por volcán (CSV + JSON)
-.github/workflows/         → Actualización automática 2x/día
+tests/                     → Tests pytest de las funciones científicas (sin red)
+.github/workflows/         → licsar.yml (datos 2x/día) + tests.yml (CI en cada push)
 ```
+
+**Desarrollo y tests:**
+```bash
+pip install -r requirements-dev.txt
+pytest -q          # 12 tests: escala cm, Theil-Sen robusto, ROI, significancia, GACOS
+```
+
+El esquema de los JSON está documentado en [`docs/SCHEMA.md`](docs/SCHEMA.md).
+
+> **Tamaño del repo:** las imágenes (`*.png`, `*.jpg`) se versionan en git y crecen
+> ~30 MB/mes. A futuro conviene migrar a Git LFS; hoy se mantiene en git plano para no
+> complicar el auto-commit del workflow.
 
 ## Actualización automática (GitHub Actions)
 
