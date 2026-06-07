@@ -1,7 +1,7 @@
 {
   "volcan": "Ollague",
   "frame": "149A_11230_131313",
-  "actualizado": "2026-06-07T06:21:06.836358+00:00",
+  "actualizado": "2026-06-07T10:54:20.765503+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 433,
   "rango_fechas": [
@@ -900,5 +900,26 @@
   "delta_cm_180d": 0.0533,
   "delta_dias_reales": 180,
   "n_gaps": 0,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "A",
+  "geometrias": {
+    "ascendente": {
+      "frame": "149A_11230_131313",
+      "velocity_los_cm_yr": -0.005,
+      "px": 441,
+      "e": -0.632,
+      "u": 0.759
+    },
+    "descendente": {
+      "frame": "156D_11028_131313",
+      "velocity_los_cm_yr": -0.008,
+      "px": 441,
+      "e": 0.622,
+      "u": 0.768
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": -0.009,
+    "este_cm_yr": -0.002
+  }
 }

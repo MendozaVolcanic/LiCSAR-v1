@@ -1,7 +1,7 @@
 {
   "volcan": "Tinguiririca",
   "frame": "018A_12472_131313",
-  "actualizado": "2026-06-07T06:22:13.378397+00:00",
+  "actualizado": "2026-06-07T10:56:15.483227+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 349,
   "rango_fechas": [
@@ -732,5 +732,26 @@
   "delta_cm_180d": 0.0458,
   "delta_dias_reales": 180,
   "n_gaps": 0,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "A",
+  "geometrias": {
+    "ascendente": {
+      "frame": "018A_12472_131313",
+      "velocity_los_cm_yr": -0.018,
+      "px": 275,
+      "e": -0.611,
+      "u": 0.772
+    },
+    "descendente": {
+      "frame": "083D_12440_131313",
+      "velocity_los_cm_yr": -0.021,
+      "px": 108,
+      "e": 0.617,
+      "u": 0.766
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": -0.025,
+    "este_cm_yr": -0.003
+  }
 }

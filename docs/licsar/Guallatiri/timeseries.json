@@ -1,7 +1,7 @@
 {
   "volcan": "Guallatiri",
   "frame": "054D_10879_131313",
-  "actualizado": "2026-06-07T06:20:16.900236+00:00",
+  "actualizado": "2026-06-07T10:52:47.692186+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 399,
   "rango_fechas": [
@@ -832,5 +832,26 @@
   "delta_cm_180d": 0.0621,
   "delta_dias_reales": 180,
   "n_gaps": 0,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "D",
+  "geometrias": {
+    "ascendente": {
+      "frame": "149A_10834_131313",
+      "velocity_los_cm_yr": -0.021,
+      "px": 441,
+      "e": -0.622,
+      "u": 0.768
+    },
+    "descendente": {
+      "frame": "054D_10879_131313",
+      "velocity_los_cm_yr": -0.03,
+      "px": 441,
+      "e": 0.592,
+      "u": 0.793
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": -0.033,
+    "este_cm_yr": -0.007
+  }
 }

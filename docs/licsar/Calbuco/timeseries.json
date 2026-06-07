@@ -1,7 +1,7 @@
 {
   "volcan": "Calbuco",
   "frame": "164A_13146_131313",
-  "actualizado": "2026-06-07T06:25:46.118542+00:00",
+  "actualizado": "2026-06-07T11:08:32.758528+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 328,
   "rango_fechas": [
@@ -690,5 +690,26 @@
   "delta_cm_180d": -0.0185,
   "delta_dias_reales": 180,
   "n_gaps": 0,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "A",
+  "geometrias": {
+    "ascendente": {
+      "frame": "164A_13146_131313",
+      "velocity_los_cm_yr": 0.021,
+      "px": 441,
+      "e": -0.561,
+      "u": 0.809
+    },
+    "descendente": {
+      "frame": "083D_13222_131313",
+      "velocity_los_cm_yr": 0.012,
+      "px": 424,
+      "e": 0.593,
+      "u": 0.784
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": 0.021,
+    "este_cm_yr": -0.007
+  }
 }

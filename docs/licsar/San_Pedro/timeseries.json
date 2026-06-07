@@ -1,7 +1,7 @@
 {
   "volcan": "San Pedro",
   "frame": "083D_12636_131313",
-  "actualizado": "2026-06-07T06:21:22.277612+00:00",
+  "actualizado": "2026-06-07T10:54:39.342052+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 371,
   "rango_fechas": [
@@ -404,5 +404,8 @@
   "delta_cm_180d": null,
   "delta_dias_reales": null,
   "n_gaps": 1,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "D",
+  "geometrias": null,
+  "descomposicion": null
 }

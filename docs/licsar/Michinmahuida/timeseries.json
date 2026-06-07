@@ -1,7 +1,7 @@
 {
   "volcan": "Michinmahuida",
   "frame": "083D_13222_131313",
-  "actualizado": "2026-06-07T06:26:12.784104+00:00",
+  "actualizado": "2026-06-07T11:10:56.883018+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 253,
   "rango_fechas": [
@@ -540,5 +540,26 @@
   "delta_cm_180d": 0.3404,
   "delta_dias_reales": 180,
   "n_gaps": 3,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "D",
+  "geometrias": {
+    "ascendente": {
+      "frame": "164A_13341_131313",
+      "velocity_los_cm_yr": 0.012,
+      "px": 125,
+      "e": -0.529,
+      "u": 0.832
+    },
+    "descendente": {
+      "frame": "083D_13222_131313",
+      "velocity_los_cm_yr": 0.015,
+      "px": 132,
+      "e": 0.541,
+      "u": 0.824
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": 0.016,
+    "este_cm_yr": 0.003
+  }
 }

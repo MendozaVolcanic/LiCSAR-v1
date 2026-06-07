@@ -1,7 +1,7 @@
 {
   "volcan": "Chaiten",
   "frame": "083D_13222_131313",
-  "actualizado": "2026-06-07T06:26:25.146166+00:00",
+  "actualizado": "2026-06-07T11:11:21.986457+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 257,
   "rango_fechas": [
@@ -548,5 +548,26 @@
   "delta_cm_180d": 0.0523,
   "delta_dias_reales": 180,
   "n_gaps": 3,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "D",
+  "geometrias": {
+    "ascendente": {
+      "frame": "164A_13341_131313",
+      "velocity_los_cm_yr": -0.005,
+      "px": 441,
+      "e": -0.512,
+      "u": 0.844
+    },
+    "descendente": {
+      "frame": "083D_13222_131313",
+      "velocity_los_cm_yr": -0.003,
+      "px": 441,
+      "e": 0.552,
+      "u": 0.815
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": -0.005,
+    "este_cm_yr": 0.002
+  }
 }

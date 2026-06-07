@@ -1,7 +1,7 @@
 {
   "volcan": "Osorno",
   "frame": "164A_13146_131313",
-  "actualizado": "2026-06-07T06:25:31.689835+00:00",
+  "actualizado": "2026-06-07T11:07:10.967376+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 327,
   "rango_fechas": [
@@ -688,5 +688,26 @@
   "delta_cm_180d": 0.0193,
   "delta_dias_reales": 180,
   "n_gaps": 0,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "A",
+  "geometrias": {
+    "ascendente": {
+      "frame": "164A_13146_131313",
+      "velocity_los_cm_yr": 0.046,
+      "px": 437,
+      "e": -0.574,
+      "u": 0.8
+    },
+    "descendente": {
+      "frame": "083D_13027_131313",
+      "velocity_los_cm_yr": 0.023,
+      "px": 441,
+      "e": 0.591,
+      "u": 0.785
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": 0.044,
+    "este_cm_yr": -0.019
+  }
 }

@@ -1,7 +1,7 @@
 {
   "volcan": "Parinacota",
   "frame": "054D_10879_131313",
-  "actualizado": "2026-06-07T06:19:57.322853+00:00",
+  "actualizado": "2026-06-07T10:52:15.587145+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 400,
   "rango_fechas": [
@@ -1235,5 +1235,26 @@
   "delta_cm_180d": 0.1036,
   "delta_dias_reales": 180,
   "n_gaps": 0,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "D",
+  "geometrias": {
+    "ascendente": {
+      "frame": "149A_10834_131313",
+      "velocity_los_cm_yr": -0.021,
+      "px": 441,
+      "e": -0.623,
+      "u": 0.768
+    },
+    "descendente": {
+      "frame": "054D_10879_131313",
+      "velocity_los_cm_yr": -0.005,
+      "px": 441,
+      "e": 0.602,
+      "u": 0.785
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": -0.017,
+    "este_cm_yr": 0.013
+  }
 }

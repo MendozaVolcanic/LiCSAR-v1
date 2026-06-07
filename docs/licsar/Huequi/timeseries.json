@@ -1,7 +1,7 @@
 {
   "volcan": "Huequi",
   "frame": "083D_13222_131313",
-  "actualizado": "2026-06-07T06:26:04.039111+00:00",
+  "actualizado": "2026-06-07T11:10:32.962645+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 282,
   "rango_fechas": [
@@ -598,5 +598,26 @@
   "delta_cm_180d": -0.0754,
   "delta_dias_reales": 180,
   "n_gaps": 1,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "D",
+  "geometrias": {
+    "ascendente": {
+      "frame": "164A_13146_131313",
+      "velocity_los_cm_yr": 0.015,
+      "px": 441,
+      "e": -0.532,
+      "u": 0.831
+    },
+    "descendente": {
+      "frame": "083D_13222_131313",
+      "velocity_los_cm_yr": 0.01,
+      "px": 435,
+      "e": 0.561,
+      "u": 0.809
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": 0.015,
+    "este_cm_yr": -0.004
+  }
 }

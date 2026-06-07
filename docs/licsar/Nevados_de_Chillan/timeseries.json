@@ -1,7 +1,7 @@
 {
   "volcan": "Nevados de Chillan",
   "frame": "083D_12636_131313",
-  "actualizado": "2026-06-07T06:23:20.163406+00:00",
+  "actualizado": "2026-06-07T10:57:58.229572+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 372,
   "rango_fechas": [
@@ -778,5 +778,26 @@
   "delta_cm_180d": -0.1165,
   "delta_dias_reales": 186,
   "n_gaps": 3,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "D",
+  "geometrias": {
+    "ascendente": {
+      "frame": "091A_12777_131313",
+      "velocity_los_cm_yr": -0.02,
+      "px": 24,
+      "e": -0.62,
+      "u": 0.762
+    },
+    "descendente": {
+      "frame": "083D_12636_131313",
+      "velocity_los_cm_yr": 0.008,
+      "px": 56,
+      "e": 0.624,
+      "u": 0.759
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": -0.008,
+    "este_cm_yr": 0.022
+  }
 }

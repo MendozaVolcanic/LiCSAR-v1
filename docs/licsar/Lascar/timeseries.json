@@ -1,7 +1,7 @@
 {
   "volcan": "Lascar",
   "frame": "149A_11428_131313",
-  "actualizado": "2026-06-07T10:26:13.124300+00:00",
+  "actualizado": "2026-06-07T10:55:21.577416+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 424,
   "rango_fechas": [
@@ -882,5 +882,26 @@
   "delta_cm_180d": 0.0589,
   "delta_dias_reales": 180,
   "n_gaps": 0,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "A",
+  "geometrias": {
+    "ascendente": {
+      "frame": "149A_11428_131313",
+      "velocity_los_cm_yr": -0.013,
+      "px": 441,
+      "e": -0.621,
+      "u": 0.768
+    },
+    "descendente": {
+      "frame": "156D_11226_131313",
+      "velocity_los_cm_yr": -0.032,
+      "px": 441,
+      "e": 0.537,
+      "u": 0.833
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": -0.029,
+    "este_cm_yr": -0.015
+  }
 }

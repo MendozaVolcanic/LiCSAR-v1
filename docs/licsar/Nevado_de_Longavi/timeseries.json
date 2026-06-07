@@ -1,7 +1,7 @@
 {
   "volcan": "Nevado de Longavi",
   "frame": "018A_12668_131313",
-  "actualizado": "2026-06-07T06:23:00.119061+00:00",
+  "actualizado": "2026-06-07T10:57:38.793059+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 351,
   "rango_fechas": [
@@ -736,5 +736,26 @@
   "delta_cm_180d": 0.7993,
   "delta_dias_reales": 180,
   "n_gaps": 1,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "A",
+  "geometrias": {
+    "ascendente": {
+      "frame": "018A_12668_131313",
+      "velocity_los_cm_yr": -0.001,
+      "px": 51,
+      "e": -0.513,
+      "u": 0.846
+    },
+    "descendente": {
+      "frame": "083D_12636_131313",
+      "velocity_los_cm_yr": -0.003,
+      "px": 437,
+      "e": 0.634,
+      "u": 0.75
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": -0.002,
+    "este_cm_yr": -0.002
+  }
 }

@@ -1,7 +1,7 @@
 {
   "volcan": "Sollipulli",
   "frame": "083D_12832_131313",
-  "actualizado": "2026-06-07T06:24:22.724100+00:00",
+  "actualizado": "2026-06-07T11:02:09.669420+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 384,
   "rango_fechas": [
@@ -802,5 +802,26 @@
   "delta_cm_180d": 0.3835,
   "delta_dias_reales": 180,
   "n_gaps": 2,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "D",
+  "geometrias": {
+    "ascendente": {
+      "frame": "091A_12777_131313",
+      "velocity_los_cm_yr": 0.0,
+      "px": 112,
+      "e": -0.562,
+      "u": 0.81
+    },
+    "descendente": {
+      "frame": "083D_12832_131313",
+      "velocity_los_cm_yr": 0.038,
+      "px": 186,
+      "e": 0.587,
+      "u": 0.79
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": 0.023,
+    "este_cm_yr": 0.033
+  }
 }

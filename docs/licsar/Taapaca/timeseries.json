@@ -1,7 +1,7 @@
 {
   "volcan": "Taapaca",
   "frame": "054D_10879_131313",
-  "actualizado": "2026-06-07T06:19:38.986645+00:00",
+  "actualizado": "2026-06-07T10:51:33.544643+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 400,
   "rango_fechas": [
@@ -1235,5 +1235,26 @@
   "delta_cm_180d": 0.1046,
   "delta_dias_reales": 180,
   "n_gaps": 0,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "D",
+  "geometrias": {
+    "ascendente": {
+      "frame": "149A_10834_131313",
+      "velocity_los_cm_yr": -0.013,
+      "px": 441,
+      "e": -0.595,
+      "u": 0.791
+    },
+    "descendente": {
+      "frame": "054D_10879_131313",
+      "velocity_los_cm_yr": -0.012,
+      "px": 441,
+      "e": 0.633,
+      "u": 0.759
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": -0.016,
+    "este_cm_yr": 0.0
+  }
 }

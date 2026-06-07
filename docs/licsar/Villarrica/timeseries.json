@@ -1,7 +1,7 @@
 {
   "volcan": "Villarrica",
   "frame": "164A_12971_071312",
-  "actualizado": "2026-06-07T06:24:33.039461+00:00",
+  "actualizado": "2026-06-07T11:02:35.840028+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 319,
   "rango_fechas": [
@@ -672,5 +672,26 @@
   "delta_cm_180d": 0.2578,
   "delta_dias_reales": 180,
   "n_gaps": 0,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "A",
+  "geometrias": {
+    "ascendente": {
+      "frame": "164A_12971_071312",
+      "velocity_los_cm_yr": 0.012,
+      "px": 395,
+      "e": -0.649,
+      "u": 0.732
+    },
+    "descendente": {
+      "frame": "083D_13027_131313",
+      "velocity_los_cm_yr": 0.029,
+      "px": 413,
+      "e": 0.602,
+      "u": 0.777
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": 0.028,
+    "este_cm_yr": 0.013
+  }
 }

@@ -1,7 +1,7 @@
 {
   "volcan": "Tupungatito",
   "frame": "120A_12286_131313",
-  "actualizado": "2026-06-07T06:21:49.477303+00:00",
+  "actualizado": "2026-06-07T10:55:32.993439+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 39,
   "rango_fechas": [
@@ -152,5 +152,8 @@
   "delta_cm_180d": -0.2701,
   "delta_dias_reales": 846,
   "n_gaps": 5,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "A",
+  "geometrias": null,
+  "descomposicion": null
 }

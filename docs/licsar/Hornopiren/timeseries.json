@@ -1,7 +1,7 @@
 {
   "volcan": "Hornopiren",
   "frame": "083D_13222_131313",
-  "actualizado": "2026-06-07T06:25:54.635927+00:00",
+  "actualizado": "2026-06-07T11:09:51.764788+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 287,
   "rango_fechas": [
@@ -608,5 +608,26 @@
   "delta_cm_180d": -0.0525,
   "delta_dias_reales": 180,
   "n_gaps": 1,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "D",
+  "geometrias": {
+    "ascendente": {
+      "frame": "164A_13146_131313",
+      "velocity_los_cm_yr": -0.032,
+      "px": 440,
+      "e": -0.557,
+      "u": 0.813
+    },
+    "descendente": {
+      "frame": "083D_13222_131313",
+      "velocity_los_cm_yr": 0.001,
+      "px": 373,
+      "e": 0.566,
+      "u": 0.805
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": -0.019,
+    "este_cm_yr": 0.029
+  }
 }

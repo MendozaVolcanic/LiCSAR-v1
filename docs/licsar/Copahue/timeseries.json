@@ -1,7 +1,7 @@
 {
   "volcan": "Copahue",
   "frame": "083D_12832_131313",
-  "actualizado": "2026-06-07T06:23:40.272141+00:00",
+  "actualizado": "2026-06-07T11:00:42.711287+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 388,
   "rango_fechas": [
@@ -810,5 +810,26 @@
   "delta_cm_180d": 0.2294,
   "delta_dias_reales": 180,
   "n_gaps": 0,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "D",
+  "geometrias": {
+    "ascendente": {
+      "frame": "091A_12777_131313",
+      "velocity_los_cm_yr": -0.036,
+      "px": 441,
+      "e": -0.614,
+      "u": 0.767
+    },
+    "descendente": {
+      "frame": "083D_12832_131313",
+      "velocity_los_cm_yr": -0.023,
+      "px": 441,
+      "e": 0.594,
+      "u": 0.785
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": -0.038,
+    "este_cm_yr": 0.011
+  }
 }

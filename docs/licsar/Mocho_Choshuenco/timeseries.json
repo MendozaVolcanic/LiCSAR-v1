@@ -1,7 +1,7 @@
 {
   "volcan": "Mocho-Choshuenco",
   "frame": "164A_12971_071312",
-  "actualizado": "2026-06-07T06:25:02.931161+00:00",
+  "actualizado": "2026-06-07T11:03:45.325900+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 305,
   "rango_fechas": [
@@ -644,5 +644,26 @@
   "delta_cm_180d": -0.0543,
   "delta_dias_reales": 180,
   "n_gaps": 0,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "A",
+  "geometrias": {
+    "ascendente": {
+      "frame": "164A_12971_071312",
+      "velocity_los_cm_yr": 0.077,
+      "px": 303,
+      "e": -0.634,
+      "u": 0.747
+    },
+    "descendente": {
+      "frame": "083D_13027_131313",
+      "velocity_los_cm_yr": 0.016,
+      "px": 79,
+      "e": 0.593,
+      "u": 0.784
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": 0.059,
+    "este_cm_yr": -0.052
+  }
 }

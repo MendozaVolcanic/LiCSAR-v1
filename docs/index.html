@@ -579,7 +579,7 @@ async function renderTimeseries(volcanData, basePath, container) {
             container.querySelector('#ts-plot').innerHTML =
                 '<div class="ts-empty">Sin datos coherentes en la cumbre (decorrelación por ' +
                 'nieve/vegetación permanente). No hay serie temporal medible en este frame.</div>';
-            ['#ts-vel','#ts-delta','#ts-n','#ts-px','#ts-lat'].forEach(function(id){
+            ['#ts-vert','#ts-vel','#ts-delta','#ts-n','#ts-px','#ts-lat'].forEach(function(id){
                 var e = container.querySelector(id); if (e) e.textContent = '—';
             });
             var cal0 = container.querySelector('#ts-cal');
@@ -593,6 +593,20 @@ async function renderTimeseries(volcanData, basePath, container) {
         var pxEl = container.querySelector('#ts-px');
         var calEl = container.querySelector('#ts-cal');
         var latEl = container.querySelector('#ts-lat');
+        var vertEl = container.querySelector('#ts-vert');
+        // Velocidad vertical (asc+desc) — el número clave para inflación/deflación
+        if (vertEl) {
+            if (ts.descomposicion && ts.descomposicion.vertical_cm_yr != null) {
+                var vv = ts.descomposicion.vertical_cm_yr;
+                vertEl.textContent = (vv >= 0 ? '+' : '') + vv.toFixed(2) + ' cm/año';
+                vertEl.style.color = Math.abs(vv) > 0.5 ? '#e3b341' : 'var(--text)';
+                vertEl.title = vv >= 0 ? 'Inflación (suelo sube)' : 'Deflación (suelo baja)';
+            } else {
+                vertEl.textContent = 'una sola órbita';
+                vertEl.style.color = 'var(--text-faint)';
+                vertEl.title = 'Sin geometría opuesta para separar vertical de horizontal';
+            }
+        }
         // Velocidad con incertidumbre: "v ± SE cm/año"
         if (velEl) {
             if (ts.velocity_cm_yr != null) {
@@ -679,7 +693,8 @@ function crearTimeseriesSection() {
     section.innerHTML =
         '<h3>Serie temporal de desplazamiento (LiCSBAS)</h3>' +
         '<div class="ts-stats">' +
-            '<span title="Velocidad robusta (Theil-Sen) ± error estándar (OLS), en línea de visión del satélite">Velocidad: <b id="ts-vel">—</b> cm/año</span>' +
+            '<span title="Velocidad vertical (positivo = inflación), separada combinando órbitas ascendente y descendente">Vertical: <b id="ts-vert">—</b></span>' +
+            '<span title="Velocidad robusta (Theil-Sen) ± error estándar (OLS), en línea de visión del satélite">Velocidad LOS: <b id="ts-vel">—</b> cm/año</span>' +
             '<span id="ts-cal-wrap">Estado: <b id="ts-cal">—</b></span>' +
             '<span title="Cambio en ~180 días">Δ ~180d: <b id="ts-delta">—</b> cm</span>' +
             '<span title="Días desde la última observación InSAR">Latencia: <b id="ts-lat">—</b></span>' +
@@ -688,8 +703,9 @@ function crearTimeseriesSection() {
         '</div>' +
         '<div id="ts-plot" style="width:100%;height:380px"></div>' +
         '<p class="ts-footer">Fuente: cubo LiCSBAS de COMET (cm) · Serie/velocidad calculadas por LiCSAR-v1 · ' +
-        'ROI ~21×21 px centrado en el cráter · Velocidad robusta Theil-Sen ± SE (OLS) · LOS = línea de visión del satélite · ' +
-        'Valores positivos ≈ acercamiento al satélite (posible inflación)</p>';
+        'ROI ~21×21 px centrado en el cráter · Velocidad robusta Theil-Sen ± SE (OLS) · ' +
+        'Vertical/Este por inversión asc+desc (despreciando N-S) · ' +
+        'LOS = línea de visión; positivo ≈ acercamiento al satélite</p>';
     return section;
 }
 

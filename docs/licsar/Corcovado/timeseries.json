@@ -1,7 +1,7 @@
 {
   "volcan": "Corcovado",
   "frame": "083D_13222_131313",
-  "actualizado": "2026-06-07T06:26:33.756581+00:00",
+  "actualizado": "2026-06-07T11:11:45.150289+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 255,
   "rango_fechas": [
@@ -544,5 +544,26 @@
   "delta_cm_180d": 0.3078,
   "delta_dias_reales": 180,
   "n_gaps": 3,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "D",
+  "geometrias": {
+    "ascendente": {
+      "frame": "164A_13341_131313",
+      "velocity_los_cm_yr": -0.01,
+      "px": 59,
+      "e": -0.509,
+      "u": 0.846
+    },
+    "descendente": {
+      "frame": "083D_13222_131313",
+      "velocity_los_cm_yr": 0.028,
+      "px": 31,
+      "e": 0.535,
+      "u": 0.828
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": 0.01,
+    "este_cm_yr": 0.037
+  }
 }

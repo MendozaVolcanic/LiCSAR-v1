@@ -1,7 +1,7 @@
 {
   "volcan": "San Jose",
   "frame": "018A_12472_131313",
-  "actualizado": "2026-06-07T06:22:00.935021+00:00",
+  "actualizado": "2026-06-07T10:55:50.991876+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 351,
   "rango_fechas": [
@@ -736,5 +736,26 @@
   "delta_cm_180d": -0.204,
   "delta_dias_reales": 180,
   "n_gaps": 1,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "A",
+  "geometrias": {
+    "ascendente": {
+      "frame": "018A_12472_131313",
+      "velocity_los_cm_yr": -0.014,
+      "px": 207,
+      "e": -0.661,
+      "u": 0.724
+    },
+    "descendente": {
+      "frame": "083D_12440_131313",
+      "velocity_los_cm_yr": -0.008,
+      "px": 16,
+      "e": 0.613,
+      "u": 0.771
+    }
+  },
+  "descomposicion": {
+    "vertical_cm_yr": -0.015,
+    "este_cm_yr": 0.005
+  }
 }

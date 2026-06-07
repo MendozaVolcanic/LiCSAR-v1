@@ -353,11 +353,99 @@ def gacos_valido(serie: list[float] | None) -> bool:
 
 
 # ---------------------------------------------------------------------------
+# Descomposición ascendente + descendente -> vertical + este
+# ---------------------------------------------------------------------------
+
+def direccion_frame(frame_id: str) -> str | None:
+    """Devuelve 'A' (ascendente) o 'D' (descendente) según el frame_id LiCSAR."""
+    if not frame_id:
+        return None
+    track = frame_id.split("_")[0]   # p.ej. "018A"
+    if track.endswith("A"):
+        return "A"
+    if track.endswith("D"):
+        return "D"
+    return None
+
+
+def frames_por_direccion(comet_key: str, comet_db: dict) -> dict:
+    """
+    Retorna {'A': frame_id_ascendente, 'D': frame_id_descendente} eligiendo el
+    frame de mayor tamaño (mejor coherencia) por dirección. Ignora frames _dev.
+    """
+    frames = comet_db.get(comet_key, {}).get("frames", [])
+    por_dir = {"A": [], "D": []}
+    for f in frames:
+        fid = f.get("id", "")
+        if "_dev" in fid:
+            continue
+        d = direccion_frame(fid)
+        if d in por_dir:
+            por_dir[d].append(f)
+    out = {}
+    for d, lst in por_dir.items():
+        if lst:
+            out[d] = max(lst, key=lambda f: f.get("size", 0))["id"]
+    return out
+
+
+def vector_los_crater(data: dict, lat: float | None, lon: float | None) -> dict | None:
+    """
+    Vector unitario de línea de visión (e, n, u) en el píxel del cráter.
+    Es la dirección con la que el satélite "ve" el suelo; permite proyectar el
+    movimiento 3D a LOS (y viceversa al invertir asc+desc).
+    """
+    xs = data.get("x") or []
+    ys = data.get("y") or []
+    if not xs or not ys or lat is None or lon is None:
+        return None
+    ci = min(range(len(xs)), key=lambda k: abs(xs[k] - lon))
+    ri = min(range(len(ys)), key=lambda k: abs(ys[k] - lat))
+
+    def comp(key):
+        arr = data.get(key)
+        try:
+            return float(arr[ri][ci])
+        except (TypeError, ValueError, IndexError):
+            return None
+
+    e, n, u = comp("e_geo"), comp("n_geo"), comp("u_geo")
+    if None in (e, n, u):
+        return None
+    return {"e": e, "n": n, "u": u}
+
+
+def descomponer_vertical_este(vel_asc: float, vec_asc: dict,
+                              vel_desc: float, vec_desc: dict) -> dict | None:
+    """
+    Separa velocidad LOS ascendente + descendente en vertical (U) y este (E).
+
+    Fenómeno: un único interferograma mide solo la proyección del movimiento 3D
+    sobre la línea de visión. Con dos geometrías (asc + desc) y despreciando la
+    componente N-S (InSAR es casi ciego al norte-sur por la órbita casi polar:
+    |n_geo| ~ 0.16), se resuelve un sistema 2x2:
+        vel_LOS = e * vE + u * vU
+    Retorna {vertical_cm_yr, este_cm_yr} o None si la geometría es degenerada.
+    """
+    if vel_asc is None or vel_desc is None or not vec_asc or not vec_desc:
+        return None
+    ea, ua = vec_asc["e"], vec_asc["u"]
+    ed, ud = vec_desc["e"], vec_desc["u"]
+    det = ea * ud - ed * ua
+    if abs(det) < 1e-6:
+        return None
+    vE = (vel_asc * ud - vel_desc * ua) / det
+    vU = (ea * vel_desc - ed * vel_asc) / det
+    return {"vertical_cm_yr": round(vU, 3), "este_cm_yr": round(vE, 3)}
+
+
+# ---------------------------------------------------------------------------
 # Procesamiento por volcán
 # ---------------------------------------------------------------------------
 
 def procesar_volcan(nombre: str, comet_key: str, frame_id: str,
-                    lat: float | None = None, lon: float | None = None) -> dict | None:
+                    lat: float | None = None, lon: float | None = None,
+                    comet_db: dict | None = None) -> dict | None:
     print(f"  Frame: {frame_id}")
     print(f"  Descargando disp_data (filt)...")
     data, url, status, size = fetch_disp_json(comet_key, frame_id, gacos=False)
@@ -425,6 +513,50 @@ def procesar_volcan(nombre: str, comet_key: str, frame_id: str,
             else:
                 print(f"    GACOS tiene fechas distintas, omitido")
 
+    # --- Descomposición vertical/este usando la geometría opuesta (asc + desc) ---
+    # Un solo frame mide LOS (mezcla vertical+horizontal). Con la geometría opuesta
+    # se separan vertical (U) y este (E). Solo si hay datos coherentes y coords.
+    descomposicion = None
+    geometrias = None
+    dir_primaria = direccion_frame(frame_id)
+    if comet_db is not None and not sin_datos and lat is not None and lon is not None:
+        vec_primario = vector_los_crater(data, lat, lon)
+        fdir = frames_por_direccion(comet_key, comet_db)
+        dir_opuesta = "D" if dir_primaria == "A" else "A"
+        frame_op = fdir.get(dir_opuesta)
+        if frame_op and vec_primario:
+            time.sleep(DELAY)
+            print(f"  Descomposición: bajando geometría opuesta {frame_op} ({dir_opuesta})...")
+            data_op, url_op, st_op, sz_op = fetch_disp_json(comet_key, frame_op, gacos=False)
+            print(f"    GET {url_op} -> HTTP {st_op}, {sz_op/1024/1024:.2f} MB")
+            if data_op is not None:
+                serie_op, px_op, _, _, _ = reducir_con_roi_adaptativo(data_op, lat, lon)
+                vec_op = vector_los_crater(data_op, lat, lon)
+                if px_op >= MIN_PIXELS and vec_op:
+                    v_op = velocidad_robusta(data_op.get("dates", []), serie_op)
+                    geo_pri = {"frame": frame_id, "velocity_los_cm_yr": vstats["velocity_cm_yr"],
+                               "px": px_validos, "e": round(vec_primario["e"], 4),
+                               "u": round(vec_primario["u"], 4)}
+                    geo_op = {"frame": frame_op, "velocity_los_cm_yr": v_op["velocity_cm_yr"],
+                              "px": px_op, "e": round(vec_op["e"], 4), "u": round(vec_op["u"], 4)}
+                    if dir_primaria == "A":
+                        geo_a, geo_d = geo_pri, geo_op
+                    else:
+                        geo_a, geo_d = geo_op, geo_pri
+                    descomposicion = descomponer_vertical_este(
+                        geo_a["velocity_los_cm_yr"], {"e": geo_a["e"], "u": geo_a["u"]},
+                        geo_d["velocity_los_cm_yr"], {"e": geo_d["e"], "u": geo_d["u"]})
+                    geometrias = {"ascendente": geo_a, "descendente": geo_d}
+                    if descomposicion:
+                        print(f"    -> vertical {descomposicion['vertical_cm_yr']:+.3f} | "
+                              f"este {descomposicion['este_cm_yr']:+.3f} cm/año")
+                else:
+                    print(f"    geometría opuesta sin píxeles coherentes; sin descomposición")
+            else:
+                print(f"    no se pudo bajar la geometría opuesta")
+        else:
+            print(f"  Sin geometría opuesta disponible (una sola dirección)")
+
     gaps = data.get("gaps", []) or []
     n_fechas = len(dates)
     n_gaps = len(gaps)
@@ -484,6 +616,9 @@ def procesar_volcan(nombre: str, comet_key: str, frame_id: str,
         "delta_dias_reales": dias_ventana,
         "n_gaps": n_gaps,
         "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+        "geometria_primaria": dir_primaria,
+        "geometrias": geometrias,
+        "descomposicion": descomposicion,
     }
 
     out_dir = DOCS_DIR / safe_dir_name(nombre)
@@ -580,7 +715,7 @@ def main() -> int:
         lat = vol_meta.get("lat")
         lon = vol_meta.get("lon")
         try:
-            res = procesar_volcan(nombre, comet_key, frame_id, lat=lat, lon=lon)
+            res = procesar_volcan(nombre, comet_key, frame_id, lat=lat, lon=lon, comet_db=comet_db)
         except Exception as e:
             print(f"  ERROR: {e}")
             res = None

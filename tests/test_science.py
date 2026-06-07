@@ -191,3 +191,68 @@ def test_mapear_volcanes_match_directo():
     m = mapear_volcanes(comet_db)
     assert "Lascar" in m
     assert m["Lascar"][0] == "lascar"
+
+
+# ---------------------------------------------------------------------------
+# Descomposición ascendente + descendente
+# ---------------------------------------------------------------------------
+
+def test_direccion_frame():
+    assert ts.direccion_frame("018A_12668_131313") == "A"
+    assert ts.direccion_frame("083D_12636_131313") == "D"
+    assert ts.direccion_frame("") is None
+
+
+def test_frames_por_direccion_elige_mayor_e_ignora_dev():
+    db = {"x": {"frames": [
+        {"id": "018A_1_1", "size": 100},
+        {"id": "018A_1_1_dev", "size": 0},
+        {"id": "083D_1_1", "size": 200},
+    ]}}
+    fd = ts.frames_por_direccion("x", db)
+    assert fd["A"] == "018A_1_1"
+    assert fd["D"] == "083D_1_1"
+
+
+def test_descomposicion_recupera_vertical_puro():
+    """Movimiento puramente vertical -> vE~0, vU = la señal real."""
+    # Geometría tipo LdM: asc mira al oeste (e<0), desc al este (e>0)
+    vec_a = {"e": -0.57, "u": 0.81}
+    vec_d = {"e": 0.60, "u": 0.78}
+    vU_real = 1.0  # cm/año hacia arriba
+    # LOS = e*vE + u*vU, con vE=0
+    vel_a = vec_a["u"] * vU_real
+    vel_d = vec_d["u"] * vU_real
+    out = ts.descomponer_vertical_este(vel_a, vec_a, vel_d, vec_d)
+    assert abs(out["vertical_cm_yr"] - 1.0) < 0.02
+    assert abs(out["este_cm_yr"]) < 0.02
+
+
+def test_descomposicion_recupera_este_puro():
+    """Movimiento puramente al este -> vU~0, vE = la señal real."""
+    vec_a = {"e": -0.57, "u": 0.81}
+    vec_d = {"e": 0.60, "u": 0.78}
+    vE_real = 0.5
+    vel_a = vec_a["e"] * vE_real
+    vel_d = vec_d["e"] * vE_real
+    out = ts.descomponer_vertical_este(vel_a, vec_a, vel_d, vec_d)
+    assert abs(out["este_cm_yr"] - 0.5) < 0.02
+    assert abs(out["vertical_cm_yr"]) < 0.02
+
+
+def test_descomposicion_geometria_degenerada():
+    """Dos geometrías idénticas -> sistema singular -> None."""
+    vec = {"e": -0.5, "u": 0.8}
+    assert ts.descomponer_vertical_este(0.5, vec, 0.5, vec) is None
+
+
+def test_vector_los_crater():
+    data = {
+        "x": [-71 + 0.01 * i for i in range(100)],
+        "y": [-40 + 0.01 * i for i in range(100)],
+        "e_geo": [[-0.5] * 100 for _ in range(100)],
+        "n_geo": [[-0.16] * 100 for _ in range(100)],
+        "u_geo": [[0.8] * 100 for _ in range(100)],
+    }
+    v = ts.vector_los_crater(data, lat=-39.7, lon=-70.5)
+    assert v == {"e": -0.5, "n": -0.16, "u": 0.8}

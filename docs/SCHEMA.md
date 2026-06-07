@@ -79,9 +79,37 @@ sobre `catalog.json` (deben **mergear**, no sobrescribir, el bloque `comet`).
   "delta_dias_reales": 180,            // días reales que abarca la ventana
   "n_gaps": 2,
   "sin_datos": false,                  // true si la cumbre está decorrelacionada
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+
+  // --- Descomposición vertical/este (solo si hay asc + desc) ---
+  "geometria_primaria": "A",           // dirección del frame principal (A/D)
+  "geometrias": {
+    "ascendente":  { "frame": "018A_12668_131313", "velocity_los_cm_yr": 0.70,
+                     "px": 294, "e": -0.568, "u": 0.807 },
+    "descendente": { "frame": "083D_12636_131313", "velocity_los_cm_yr": 0.43,
+                     "px": 28, "e": 0.596, "u": 0.784 }
+  },
+  "descomposicion": {                  // null si solo hay una órbita
+    "vertical_cm_yr": 0.72,            // +inflación / -deflación (el número clave)
+    "este_cm_yr": -0.22
+  }
 }
 ```
+
+### Descomposición asc + desc
+Un solo frame mide **línea de visión** (mezcla vertical+horizontal). Con ambas
+órbitas se resuelve, por píxel del cráter, el sistema 2×2 (despreciando N-S, al
+que InSAR es casi ciego):
+
+```
+vel_LOS_asc  = e_asc · vEste + u_asc · vVertical
+vel_LOS_desc = e_desc · vEste + u_desc · vVertical
+```
+
+Usa los vectores `e_geo`/`u_geo` propios de COMET con su `data_filt`, por lo que
+es autoconsistente. Test de signo verificado: Laguna del Maule (inflación conocida)
+da `vertical_cm_yr` **positivo**. Si falta una órbita o la opuesta no tiene píxeles
+coherentes, `descomposicion` es `null` y el dashboard muestra "una sola órbita".
 
 ### Valores de `calidad`
 | Valor | Significado | Acción del dashboard |

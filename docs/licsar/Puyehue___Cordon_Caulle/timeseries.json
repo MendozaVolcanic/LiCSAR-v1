@@ -1,7 +1,7 @@
 {
   "volcan": "Puyehue - Cordon Caulle",
   "frame": "083D_13027_131313",
-  "actualizado": "2026-06-07T06:25:12.033075+00:00",
+  "actualizado": "2026-06-07T11:04:16.263593+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 214,
   "rango_fechas": [
@@ -462,5 +462,8 @@
   "delta_cm_180d": 0.3656,
   "delta_dias_reales": 312,
   "n_gaps": 8,
-  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS"
+  "metodo_velocidad": "Theil-Sen (robusto); SE/t/R2 por OLS",
+  "geometria_primaria": "D",
+  "geometrias": null,
+  "descomposicion": null
 }
