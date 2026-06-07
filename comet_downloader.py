@@ -152,16 +152,33 @@ def procesar_volcan_comet(nombre: str, comet_key: str, frames: list) -> dict | N
 
     prob_deformacion = None
     prob_max_reciente = None
+    prob_serie = None
     if prob_data and prob_data.get("count", 0) > 0:
         means = prob_data.get("means", [])
         maxs = prob_data.get("maxs", [])
+        pdates = prob_data.get("dates", [])
         if means:
             # Últimos 5 valores promedio
             recientes = means[-5:]
             prob_deformacion = max(recientes)
         if maxs:
             prob_max_reciente = max(maxs[-5:])
-        print(f"  Probabilidad: mean={prob_deformacion:.3f}, max={prob_max_reciente:.3f}")
+        # Serie temporal completa de probabilidad ML (para graficar en el dashboard).
+        # Se submuestrea a ~150 puntos para no inflar catalog.json, usando la
+        # fecha más reciente de cada par.
+        if pdates and means:
+            n = len(pdates)
+            paso = max(1, n // 150)
+            sd, sm, sx = [], [], []
+            for k in range(0, n, paso):
+                par = pdates[k]
+                fecha_fin = par.split(" - ")[-1] if " - " in par else par
+                sd.append(fecha_fin)
+                sm.append(round(means[k], 3) if k < len(means) else None)
+                sx.append(round(maxs[k], 3) if k < len(maxs) else None)
+            prob_serie = {"dates": sd, "means": sm, "maxs": sx}
+        print(f"  Probabilidad: mean={prob_deformacion:.3f}, max={prob_max_reciente:.3f}"
+              f" (serie {len(prob_serie['dates']) if prob_serie else 0} pts)")
     else:
         print(f"  Sin datos de probabilidad")
 
@@ -172,6 +189,7 @@ def procesar_volcan_comet(nombre: str, comet_key: str, frames: list) -> dict | N
         "interferogramas": interferogramas,
         "prob_deformacion": prob_deformacion,
         "prob_max": prob_max_reciente,
+        "prob_serie": prob_serie,
     }
 
 

@@ -32,6 +32,11 @@ sobre `catalog.json` (deben **mergear**, no sobrescribir, el bloque `comet`).
         ],
         "prob_deformacion": 0.0,                 // score ML COMET (0-1), NO validado
         "prob_max": 0.06,
+        "prob_serie": {                          // serie temporal ML (submuestreada ~150 pts)
+          "dates": ["2014-10-30", "..."],        // fecha más reciente de cada par
+          "means": [0.0, "..."],                 // probabilidad media por par
+          "maxs":  [0.0, "..."]                  // probabilidad máxima por par
+        },
         "timeseries": true                       // existe docs/licsar/{vol}/timeseries.json
       }
     }

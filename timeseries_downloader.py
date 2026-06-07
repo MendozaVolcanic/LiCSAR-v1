@@ -467,6 +467,17 @@ def procesar_volcan(nombre: str, comet_key: str, frame_id: str,
         print(f"  JSON sin campo 'dates'")
         return None
 
+    # Guarda geográfica: el frame elegido DEBE contener el cráter. Si no, es un
+    # mal-mapeo (nombre ambiguo) y estaríamos mostrando otro volcán. No escribir.
+    xs, ys = data.get("x") or [], data.get("y") or []
+    if lat is not None and lon is not None and xs and ys:
+        dentro = (min(xs) <= lon <= max(xs)) and (min(ys) <= lat <= max(ys))
+        if not dentro:
+            print(f"  ⚠ El cráter ({lat:.3f},{lon:.3f}) NO está en el frame "
+                  f"(lon[{min(xs):.2f},{max(xs):.2f}] lat[{min(ys):.2f},{max(ys):.2f}]). "
+                  f"Mal-mapeo: se descarta.")
+            return None
+
     print(f"  N fechas: {len(dates)} ({dates[0]} -> {dates[-1]})")
 
     # ROI centrado en el cráter (no en el centro del frame), con expansión

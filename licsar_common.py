@@ -69,7 +69,7 @@ NOMBRE_A_COMET = {
     "Isluga": "isluga",
     "Irruputuncu": "irruputuncu",
     "Ollague": "ollague",
-    "San Pedro": "san_pedro",
+    "San Pedro": "san_pedro_san_pablo",   # FIX: San Pedro del norte (-21.9°); antes el substring agarraba Pellado (35°)
     "Lascar": "lascar",
     "Tupungatito": "tupungatito",
     "San Jose": "san_jose",
@@ -90,7 +90,7 @@ NOMBRE_A_COMET = {
     "Quetrupillan": "quetrupillan",
     "Lanin": "lanin",
     "Mocho-Choshuenco": "mocho-choshuenco",
-    "Carran - Los Venados": "carran-los_venados",
+    "Carran - Los Venados": "carran_los_venados",   # FIX: key con guión bajo (antes no matcheaba)
     "Puyehue - Cordon Caulle": "puyehue_cordon_caulle",
     "Antillanca - Casablanca": "antillanca",
     "Osorno": "osorno",
