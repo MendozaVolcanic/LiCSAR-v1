@@ -1,14 +1,14 @@
 {
   "volcan": "San Pedro",
   "frame": "149A_11230_131313",
-  "actualizado": "2026-06-07T12:15:07.538667+00:00",
+  "actualizado": "2026-06-15T13:31:25.102775+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 437,
   "rango_fechas": [
     "2014-10-27",
     "2026-04-27"
   ],
-  "dias_latencia": 41,
+  "dias_latencia": 49,
   "roi": {
     "row_min": 40,
     "row_max": 61,

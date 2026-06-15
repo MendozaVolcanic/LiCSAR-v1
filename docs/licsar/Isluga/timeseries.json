@@ -1,14 +1,14 @@
 {
   "volcan": "Isluga",
   "frame": "054D_10879_131313",
-  "actualizado": "2026-06-07T12:13:17.526192+00:00",
+  "actualizado": "2026-06-15T13:30:34.259046+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 403,
   "rango_fechas": [
     "2014-10-21",
     "2026-02-20"
   ],
-  "dias_latencia": 107,
+  "dias_latencia": 115,
   "roi": {
     "row_min": 36,
     "row_max": 57,

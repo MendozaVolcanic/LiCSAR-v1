@@ -1,14 +1,14 @@
 {
   "volcan": "Hudson",
   "frame": "010D_13610_131313",
-  "actualizado": "2026-06-07T12:26:58.646974+00:00",
+  "actualizado": "2026-06-15T13:39:01.906518+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 148,
   "rango_fechas": [
     "2014-10-18",
     "2026-05-06"
   ],
-  "dias_latencia": 32,
+  "dias_latencia": 40,
   "roi": {
     "row_min": 39,
     "row_max": 60,

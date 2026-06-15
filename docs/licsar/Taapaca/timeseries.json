@@ -1,14 +1,14 @@
 {
   "volcan": "Taapaca",
   "frame": "054D_10879_131313",
-  "actualizado": "2026-06-07T12:11:16.691752+00:00",
+  "actualizado": "2026-06-15T13:29:42.960952+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 400,
   "rango_fechas": [
     "2014-10-21",
     "2026-02-20"
   ],
-  "dias_latencia": 107,
+  "dias_latencia": 115,
   "roi": {
     "row_min": 38,
     "row_max": 59,
