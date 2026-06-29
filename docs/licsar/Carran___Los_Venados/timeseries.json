@@ -1,14 +1,14 @@
 {
   "volcan": "Carran - Los Venados",
   "frame": "083D_13027_131313",
-  "actualizado": "2026-06-22T13:10:20.983005+00:00",
+  "actualizado": "2026-06-29T12:30:51.061218+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 302,
   "rango_fechas": [
     "2014-10-23",
     "2026-05-05"
   ],
-  "dias_latencia": 48,
+  "dias_latencia": 55,
   "roi": {
     "row_min": 34,
     "row_max": 55,
