@@ -1,14 +1,14 @@
 {
   "volcan": "Nevados de Chillan",
   "frame": "083D_12636_131313",
-  "actualizado": "2026-06-29T21:14:42.197440+00:00",
+  "actualizado": "2026-07-13T10:47:00.558685+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 372,
   "rango_fechas": [
     "2014-10-23",
     "2026-05-05"
   ],
-  "dias_latencia": 55,
+  "dias_latencia": 69,
   "roi": {
     "row_min": 39,
     "row_max": 60,

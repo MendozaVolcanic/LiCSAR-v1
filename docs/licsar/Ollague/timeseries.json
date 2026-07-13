@@ -1,14 +1,14 @@
 {
   "volcan": "Ollague",
   "frame": "149A_11230_131313",
-  "actualizado": "2026-06-29T21:13:01.177676+00:00",
+  "actualizado": "2026-07-13T10:45:01.879802+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 433,
   "rango_fechas": [
     "2014-10-27",
     "2026-04-27"
   ],
-  "dias_latencia": 63,
+  "dias_latencia": 77,
   "roi": {
     "row_min": 38,
     "row_max": 59,

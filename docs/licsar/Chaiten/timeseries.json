@@ -1,14 +1,14 @@
 {
   "volcan": "Chaiten",
   "frame": "083D_13222_131313",
-  "actualizado": "2026-06-29T21:17:42.894714+00:00",
+  "actualizado": "2026-07-13T10:50:37.382020+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 269,
   "rango_fechas": [
     "2014-10-23",
     "2026-06-04"
   ],
-  "dias_latencia": 25,
+  "dias_latencia": 39,
   "roi": {
     "row_min": 38,
     "row_max": 59,
