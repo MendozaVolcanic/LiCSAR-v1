@@ -1,14 +1,14 @@
 {
   "volcan": "Callaqui",
   "frame": "091A_12777_131313",
-  "actualizado": "2026-07-13T20:40:58.030626+00:00",
+  "actualizado": "2026-07-20T10:25:21.575301+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 235,
   "rango_fechas": [
     "2014-10-11",
     "2026-05-05"
   ],
-  "dias_latencia": 69,
+  "dias_latencia": 76,
   "roi": {
     "row_min": 38,
     "row_max": 59,
@@ -756,14 +756,14 @@
     },
     "descendente": {
       "frame": "083D_12832_131313",
-      "velocity_los_cm_yr": 0.004,
-      "px": 290,
+      "velocity_los_cm_yr": 0.006,
+      "px": 279,
       "e": 0.61,
       "u": 0.77
     }
   },
   "descomposicion": {
-    "vertical_cm_yr": 0.013,
-    "este_cm_yr": -0.01
+    "vertical_cm_yr": 0.014,
+    "este_cm_yr": -0.008
   }
 }

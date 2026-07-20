@@ -1,14 +1,14 @@
 {
   "volcan": "Antuco",
   "frame": "091A_12777_131313",
-  "actualizado": "2026-07-13T20:40:31.227144+00:00",
+  "actualizado": "2026-07-20T10:24:55.874803+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 228,
   "rango_fechas": [
     "2014-10-11",
     "2026-05-05"
   ],
-  "dias_latencia": 69,
+  "dias_latencia": 76,
   "roi": {
     "row_min": 37,
     "row_max": 58,
@@ -506,14 +506,14 @@
     },
     "descendente": {
       "frame": "083D_12832_131313",
-      "velocity_los_cm_yr": 0.001,
-      "px": 150,
+      "velocity_los_cm_yr": -0.0,
+      "px": 120,
       "e": 0.616,
       "u": 0.766
     }
   },
   "descomposicion": {
     "vertical_cm_yr": -0.018,
-    "este_cm_yr": 0.024
+    "este_cm_yr": 0.023
   }
 }

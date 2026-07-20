@@ -1,14 +1,14 @@
 {
   "volcan": "Puyehue - Cordon Caulle",
   "frame": "083D_13027_131313",
-  "actualizado": "2026-07-13T20:42:44.946671+00:00",
+  "actualizado": "2026-07-20T10:27:13.310574+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 214,
   "rango_fechas": [
     "2014-10-23",
     "2025-02-27"
   ],
-  "dias_latencia": 501,
+  "dias_latencia": 508,
   "roi": {
     "row_min": 46,
     "row_max": 67,
