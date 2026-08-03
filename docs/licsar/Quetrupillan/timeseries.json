@@ -1,14 +1,14 @@
 {
   "volcan": "Quetrupillan",
   "frame": "164A_12971_071312",
-  "actualizado": "2026-07-27T20:49:51.116097+00:00",
+  "actualizado": "2026-08-03T11:03:17.957159+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 317,
   "rango_fechas": [
     "2015-01-08",
     "2026-02-27"
   ],
-  "dias_latencia": 150,
+  "dias_latencia": 157,
   "roi": {
     "row_min": 21,
     "row_max": 66,

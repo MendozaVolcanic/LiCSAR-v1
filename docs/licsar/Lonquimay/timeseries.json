@@ -1,14 +1,14 @@
 {
   "volcan": "Lonquimay",
   "frame": "083D_12832_131313",
-  "actualizado": "2026-07-27T20:48:59.215032+00:00",
+  "actualizado": "2026-08-03T11:02:32.267344+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 402,
   "rango_fechas": [
     "2014-10-23",
     "2026-06-10"
   ],
-  "dias_latencia": 47,
+  "dias_latencia": 54,
   "roi": {
     "row_min": 34,
     "row_max": 65,

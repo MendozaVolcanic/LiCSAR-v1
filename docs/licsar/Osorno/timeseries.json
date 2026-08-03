@@ -1,14 +1,14 @@
 {
   "volcan": "Osorno",
   "frame": "164A_13146_131313",
-  "actualizado": "2026-07-27T20:51:04.203362+00:00",
+  "actualizado": "2026-08-03T11:04:19.570280+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 327,
   "rango_fechas": [
     "2015-01-08",
     "2026-05-10"
   ],
-  "dias_latencia": 78,
+  "dias_latencia": 85,
   "roi": {
     "row_min": 34,
     "row_max": 55,
