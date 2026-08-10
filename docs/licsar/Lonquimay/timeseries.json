@@ -1,14 +1,14 @@
 {
   "volcan": "Lonquimay",
   "frame": "083D_12832_131313",
-  "actualizado": "2026-08-03T20:56:41.254174+00:00",
+  "actualizado": "2026-08-10T08:50:37.107396+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 402,
   "rango_fechas": [
     "2014-10-23",
     "2026-06-10"
   ],
-  "dias_latencia": 54,
+  "dias_latencia": 61,
   "roi": {
     "row_min": 34,
     "row_max": 65,
@@ -847,7 +847,7 @@
   "geometrias": {
     "ascendente": {
       "frame": "091A_12777_131313",
-      "velocity_los_cm_yr": 0.039,
+      "velocity_los_cm_yr": 0.038,
       "px": 243,
       "e": -0.574,
       "u": 0.801
@@ -861,7 +861,7 @@
     }
   },
   "descomposicion": {
-    "vertical_cm_yr": 0.02,
-    "este_cm_yr": -0.04
+    "vertical_cm_yr": 0.019,
+    "este_cm_yr": -0.039
   }
 }
