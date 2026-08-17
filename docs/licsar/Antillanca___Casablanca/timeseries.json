@@ -1,14 +1,14 @@
 {
   "volcan": "Antillanca - Casablanca",
   "frame": "164A_13146_131313",
-  "actualizado": "2026-08-10T20:22:29.906711+00:00",
+  "actualizado": "2026-08-17T08:20:16.824142+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 319,
   "rango_fechas": [
     "2015-01-08",
     "2026-05-10"
   ],
-  "dias_latencia": 92,
+  "dias_latencia": 99,
   "roi": {
     "row_min": 39,
     "row_max": 60,

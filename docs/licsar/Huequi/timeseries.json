@@ -1,14 +1,14 @@
 {
   "volcan": "Huequi",
   "frame": "083D_13222_131313",
-  "actualizado": "2026-08-10T20:23:14.590182+00:00",
+  "actualizado": "2026-08-17T08:21:08.936496+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 298,
   "rango_fechas": [
     "2014-10-23",
     "2026-06-10"
   ],
-  "dias_latencia": 61,
+  "dias_latencia": 68,
   "roi": {
     "row_min": 39,
     "row_max": 60,

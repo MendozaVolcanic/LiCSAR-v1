@@ -1,14 +1,14 @@
 {
   "volcan": "Descabezado Grande",
   "frame": "083D_12636_131313",
-  "actualizado": "2026-08-10T20:19:33.741675+00:00",
+  "actualizado": "2026-08-17T08:16:59.972292+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 376,
   "rango_fechas": [
     "2014-10-23",
     "2026-05-17"
   ],
-  "dias_latencia": 85,
+  "dias_latencia": 92,
   "roi": {
     "row_min": 35,
     "row_max": 56,

@@ -1,14 +1,14 @@
 {
   "volcan": "Irruputuncu",
   "frame": "149A_11032_131313",
-  "actualizado": "2026-08-10T20:17:54.634843+00:00",
+  "actualizado": "2026-08-17T08:15:11.391711+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 414,
   "rango_fechas": [
     "2014-10-27",
     "2026-03-22"
   ],
-  "dias_latencia": 141,
+  "dias_latencia": 148,
   "roi": {
     "row_min": 39,
     "row_max": 60,
