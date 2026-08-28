@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-08-28T02:39:25.630637+00:00",
+  "actualizado": "2026-08-28T19:25:53.934530+00:00",
   "fuente": "COMET LiCSAR (Sentinel-1 InSAR)",
   "url_base": "https://gws-access.jasmin.ac.uk/public/nceo_geohazards/LiCSAR_products",
   "nota": "Solo thumbnails PNG, no GeoTIFF completos",
@@ -22775,7 +22775,7 @@
       "comet": {
         "key": "melimoyu",
         "frame": "010D_13416_131313",
-        "total_interferogramas": 794,
+        "total_interferogramas": 795,
         "interferogramas": [
           {
             "par": "20260612_20260624",
@@ -23430,7 +23430,7 @@
       "comet": {
         "key": "mentolat",
         "frame": "010D_13416_131313",
-        "total_interferogramas": 794,
+        "total_interferogramas": 795,
         "interferogramas": [
           {
             "par": "20260612_20260624",
