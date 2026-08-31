@@ -1,14 +1,14 @@
 {
   "volcan": "Laguna del Maule",
   "frame": "083D_12636_131313",
-  "actualizado": "2026-08-24T19:47:57.566883+00:00",
+  "actualizado": "2026-08-31T14:59:06.277370+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 363,
   "rango_fechas": [
     "2014-10-23",
     "2026-05-17"
   ],
-  "dias_latencia": 99,
+  "dias_latencia": 106,
   "roi": {
     "row_min": 37,
     "row_max": 58,
@@ -769,7 +769,7 @@
   "geometrias": {
     "ascendente": {
       "frame": "018A_12668_131313",
-      "velocity_los_cm_yr": 0.773,
+      "velocity_los_cm_yr": 0.779,
       "px": 260,
       "e": -0.568,
       "u": 0.807
@@ -783,7 +783,7 @@
     }
   },
   "descomposicion": {
-    "vertical_cm_yr": 0.762,
-    "este_cm_yr": -0.278
+    "vertical_cm_yr": 0.766,
+    "este_cm_yr": -0.283
   }
 }

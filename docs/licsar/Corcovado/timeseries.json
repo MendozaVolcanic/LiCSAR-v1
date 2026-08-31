@@ -1,14 +1,14 @@
 {
   "volcan": "Corcovado",
   "frame": "083D_13222_131313",
-  "actualizado": "2026-08-24T19:51:44.479258+00:00",
+  "actualizado": "2026-08-31T15:02:52.802836+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 271,
   "rango_fechas": [
     "2014-10-23",
     "2026-06-10"
   ],
-  "dias_latencia": 75,
+  "dias_latencia": 82,
   "roi": {
     "row_min": 41,
     "row_max": 62,

@@ -1,14 +1,14 @@
 {
   "volcan": "Maca",
   "frame": "083D_13416_131313",
-  "actualizado": "2026-08-24T19:52:15.861610+00:00",
+  "actualizado": "2026-08-31T15:03:27.087985+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 105,
   "rango_fechas": [
     "2014-10-23",
     "2021-11-21"
   ],
-  "dias_latencia": 1737,
+  "dias_latencia": 1744,
   "roi": {
     "row_min": 39,
     "row_max": 60,

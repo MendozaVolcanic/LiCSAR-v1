@@ -1,14 +1,14 @@
 {
   "volcan": "Cay",
   "frame": "083D_13416_131313",
-  "actualizado": "2026-08-24T19:52:20.781907+00:00",
+  "actualizado": "2026-08-31T15:03:32.074088+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 107,
   "rango_fechas": [
     "2014-10-23",
     "2021-12-03"
   ],
-  "dias_latencia": 1725,
+  "dias_latencia": 1732,
   "roi": {
     "row_min": 39,
     "row_max": 60,
