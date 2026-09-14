@@ -1,14 +1,14 @@
 {
   "volcan": "Michinmahuida",
   "frame": "083D_13222_131313",
-  "actualizado": "2026-09-07T22:21:11.386046+00:00",
+  "actualizado": "2026-09-14T14:00:22.926029+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 269,
   "rango_fechas": [
     "2014-10-23",
     "2026-06-10"
   ],
-  "dias_latencia": 89,
+  "dias_latencia": 96,
   "roi": {
     "row_min": 29,
     "row_max": 74,
