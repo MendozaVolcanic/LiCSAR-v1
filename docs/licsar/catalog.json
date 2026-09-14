@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-14T14:01:39.050848+00:00",
+  "actualizado": "2026-09-14T22:50:16.186546+00:00",
   "fuente": "COMET LiCSAR (Sentinel-1 InSAR)",
   "url_base": "https://gws-access.jasmin.ac.uk/public/nceo_geohazards/LiCSAR_products",
   "nota": "Solo thumbnails PNG, no GeoTIFF completos",
@@ -26,7 +26,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Taapaca"
       },
-      "actualizado": "2026-09-14T13:40:04.472926+00:00",
+      "actualizado": "2026-09-14T22:27:11.129914+00:00",
       "comet": {
         "key": "taapaca",
         "frame": "054D_10879_131313",
@@ -649,7 +649,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Parinacota"
       },
-      "actualizado": "2026-09-14T13:40:21.866349+00:00",
+      "actualizado": "2026-09-14T22:27:26.616552+00:00",
       "comet": {
         "key": "parinacota",
         "frame": "054D_10879_131313",
@@ -1272,7 +1272,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Guallatiri"
       },
-      "actualizado": "2026-09-14T13:40:38.553059+00:00",
+      "actualizado": "2026-09-14T22:27:42.610678+00:00",
       "comet": {
         "key": "guallatiri",
         "frame": "054D_10879_131313",
@@ -1895,7 +1895,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Isluga"
       },
-      "actualizado": "2026-09-14T13:40:52.411544+00:00",
+      "actualizado": "2026-09-14T22:27:56.947658+00:00",
       "comet": {
         "key": "isluga",
         "frame": "054D_10879_131313",
@@ -2518,7 +2518,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Irruputuncu"
       },
-      "actualizado": "2026-09-14T13:41:06.137336+00:00",
+      "actualizado": "2026-09-14T22:28:10.729337+00:00",
       "comet": {
         "key": "irruputuncu",
         "frame": "149A_11032_131313",
@@ -3123,7 +3123,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Ollague"
       },
-      "actualizado": "2026-09-14T13:41:24.179799+00:00",
+      "actualizado": "2026-09-14T22:28:30.690246+00:00",
       "comet": {
         "key": "ollague",
         "frame": "149A_11230_131313",
@@ -3731,7 +3731,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/San_Pedro"
       },
-      "actualizado": "2026-09-14T13:41:40.798514+00:00",
+      "actualizado": "2026-09-14T22:28:49.036858+00:00",
       "comet": {
         "key": "san_pedro_san_pablo",
         "frame": "149A_11230_131313",
@@ -4339,7 +4339,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Lascar"
       },
-      "actualizado": "2026-09-14T13:42:00.030698+00:00",
+      "actualizado": "2026-09-14T22:29:11.365130+00:00",
       "comet": {
         "key": "lascar",
         "frame": "149A_11428_131313",
@@ -4977,7 +4977,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Tupungatito"
       },
-      "actualizado": "2026-09-14T13:42:18.520254+00:00",
+      "actualizado": "2026-09-14T22:29:28.026848+00:00",
       "comet": {
         "key": "tupungatito",
         "frame": "120A_12286_131313",
@@ -5616,12 +5616,12 @@
         "track": 83,
         "frame_id": "083D_12440_131313",
         "par_fechas": "20260511_20260517",
-        "total_interferogramas": 4077,
+        "total_interferogramas": 4419,
         "unw_disponible": true,
         "coh_disponible": true,
         "ruta_local": "licsar/San_Jose"
       },
-      "actualizado": "2026-09-14T13:42:39.833948+00:00",
+      "actualizado": "2026-09-14T22:29:52.707278+00:00",
       "comet": {
         "key": "san_jose",
         "frame": "083D_12440_131313",
@@ -6239,12 +6239,12 @@
         "track": 83,
         "frame_id": "083D_12440_131313",
         "par_fechas": "20260511_20260517",
-        "total_interferogramas": 4077,
+        "total_interferogramas": 4419,
         "unw_disponible": true,
         "coh_disponible": true,
         "ruta_local": "licsar/Tinguiririca"
       },
-      "actualizado": "2026-09-14T13:43:00.160357+00:00",
+      "actualizado": "2026-09-14T22:30:15.205756+00:00",
       "comet": {
         "key": "tinguiririca",
         "frame": "018A_12472_131313",
@@ -6850,12 +6850,12 @@
         "track": 83,
         "frame_id": "083D_12440_131313",
         "par_fechas": "20260511_20260517",
-        "total_interferogramas": 4077,
+        "total_interferogramas": 4419,
         "unw_disponible": true,
         "coh_disponible": true,
         "ruta_local": "licsar/Planchon_Peteroa"
       },
-      "actualizado": "2026-09-14T13:43:20.401568+00:00",
+      "actualizado": "2026-09-14T22:30:36.146795+00:00",
       "comet": {
         "key": "planchon-peteroa",
         "frame": "018A_12472_131313",
@@ -7466,7 +7466,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Descabezado_Grande"
       },
-      "actualizado": "2026-09-14T13:43:37.907006+00:00",
+      "actualizado": "2026-09-14T22:30:53.550388+00:00",
       "comet": {
         "key": "descabezado_grande",
         "frame": "083D_12636_131313",
@@ -8089,7 +8089,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Tatara_San_Pedro"
       },
-      "actualizado": "2026-09-14T13:43:56.683652+00:00"
+      "actualizado": "2026-09-14T22:31:13.619087+00:00"
     },
     "Laguna del Maule": {
       "nombre": "Laguna del Maule",
@@ -8113,7 +8113,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Laguna_del_Maule"
       },
-      "actualizado": "2026-09-14T13:44:13.891193+00:00",
+      "actualizado": "2026-09-14T22:31:30.438055+00:00",
       "comet": {
         "key": "laguna_del_maule",
         "frame": "083D_12636_131313",
@@ -8733,7 +8733,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Nevado_de_Longavi"
       },
-      "actualizado": "2026-09-14T13:44:29.850193+00:00",
+      "actualizado": "2026-09-14T22:31:48.444447+00:00",
       "comet": {
         "key": "nevado_de_longavi",
         "frame": "083D_12636_131313",
@@ -9356,7 +9356,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Nevados_de_Chillan"
       },
-      "actualizado": "2026-09-14T13:44:46.179417+00:00",
+      "actualizado": "2026-09-14T22:32:03.479981+00:00",
       "comet": {
         "key": "nevados_de_chillan",
         "frame": "083D_12636_131313",
@@ -9973,7 +9973,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Antuco"
       },
-      "actualizado": "2026-09-14T13:45:00.115821+00:00",
+      "actualizado": "2026-09-14T22:32:19.580883+00:00",
       "comet": {
         "key": "antuco",
         "frame": "091A_12777_131313",
@@ -10605,7 +10605,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Copahue"
       },
-      "actualizado": "2026-09-14T13:45:14.926201+00:00",
+      "actualizado": "2026-09-14T22:32:34.826384+00:00",
       "comet": {
         "key": "copahue",
         "frame": "091A_12777_131313",
@@ -11237,7 +11237,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Callaqui"
       },
-      "actualizado": "2026-09-14T13:45:32.196921+00:00",
+      "actualizado": "2026-09-14T22:32:53.577264+00:00",
       "comet": {
         "key": "callaqui",
         "frame": "091A_12777_131313",
@@ -11869,7 +11869,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Lonquimay"
       },
-      "actualizado": "2026-09-14T13:45:50.351290+00:00",
+      "actualizado": "2026-09-14T22:33:09.404281+00:00",
       "comet": {
         "key": "lonquimay",
         "frame": "083D_12832_131313",
@@ -12478,7 +12478,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Llaima"
       },
-      "actualizado": "2026-09-14T13:46:03.980441+00:00",
+      "actualizado": "2026-09-14T22:33:25.371657+00:00",
       "comet": {
         "key": "llaima",
         "frame": "083D_12832_131313",
@@ -13095,7 +13095,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Sollipulli"
       },
-      "actualizado": "2026-09-14T13:46:12.392820+00:00",
+      "actualizado": "2026-09-14T22:33:34.207942+00:00",
       "comet": {
         "key": "sollipulli",
         "frame": "083D_12832_131313",
@@ -13712,7 +13712,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Villarrica"
       },
-      "actualizado": "2026-09-14T13:46:27.751103+00:00",
+      "actualizado": "2026-09-14T22:33:49.463015+00:00",
       "comet": {
         "key": "villarrica",
         "frame": "164A_12971_071312",
@@ -14317,7 +14317,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Quetrupillan"
       },
-      "actualizado": "2026-09-14T13:46:46.088519+00:00",
+      "actualizado": "2026-09-14T22:34:06.214662+00:00",
       "comet": {
         "key": "quetrupillan",
         "frame": "164A_12971_071312",
@@ -14922,7 +14922,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Lanin"
       },
-      "actualizado": "2026-09-14T13:47:04.993361+00:00",
+      "actualizado": "2026-09-14T22:34:23.730216+00:00",
       "comet": {
         "key": "lanin",
         "frame": "083D_13027_131313",
@@ -15563,7 +15563,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Mocho_Choshuenco"
       },
-      "actualizado": "2026-09-14T13:47:21.269096+00:00",
+      "actualizado": "2026-09-14T22:34:43.392068+00:00",
       "comet": {
         "key": "mocho-choshuenco",
         "frame": "164A_12971_071312",
@@ -16168,7 +16168,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Carran___Los_Venados"
       },
-      "actualizado": "2026-09-14T13:47:36.128454+00:00",
+      "actualizado": "2026-09-14T22:35:01.748113+00:00",
       "comet": {
         "key": "carran_los_venados",
         "frame": "083D_13027_131313",
@@ -16809,7 +16809,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Puyehue___Cordon_Caulle"
       },
-      "actualizado": "2026-09-14T13:47:52.469163+00:00",
+      "actualizado": "2026-09-14T22:35:19.298725+00:00",
       "comet": {
         "key": "puyehue_cordon_caulle",
         "frame": "083D_13027_131313",
@@ -17444,7 +17444,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Antillanca___Casablanca"
       },
-      "actualizado": "2026-09-14T13:48:09.680410+00:00",
+      "actualizado": "2026-09-14T22:35:39.271385+00:00",
       "comet": {
         "key": "antillanca_group",
         "frame": "164A_13146_131313",
@@ -18055,7 +18055,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Osorno"
       },
-      "actualizado": "2026-09-14T13:48:25.496609+00:00",
+      "actualizado": "2026-09-14T22:35:57.512350+00:00",
       "comet": {
         "key": "osorno",
         "frame": "164A_13146_131313",
@@ -18666,7 +18666,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Calbuco"
       },
-      "actualizado": "2026-09-14T13:48:41.647805+00:00",
+      "actualizado": "2026-09-14T22:36:14.438894+00:00",
       "comet": {
         "key": "calbuco",
         "frame": "164A_13146_131313",
@@ -19277,7 +19277,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Hornopiren"
       },
-      "actualizado": "2026-09-14T13:48:57.118441+00:00",
+      "actualizado": "2026-09-14T22:36:32.077134+00:00",
       "comet": {
         "key": "hornopiren",
         "frame": "083D_13222_131313",
@@ -19915,7 +19915,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Huequi"
       },
-      "actualizado": "2026-09-14T13:49:11.288657+00:00",
+      "actualizado": "2026-09-14T22:36:46.854666+00:00",
       "comet": {
         "key": "huequi",
         "frame": "083D_13222_131313",
@@ -20553,7 +20553,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Michinmahuida"
       },
-      "actualizado": "2026-09-14T13:49:24.869231+00:00",
+      "actualizado": "2026-09-14T22:37:00.720349+00:00",
       "comet": {
         "key": "michinmahuida",
         "frame": "083D_13222_131313",
@@ -21191,7 +21191,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Chaiten"
       },
-      "actualizado": "2026-09-14T13:49:39.364683+00:00",
+      "actualizado": "2026-09-14T22:37:18.913927+00:00",
       "comet": {
         "key": "chaiten",
         "frame": "083D_13222_131313",
@@ -21829,7 +21829,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Corcovado"
       },
-      "actualizado": "2026-09-14T13:49:54.393946+00:00",
+      "actualizado": "2026-09-14T22:37:36.292644+00:00",
       "comet": {
         "key": "corcovado",
         "frame": "083D_13222_131313",
@@ -22467,7 +22467,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Yate"
       },
-      "actualizado": "2026-09-14T13:50:07.916785+00:00",
+      "actualizado": "2026-09-14T22:37:52.792878+00:00",
       "comet": {
         "key": "yate",
         "frame": "083D_13222_131313",
@@ -23105,7 +23105,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Melimoyu"
       },
-      "actualizado": "2026-09-14T13:50:23.415445+00:00",
+      "actualizado": "2026-09-14T22:38:06.299346+00:00",
       "comet": {
         "key": "melimoyu",
         "frame": "010D_13416_131313",
@@ -23771,7 +23771,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Mentolat"
       },
-      "actualizado": "2026-09-14T13:50:38.973518+00:00",
+      "actualizado": "2026-09-14T22:38:21.849984+00:00",
       "comet": {
         "key": "mentolat",
         "frame": "010D_13416_131313",
@@ -24445,7 +24445,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Maca"
       },
-      "actualizado": "2026-09-14T13:50:48.323346+00:00",
+      "actualizado": "2026-09-14T22:38:32.626743+00:00",
       "comet": {
         "key": "maca",
         "frame": "083D_13416_131313",
@@ -25065,7 +25065,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Cay"
       },
-      "actualizado": "2026-09-14T13:51:03.931924+00:00",
+      "actualizado": "2026-09-14T22:38:51.900397+00:00",
       "comet": {
         "key": "cay",
         "frame": "083D_13416_131313",
@@ -25688,7 +25688,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Hudson"
       },
-      "actualizado": "2026-09-14T13:51:20.381386+00:00",
+      "actualizado": "2026-09-14T22:39:08.295618+00:00",
       "comet": {
         "key": "cerro_hudson",
         "frame": "010D_13610_131313",
