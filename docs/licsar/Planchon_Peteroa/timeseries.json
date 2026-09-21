@@ -1,14 +1,14 @@
 {
   "volcan": "Planchon-Peteroa",
   "frame": "018A_12472_131313",
-  "actualizado": "2026-09-14T22:44:30.069204+00:00",
+  "actualizado": "2026-09-21T13:57:52.849610+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 366,
   "rango_fechas": [
     "2014-10-06",
     "2026-09-04"
   ],
-  "dias_latencia": 10,
+  "dias_latencia": 17,
   "roi": {
     "row_min": 24,
     "row_max": 69,
@@ -782,7 +782,7 @@
     },
     "descendente": {
       "frame": "083D_12440_131313",
-      "velocity_los_cm_yr": -0.015,
+      "velocity_los_cm_yr": -0.016,
       "px": 94,
       "e": 0.621,
       "u": 0.763
@@ -790,6 +790,6 @@
   },
   "descomposicion": {
     "vertical_cm_yr": -0.023,
-    "este_cm_yr": 0.004
+    "este_cm_yr": 0.003
   }
 }

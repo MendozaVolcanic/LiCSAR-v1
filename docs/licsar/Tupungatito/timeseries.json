@@ -1,14 +1,14 @@
 {
   "volcan": "Tupungatito",
   "frame": "120A_12286_131313",
-  "actualizado": "2026-09-14T22:43:54.170854+00:00",
+  "actualizado": "2026-09-21T13:57:21.312220+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 39,
   "rango_fechas": [
     "2014-12-12",
     "2023-06-16"
   ],
-  "dias_latencia": 1186,
+  "dias_latencia": 1193,
   "roi": {
     "row_min": 43,
     "row_max": 64,

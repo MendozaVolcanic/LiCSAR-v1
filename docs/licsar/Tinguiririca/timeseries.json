@@ -1,14 +1,14 @@
 {
   "volcan": "Tinguiririca",
   "frame": "018A_12472_131313",
-  "actualizado": "2026-09-14T22:44:17.820914+00:00",
+  "actualizado": "2026-09-21T13:57:42.411538+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 365,
   "rango_fechas": [
     "2014-10-06",
     "2026-09-04"
   ],
-  "dias_latencia": 10,
+  "dias_latencia": 17,
   "roi": {
     "row_min": 41,
     "row_max": 62,
@@ -1146,14 +1146,14 @@
     },
     "descendente": {
       "frame": "083D_12440_131313",
-      "velocity_los_cm_yr": -0.019,
+      "velocity_los_cm_yr": -0.018,
       "px": 108,
       "e": 0.617,
       "u": 0.766
     }
   },
   "descomposicion": {
-    "vertical_cm_yr": -0.024,
-    "este_cm_yr": -0.001
+    "vertical_cm_yr": -0.023,
+    "este_cm_yr": -0.0
   }
 }
