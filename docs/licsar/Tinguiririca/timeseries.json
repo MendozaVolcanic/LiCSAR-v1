@@ -1,14 +1,14 @@
 {
   "volcan": "Tinguiririca",
   "frame": "018A_12472_131313",
-  "actualizado": "2026-09-21T22:51:44.258498+00:00",
+  "actualizado": "2026-09-28T15:05:19.903689+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 365,
   "rango_fechas": [
     "2014-10-06",
     "2026-09-04"
   ],
-  "dias_latencia": 17,
+  "dias_latencia": 24,
   "roi": {
     "row_min": 41,
     "row_max": 62,

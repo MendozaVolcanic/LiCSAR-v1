@@ -1,14 +1,14 @@
 {
   "volcan": "Melimoyu",
   "frame": "010D_13416_131313",
-  "actualizado": "2026-09-21T22:56:29.879715+00:00",
+  "actualizado": "2026-09-28T15:09:47.220142+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 150,
   "rango_fechas": [
     "2015-09-07",
     "2026-07-24"
   ],
-  "dias_latencia": 59,
+  "dias_latencia": 66,
   "roi": {
     "row_min": 39,
     "row_max": 60,
