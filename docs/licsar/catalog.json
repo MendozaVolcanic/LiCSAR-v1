@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-25T21:36:02.279573+00:00",
+  "actualizado": "2026-10-26T14:25:58.710267+00:00",
   "fuente": "COMET LiCSAR (Sentinel-1 InSAR)",
   "url_base": "https://gws-access.jasmin.ac.uk/public/nceo_geohazards/LiCSAR_products",
   "nota": "Solo thumbnails PNG, no GeoTIFF completos",
@@ -26,7 +26,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Taapaca"
       },
-      "actualizado": "2026-10-22T22:16:59.867905+00:00",
+      "actualizado": "2026-10-26T14:01:48.251043+00:00",
       "comet": {
         "key": "taapaca",
         "frame": "054D_10879_131313",
@@ -616,7 +616,15 @@
             "imagen": "probmap/20260208_20260220.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.012,
+          "vertical_cm_yr": -0.016,
+          "calidad": "significativa",
+          "dias_latencia": 248,
+          "coherencia": 0.611,
+          "n_fechas": 400
+        }
       }
     },
     "Parinacota": {
@@ -641,7 +649,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Parinacota"
       },
-      "actualizado": "2026-10-22T22:17:15.719681+00:00",
+      "actualizado": "2026-10-26T14:02:05.675324+00:00",
       "comet": {
         "key": "parinacota",
         "frame": "054D_10879_131313",
@@ -1231,7 +1239,15 @@
             "imagen": "probmap/20260208_20260220.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.005,
+          "vertical_cm_yr": -0.017,
+          "calidad": "significativa",
+          "dias_latencia": 248,
+          "coherencia": 0.554,
+          "n_fechas": 400
+        }
       }
     },
     "Guallatiri": {
@@ -1256,7 +1272,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Guallatiri"
       },
-      "actualizado": "2026-10-22T22:17:29.497260+00:00",
+      "actualizado": "2026-10-26T14:02:22.979672+00:00",
       "comet": {
         "key": "guallatiri",
         "frame": "054D_10879_131313",
@@ -1846,7 +1862,15 @@
             "imagen": "probmap/20260208_20260220.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.03,
+          "vertical_cm_yr": -0.032,
+          "calidad": "significativa",
+          "dias_latencia": 248,
+          "coherencia": 0.584,
+          "n_fechas": 399
+        }
       }
     },
     "Isluga": {
@@ -1871,7 +1895,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Isluga"
       },
-      "actualizado": "2026-10-22T22:17:43.547539+00:00",
+      "actualizado": "2026-10-26T14:02:38.127332+00:00",
       "comet": {
         "key": "isluga",
         "frame": "054D_10879_131313",
@@ -2461,7 +2485,15 @@
             "imagen": "probmap/20260208_20260220.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.014,
+          "vertical_cm_yr": -0.013,
+          "calidad": "significativa",
+          "dias_latencia": 248,
+          "coherencia": 0.646,
+          "n_fechas": 403
+        }
       }
     },
     "Irruputuncu": {
@@ -2471,8 +2503,8 @@
       "ascendente": {
         "track": 149,
         "frame_id": "149A_11032_131313",
-        "par_fechas": "20260310_20260322",
-        "total_interferogramas": 2253,
+        "par_fechas": "20261001_20261013",
+        "total_interferogramas": 2405,
         "unw_disponible": true,
         "coh_disponible": true,
         "ruta_local": "licsar/Irruputuncu"
@@ -2480,13 +2512,13 @@
       "descendente": {
         "track": 156,
         "frame_id": "156D_11028_131313",
-        "par_fechas": "20260122_20260203",
-        "total_interferogramas": 2584,
+        "par_fechas": "20261014_20261020",
+        "total_interferogramas": 2849,
         "unw_disponible": true,
         "coh_disponible": true,
         "ruta_local": "licsar/Irruputuncu"
       },
-      "actualizado": "2026-10-22T22:17:58.067508+00:00",
+      "actualizado": "2026-10-26T14:02:54.862654+00:00",
       "comet": {
         "key": "irruputuncu",
         "frame": "149A_11032_131313",
@@ -3061,7 +3093,15 @@
             "imagen": "probmap/20260310_20260322.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.002,
+          "vertical_cm_yr": -0.001,
+          "calidad": "significativa",
+          "dias_latencia": 218,
+          "coherencia": 0.732,
+          "n_fechas": 415
+        }
       }
     },
     "Ollague": {
@@ -3071,8 +3111,8 @@
       "ascendente": {
         "track": 149,
         "frame_id": "149A_11032_131313",
-        "par_fechas": "20260310_20260322",
-        "total_interferogramas": 2253,
+        "par_fechas": "20261001_20261013",
+        "total_interferogramas": 2405,
         "unw_disponible": true,
         "coh_disponible": true,
         "ruta_local": "licsar/Ollague"
@@ -3080,13 +3120,13 @@
       "descendente": {
         "track": 156,
         "frame_id": "156D_11028_131313",
-        "par_fechas": "20260122_20260203",
-        "total_interferogramas": 2584,
+        "par_fechas": "20261014_20261020",
+        "total_interferogramas": 2849,
         "unw_disponible": true,
         "coh_disponible": true,
         "ruta_local": "licsar/Ollague"
       },
-      "actualizado": "2026-10-22T22:18:16.569595+00:00",
+      "actualizado": "2026-10-26T14:03:15.988659+00:00",
       "comet": {
         "key": "ollague",
         "frame": "149A_11230_131313",
@@ -3679,7 +3719,15 @@
             "imagen": "probmap/20261001_20261013.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.007,
+          "vertical_cm_yr": -0.01,
+          "calidad": "significativa",
+          "dias_latencia": 13,
+          "coherencia": 0.789,
+          "n_fechas": 458
+        }
       }
     },
     "San Pedro": {
@@ -3689,8 +3737,8 @@
       "ascendente": {
         "track": 149,
         "frame_id": "149A_11230_131313",
-        "par_fechas": "20260913_20260919",
-        "total_interferogramas": 5273,
+        "par_fechas": "20261001_20261013",
+        "total_interferogramas": 5281,
         "unw_disponible": true,
         "coh_disponible": true,
         "ruta_local": "licsar/San_Pedro"
@@ -3704,7 +3752,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/San_Pedro"
       },
-      "actualizado": "2026-10-22T22:18:32.504688+00:00",
+      "actualizado": "2026-10-26T14:03:34.276343+00:00",
       "comet": {
         "key": "san_pedro_san_pablo",
         "frame": "149A_11230_131313",
@@ -4297,7 +4345,15 @@
             "imagen": "probmap/20261001_20261013.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.021,
+          "vertical_cm_yr": -0.023,
+          "calidad": "significativa",
+          "dias_latencia": 13,
+          "coherencia": 0.717,
+          "n_fechas": 462
+        }
       }
     },
     "Lascar": {
@@ -4307,8 +4363,8 @@
       "ascendente": {
         "track": 149,
         "frame_id": "149A_11230_131313",
-        "par_fechas": "20260913_20260919",
-        "total_interferogramas": 5273,
+        "par_fechas": "20261001_20261013",
+        "total_interferogramas": 5281,
         "unw_disponible": true,
         "coh_disponible": true,
         "ruta_local": "licsar/Lascar"
@@ -4322,7 +4378,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Lascar"
       },
-      "actualizado": "2026-10-22T22:18:53.659925+00:00",
+      "actualizado": "2026-10-26T14:03:58.320968+00:00",
       "comet": {
         "key": "lascar",
         "frame": "149A_11428_131313",
@@ -4909,7 +4965,15 @@
             "imagen": "probmap/20260913_20260919.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.013,
+          "vertical_cm_yr": -0.029,
+          "calidad": "significativa",
+          "dias_latencia": 37,
+          "coherencia": 0.637,
+          "n_fechas": 454
+        }
       }
     },
     "Tupungatito": {
@@ -4934,7 +4998,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Tupungatito"
       },
-      "actualizado": "2026-10-22T22:19:14.657214+00:00",
+      "actualizado": "2026-10-26T14:04:21.776548+00:00",
       "comet": {
         "key": "tupungatito",
         "frame": "120A_12286_131313",
@@ -5545,7 +5609,15 @@
             "imagen": "probmap/20260501_20260507.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.117,
+          "vertical_cm_yr": null,
+          "calidad": "discontinua",
+          "dias_latencia": 1228,
+          "coherencia": 0.179,
+          "n_fechas": 39
+        }
       }
     },
     "San Jose": {
@@ -5570,7 +5642,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/San_Jose"
       },
-      "actualizado": "2026-10-22T22:19:36.216478+00:00",
+      "actualizado": "2026-10-26T14:04:45.169795+00:00",
       "comet": {
         "key": "san_jose",
         "frame": "018A_12472_131313",
@@ -5783,7 +5855,7 @@
             "2026-07-06",
             "2026-07-24",
             "2026-08-11",
-            "2026-09-04"
+            "2026-09-10"
           ],
           "means": [
             0.0,
@@ -6098,36 +6170,6 @@
         },
         "probmaps": [
           {
-            "par": "20260805_20260823",
-            "fecha": "2026-08-05 - 2026-08-23",
-            "imagen": "probmap/20260805_20260823.jpg"
-          },
-          {
-            "par": "20260811_20260817",
-            "fecha": "2026-08-11 - 2026-08-17",
-            "imagen": "probmap/20260811_20260817.jpg"
-          },
-          {
-            "par": "20260811_20260823",
-            "fecha": "2026-08-11 - 2026-08-23",
-            "imagen": "probmap/20260811_20260823.jpg"
-          },
-          {
-            "par": "20260811_20260829",
-            "fecha": "2026-08-11 - 2026-08-29",
-            "imagen": "probmap/20260811_20260829.jpg"
-          },
-          {
-            "par": "20260817_20260823",
-            "fecha": "2026-08-17 - 2026-08-23",
-            "imagen": "probmap/20260817_20260823.jpg"
-          },
-          {
-            "par": "20260817_20260829",
-            "fecha": "2026-08-17 - 2026-08-29",
-            "imagen": "probmap/20260817_20260829.jpg"
-          },
-          {
             "par": "20260817_20260904",
             "fecha": "2026-08-17 - 2026-09-04",
             "imagen": "probmap/20260817_20260904.jpg"
@@ -6143,12 +6185,50 @@
             "imagen": "probmap/20260823_20260904.jpg"
           },
           {
+            "par": "20260823_20260910",
+            "fecha": "2026-08-23 - 2026-09-10",
+            "imagen": "probmap/20260823_20260910.jpg"
+          },
+          {
             "par": "20260829_20260904",
             "fecha": "2026-08-29 - 2026-09-04",
             "imagen": "probmap/20260829_20260904.jpg"
+          },
+          {
+            "par": "20260829_20260910",
+            "fecha": "2026-08-29 - 2026-09-10",
+            "imagen": "probmap/20260829_20260910.jpg"
+          },
+          {
+            "par": "20260829_20260916",
+            "fecha": "2026-08-29 - 2026-09-16",
+            "imagen": "probmap/20260829_20260916.jpg"
+          },
+          {
+            "par": "20260904_20260910",
+            "fecha": "2026-09-04 - 2026-09-10",
+            "imagen": "probmap/20260904_20260910.jpg"
+          },
+          {
+            "par": "20260904_20260916",
+            "fecha": "2026-09-04 - 2026-09-16",
+            "imagen": "probmap/20260904_20260916.jpg"
+          },
+          {
+            "par": "20260910_20260916",
+            "fecha": "2026-09-10 - 2026-09-16",
+            "imagen": "probmap/20260910_20260916.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.015,
+          "vertical_cm_yr": -0.017,
+          "calidad": "significativa",
+          "dias_latencia": 40,
+          "coherencia": 0.194,
+          "n_fechas": 369
+        }
       }
     },
     "Tinguiririca": {
@@ -6158,8 +6238,8 @@
       "ascendente": {
         "track": 18,
         "frame_id": "018A_12472_131313",
-        "par_fechas": "20260829_20260904",
-        "total_interferogramas": 3073,
+        "par_fechas": "20260910_20260916",
+        "total_interferogramas": 3086,
         "unw_disponible": true,
         "coh_disponible": true,
         "ruta_local": "licsar/Tinguiririca"
@@ -6173,7 +6253,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Tinguiririca"
       },
-      "actualizado": "2026-10-22T22:19:55.962841+00:00",
+      "actualizado": "2026-10-26T14:05:06.151858+00:00",
       "comet": {
         "key": "tinguiririca",
         "frame": "018A_12472_131313",
@@ -6386,7 +6466,7 @@
             "2026-07-06",
             "2026-07-24",
             "2026-08-11",
-            "2026-09-04"
+            "2026-09-10"
           ],
           "means": [
             0.0,
@@ -6701,36 +6781,6 @@
         },
         "probmaps": [
           {
-            "par": "20260805_20260823",
-            "fecha": "2026-08-05 - 2026-08-23",
-            "imagen": "probmap/20260805_20260823.jpg"
-          },
-          {
-            "par": "20260811_20260817",
-            "fecha": "2026-08-11 - 2026-08-17",
-            "imagen": "probmap/20260811_20260817.jpg"
-          },
-          {
-            "par": "20260811_20260823",
-            "fecha": "2026-08-11 - 2026-08-23",
-            "imagen": "probmap/20260811_20260823.jpg"
-          },
-          {
-            "par": "20260811_20260829",
-            "fecha": "2026-08-11 - 2026-08-29",
-            "imagen": "probmap/20260811_20260829.jpg"
-          },
-          {
-            "par": "20260817_20260823",
-            "fecha": "2026-08-17 - 2026-08-23",
-            "imagen": "probmap/20260817_20260823.jpg"
-          },
-          {
-            "par": "20260817_20260829",
-            "fecha": "2026-08-17 - 2026-08-29",
-            "imagen": "probmap/20260817_20260829.jpg"
-          },
-          {
             "par": "20260817_20260904",
             "fecha": "2026-08-17 - 2026-09-04",
             "imagen": "probmap/20260817_20260904.jpg"
@@ -6746,12 +6796,50 @@
             "imagen": "probmap/20260823_20260904.jpg"
           },
           {
+            "par": "20260823_20260910",
+            "fecha": "2026-08-23 - 2026-09-10",
+            "imagen": "probmap/20260823_20260910.jpg"
+          },
+          {
             "par": "20260829_20260904",
             "fecha": "2026-08-29 - 2026-09-04",
             "imagen": "probmap/20260829_20260904.jpg"
+          },
+          {
+            "par": "20260829_20260910",
+            "fecha": "2026-08-29 - 2026-09-10",
+            "imagen": "probmap/20260829_20260910.jpg"
+          },
+          {
+            "par": "20260829_20260916",
+            "fecha": "2026-08-29 - 2026-09-16",
+            "imagen": "probmap/20260829_20260916.jpg"
+          },
+          {
+            "par": "20260904_20260910",
+            "fecha": "2026-09-04 - 2026-09-10",
+            "imagen": "probmap/20260904_20260910.jpg"
+          },
+          {
+            "par": "20260904_20260916",
+            "fecha": "2026-09-04 - 2026-09-16",
+            "imagen": "probmap/20260904_20260916.jpg"
+          },
+          {
+            "par": "20260910_20260916",
+            "fecha": "2026-09-10 - 2026-09-16",
+            "imagen": "probmap/20260910_20260916.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.018,
+          "vertical_cm_yr": -0.023,
+          "calidad": "significativa",
+          "dias_latencia": 40,
+          "coherencia": 0.248,
+          "n_fechas": 367
+        }
       }
     },
     "Planchon-Peteroa": {
@@ -6761,8 +6849,8 @@
       "ascendente": {
         "track": 18,
         "frame_id": "018A_12472_131313",
-        "par_fechas": "20260829_20260904",
-        "total_interferogramas": 3073,
+        "par_fechas": "20260910_20260916",
+        "total_interferogramas": 3086,
         "unw_disponible": true,
         "coh_disponible": true,
         "ruta_local": "licsar/Planchon_Peteroa"
@@ -6776,7 +6864,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Planchon_Peteroa"
       },
-      "actualizado": "2026-10-22T22:20:15.337088+00:00",
+      "actualizado": "2026-10-26T14:05:29.115303+00:00",
       "comet": {
         "key": "planchon-peteroa",
         "frame": "018A_12472_131313",
@@ -7304,36 +7392,6 @@
         },
         "probmaps": [
           {
-            "par": "20260805_20260823",
-            "fecha": "2026-08-05 - 2026-08-23",
-            "imagen": "probmap/20260805_20260823.jpg"
-          },
-          {
-            "par": "20260811_20260817",
-            "fecha": "2026-08-11 - 2026-08-17",
-            "imagen": "probmap/20260811_20260817.jpg"
-          },
-          {
-            "par": "20260811_20260823",
-            "fecha": "2026-08-11 - 2026-08-23",
-            "imagen": "probmap/20260811_20260823.jpg"
-          },
-          {
-            "par": "20260811_20260829",
-            "fecha": "2026-08-11 - 2026-08-29",
-            "imagen": "probmap/20260811_20260829.jpg"
-          },
-          {
-            "par": "20260817_20260823",
-            "fecha": "2026-08-17 - 2026-08-23",
-            "imagen": "probmap/20260817_20260823.jpg"
-          },
-          {
-            "par": "20260817_20260829",
-            "fecha": "2026-08-17 - 2026-08-29",
-            "imagen": "probmap/20260817_20260829.jpg"
-          },
-          {
             "par": "20260817_20260904",
             "fecha": "2026-08-17 - 2026-09-04",
             "imagen": "probmap/20260817_20260904.jpg"
@@ -7349,12 +7407,50 @@
             "imagen": "probmap/20260823_20260904.jpg"
           },
           {
+            "par": "20260823_20260910",
+            "fecha": "2026-08-23 - 2026-09-10",
+            "imagen": "probmap/20260823_20260910.jpg"
+          },
+          {
             "par": "20260829_20260904",
             "fecha": "2026-08-29 - 2026-09-04",
             "imagen": "probmap/20260829_20260904.jpg"
+          },
+          {
+            "par": "20260829_20260910",
+            "fecha": "2026-08-29 - 2026-09-10",
+            "imagen": "probmap/20260829_20260910.jpg"
+          },
+          {
+            "par": "20260829_20260916",
+            "fecha": "2026-08-29 - 2026-09-16",
+            "imagen": "probmap/20260829_20260916.jpg"
+          },
+          {
+            "par": "20260904_20260910",
+            "fecha": "2026-09-04 - 2026-09-10",
+            "imagen": "probmap/20260904_20260910.jpg"
+          },
+          {
+            "par": "20260904_20260916",
+            "fecha": "2026-09-04 - 2026-09-16",
+            "imagen": "probmap/20260904_20260916.jpg"
+          },
+          {
+            "par": "20260910_20260916",
+            "fecha": "2026-09-10 - 2026-09-16",
+            "imagen": "probmap/20260910_20260916.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.019,
+          "vertical_cm_yr": -0.023,
+          "calidad": "significativa",
+          "dias_latencia": 40,
+          "coherencia": 0.278,
+          "n_fechas": 368
+        }
       }
     },
     "Descabezado Grande": {
@@ -7364,8 +7460,8 @@
       "ascendente": {
         "track": 18,
         "frame_id": "018A_12472_131313",
-        "par_fechas": "20260829_20260904",
-        "total_interferogramas": 3073,
+        "par_fechas": "20260910_20260916",
+        "total_interferogramas": 3086,
         "unw_disponible": true,
         "coh_disponible": true,
         "ruta_local": "licsar/Descabezado_Grande"
@@ -7379,7 +7475,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Descabezado_Grande"
       },
-      "actualizado": "2026-10-22T22:20:35.528732+00:00",
+      "actualizado": "2026-10-26T14:05:48.675615+00:00",
       "comet": {
         "key": "descabezado_grande",
         "frame": "083D_12636_131313",
@@ -7969,7 +8065,15 @@
             "imagen": "probmap/20260511_20260517.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.102,
+          "vertical_cm_yr": null,
+          "calidad": "significativa",
+          "dias_latencia": 162,
+          "coherencia": 0.253,
+          "n_fechas": 376
+        }
       }
     },
     "Tatara-San Pedro": {
@@ -7994,7 +8098,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Tatara_San_Pedro"
       },
-      "actualizado": "2026-10-22T22:20:51.514123+00:00"
+      "actualizado": "2026-10-26T14:06:08.841837+00:00"
     },
     "Laguna del Maule": {
       "nombre": "Laguna del Maule",
@@ -8018,7 +8122,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Laguna_del_Maule"
       },
-      "actualizado": "2026-10-22T22:21:07.754521+00:00",
+      "actualizado": "2026-10-26T14:06:28.158086+00:00",
       "comet": {
         "key": "laguna_del_maule",
         "frame": "018A_12668_131313",
@@ -8623,7 +8727,15 @@
             "imagen": "probmap/20260928_20261004.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.721,
+          "vertical_cm_yr": 0.729,
+          "calidad": "significativa",
+          "dias_latencia": 22,
+          "coherencia": 0.2,
+          "n_fechas": 358
+        }
       }
     },
     "Nevado de Longavi": {
@@ -8648,7 +8760,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Nevado_de_Longavi"
       },
-      "actualizado": "2026-10-22T22:21:23.416625+00:00",
+      "actualizado": "2026-10-26T14:06:47.616987+00:00",
       "comet": {
         "key": "nevado_de_longavi",
         "frame": "018A_12668_131313",
@@ -9235,7 +9347,15 @@
             "imagen": "probmap/20260928_20261004.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.011,
+          "vertical_cm_yr": 0.006,
+          "calidad": "significativa",
+          "dias_latencia": 22,
+          "coherencia": 0.223,
+          "n_fechas": 372
+        }
       }
     },
     "Nevados de Chillan": {
@@ -9260,7 +9380,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Nevados_de_Chillan"
       },
-      "actualizado": "2026-10-22T22:21:38.934842+00:00",
+      "actualizado": "2026-10-26T14:07:06.937846+00:00",
       "comet": {
         "key": "nevados_de_chillan",
         "frame": "083D_12636_131313",
@@ -9844,7 +9964,15 @@
             "imagen": "probmap/20260511_20260517.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.034,
+          "vertical_cm_yr": 0.03,
+          "calidad": "significativa",
+          "dias_latencia": 162,
+          "coherencia": 0.295,
+          "n_fechas": 374
+        }
       }
     },
     "Antuco": {
@@ -9869,7 +9997,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Antuco"
       },
-      "actualizado": "2026-10-22T22:21:54.343371+00:00",
+      "actualizado": "2026-10-26T14:07:23.098919+00:00",
       "comet": {
         "key": "antuco",
         "frame": "091A_12777_131313",
@@ -10468,7 +10596,15 @@
             "imagen": "probmap/20260529_20260610.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.028,
+          "vertical_cm_yr": -0.018,
+          "calidad": "significativa",
+          "dias_latencia": 138,
+          "coherencia": 0.315,
+          "n_fechas": 232
+        }
       }
     },
     "Copahue": {
@@ -10493,7 +10629,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Copahue"
       },
-      "actualizado": "2026-10-22T22:22:08.502226+00:00",
+      "actualizado": "2026-10-26T14:07:37.795607+00:00",
       "comet": {
         "key": "copahue",
         "frame": "091A_12777_131313",
@@ -11092,7 +11228,15 @@
             "imagen": "probmap/20260529_20260610.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.038,
+          "vertical_cm_yr": -0.04,
+          "calidad": "significativa",
+          "dias_latencia": 138,
+          "coherencia": 0.302,
+          "n_fechas": 237
+        }
       }
     },
     "Callaqui": {
@@ -11117,7 +11261,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Callaqui"
       },
-      "actualizado": "2026-10-22T22:22:24.571173+00:00",
+      "actualizado": "2026-10-26T14:07:57.219830+00:00",
       "comet": {
         "key": "callaqui",
         "frame": "091A_12777_131313",
@@ -11716,7 +11860,15 @@
             "imagen": "probmap/20260529_20260610.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.013,
+          "vertical_cm_yr": 0.012,
+          "calidad": "significativa",
+          "dias_latencia": 138,
+          "coherencia": 0.195,
+          "n_fechas": 239
+        }
       }
     },
     "Lonquimay": {
@@ -11741,7 +11893,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Lonquimay"
       },
-      "actualizado": "2026-10-22T22:22:40.841964+00:00",
+      "actualizado": "2026-10-26T14:08:14.920698+00:00",
       "comet": {
         "key": "lonquimay",
         "frame": "083D_12832_131313",
@@ -12325,7 +12477,15 @@
             "imagen": "probmap/20260604_20260610.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.009,
+          "vertical_cm_yr": 0.019,
+          "calidad": "significativa",
+          "dias_latencia": 138,
+          "coherencia": 0.242,
+          "n_fechas": 402
+        }
       }
     },
     "Llaima": {
@@ -12350,7 +12510,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Llaima"
       },
-      "actualizado": "2026-10-22T22:22:57.277280+00:00",
+      "actualizado": "2026-10-26T14:08:30.113133+00:00",
       "comet": {
         "key": "llaima",
         "frame": "083D_12832_131313",
@@ -12934,7 +13094,15 @@
             "imagen": "probmap/20260604_20260610.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.011,
+          "vertical_cm_yr": 0.054,
+          "calidad": "significativa",
+          "dias_latencia": 138,
+          "coherencia": 0.254,
+          "n_fechas": 405
+        }
       }
     },
     "Sollipulli": {
@@ -12959,7 +13127,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Sollipulli"
       },
-      "actualizado": "2026-10-22T22:23:11.631119+00:00",
+      "actualizado": "2026-10-26T14:08:46.738833+00:00",
       "comet": {
         "key": "sollipulli",
         "frame": "083D_12832_131313",
@@ -13543,7 +13711,15 @@
             "imagen": "probmap/20260604_20260610.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.037,
+          "vertical_cm_yr": 0.03,
+          "calidad": "significativa",
+          "dias_latencia": 138,
+          "coherencia": 0.184,
+          "n_fechas": 397
+        }
       }
     },
     "Villarrica": {
@@ -13568,7 +13744,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Villarrica"
       },
-      "actualizado": "2026-10-22T22:23:25.154800+00:00",
+      "actualizado": "2026-10-26T14:09:03.639060+00:00",
       "comet": {
         "key": "villarrica",
         "frame": "164A_12971_071312",
@@ -14140,7 +14316,15 @@
             "imagen": "probmap/20260215_20260227.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.012,
+          "vertical_cm_yr": 0.028,
+          "calidad": "significativa",
+          "dias_latencia": 241,
+          "coherencia": 0.222,
+          "n_fechas": 319
+        }
       }
     },
     "Quetrupillan": {
@@ -14165,7 +14349,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Quetrupillan"
       },
-      "actualizado": "2026-10-22T22:23:40.008923+00:00",
+      "actualizado": "2026-10-26T14:09:20.687213+00:00",
       "comet": {
         "key": "quetrupillan",
         "frame": "164A_12971_071312",
@@ -14737,7 +14921,15 @@
             "imagen": "probmap/20260215_20260227.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.025,
+          "vertical_cm_yr": -0.002,
+          "calidad": "significativa",
+          "dias_latencia": 241,
+          "coherencia": 0.157,
+          "n_fechas": 317
+        }
       }
     },
     "Lanin": {
@@ -14762,7 +14954,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Lanin"
       },
-      "actualizado": "2026-10-22T22:23:56.062876+00:00",
+      "actualizado": "2026-10-26T14:09:38.117796+00:00",
       "comet": {
         "key": "lanin",
         "frame": "083D_13027_131313",
@@ -15370,7 +15562,15 @@
             "imagen": "probmap/20260429_20260505.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.02,
+          "vertical_cm_yr": -0.003,
+          "calidad": "significativa",
+          "dias_latencia": 174,
+          "coherencia": 0.245,
+          "n_fechas": 385
+        }
       }
     },
     "Mocho-Choshuenco": {
@@ -15395,7 +15595,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Mocho_Choshuenco"
       },
-      "actualizado": "2026-10-22T22:24:09.787046+00:00",
+      "actualizado": "2026-10-26T14:09:54.629885+00:00",
       "comet": {
         "key": "mocho-choshuenco",
         "frame": "164A_12971_071312",
@@ -15967,7 +16167,15 @@
             "imagen": "probmap/20260215_20260227.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.077,
+          "vertical_cm_yr": 0.059,
+          "calidad": "significativa",
+          "dias_latencia": 241,
+          "coherencia": 0.194,
+          "n_fechas": 305
+        }
       }
     },
     "Carran - Los Venados": {
@@ -15992,7 +16200,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Carran___Los_Venados"
       },
-      "actualizado": "2026-10-22T22:24:24.193216+00:00",
+      "actualizado": "2026-10-26T14:10:11.049009+00:00",
       "comet": {
         "key": "carran_los_venados",
         "frame": "083D_13027_131313",
@@ -16600,7 +16808,15 @@
             "imagen": "probmap/20260429_20260505.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.031,
+          "vertical_cm_yr": 0.022,
+          "calidad": "significativa",
+          "dias_latencia": 174,
+          "coherencia": 0.103,
+          "n_fechas": 302
+        }
       }
     },
     "Puyehue - Cordon Caulle": {
@@ -16625,7 +16841,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Puyehue___Cordon_Caulle"
       },
-      "actualizado": "2026-10-22T22:24:39.442932+00:00",
+      "actualizado": "2026-10-26T14:10:29.030089+00:00",
       "comet": {
         "key": "puyehue_cordon_caulle",
         "frame": "083D_13027_131313",
@@ -17227,7 +17443,15 @@
             "imagen": "probmap/20260429_20260505.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.33,
+          "vertical_cm_yr": null,
+          "calidad": "discontinua",
+          "dias_latencia": 606,
+          "coherencia": 0.257,
+          "n_fechas": 214
+        }
       }
     },
     "Antillanca - Casablanca": {
@@ -17252,7 +17476,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Antillanca___Casablanca"
       },
-      "actualizado": "2026-10-22T22:24:53.313584+00:00",
+      "actualizado": "2026-10-26T14:10:45.029116+00:00",
       "comet": {
         "key": "antillanca_group",
         "frame": "164A_13146_131313",
@@ -17830,7 +18054,15 @@
             "imagen": "probmap/20260323_20260329.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.022,
+          "vertical_cm_yr": -0.015,
+          "calidad": "significativa",
+          "dias_latencia": 169,
+          "coherencia": 0.21,
+          "n_fechas": 319
+        }
       }
     },
     "Osorno": {
@@ -17855,7 +18087,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Osorno"
       },
-      "actualizado": "2026-10-22T22:25:08.490664+00:00",
+      "actualizado": "2026-10-26T14:11:00.558485+00:00",
       "comet": {
         "key": "osorno",
         "frame": "164A_13146_131313",
@@ -18433,7 +18665,15 @@
             "imagen": "probmap/20260323_20260329.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.046,
+          "vertical_cm_yr": 0.044,
+          "calidad": "significativa",
+          "dias_latencia": 169,
+          "coherencia": 0.241,
+          "n_fechas": 327
+        }
       }
     },
     "Calbuco": {
@@ -18458,7 +18698,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Calbuco"
       },
-      "actualizado": "2026-10-22T22:25:22.987306+00:00",
+      "actualizado": "2026-10-26T14:11:16.010366+00:00",
       "comet": {
         "key": "calbuco",
         "frame": "164A_13146_131313",
@@ -19036,7 +19276,15 @@
             "imagen": "probmap/20260323_20260329.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.021,
+          "vertical_cm_yr": 0.021,
+          "calidad": "significativa",
+          "dias_latencia": 169,
+          "coherencia": 0.161,
+          "n_fechas": 328
+        }
       }
     },
     "Hornopiren": {
@@ -19061,7 +19309,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Hornopiren"
       },
-      "actualizado": "2026-10-22T22:25:36.702840+00:00",
+      "actualizado": "2026-10-26T14:11:30.475584+00:00",
       "comet": {
         "key": "hornopiren",
         "frame": "083D_13222_131313",
@@ -19666,7 +19914,15 @@
             "imagen": "probmap/20260604_20260610.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.001,
+          "vertical_cm_yr": -0.019,
+          "calidad": "no_significativa",
+          "dias_latencia": 138,
+          "coherencia": 0.091,
+          "n_fechas": 303
+        }
       }
     },
     "Huequi": {
@@ -19691,7 +19947,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Huequi"
       },
-      "actualizado": "2026-10-22T22:25:50.641720+00:00",
+      "actualizado": "2026-10-26T14:11:46.427137+00:00",
       "comet": {
         "key": "huequi",
         "frame": "083D_13222_131313",
@@ -20296,7 +20552,15 @@
             "imagen": "probmap/20260604_20260610.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.011,
+          "vertical_cm_yr": 0.016,
+          "calidad": "significativa",
+          "dias_latencia": 138,
+          "coherencia": 0.136,
+          "n_fechas": 298
+        }
       }
     },
     "Michinmahuida": {
@@ -20321,7 +20585,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Michinmahuida"
       },
-      "actualizado": "2026-10-22T22:26:04.131040+00:00",
+      "actualizado": "2026-10-26T14:12:01.073557+00:00",
       "comet": {
         "key": "michinmahuida",
         "frame": "083D_13222_131313",
@@ -20926,7 +21190,15 @@
             "imagen": "probmap/20260604_20260610.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.014,
+          "vertical_cm_yr": 0.016,
+          "calidad": "significativa",
+          "dias_latencia": 138,
+          "coherencia": 0.123,
+          "n_fechas": 269
+        }
       }
     },
     "Chaiten": {
@@ -20951,7 +21223,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Chaiten"
       },
-      "actualizado": "2026-10-22T22:26:20.105910+00:00",
+      "actualizado": "2026-10-26T14:12:18.300337+00:00",
       "comet": {
         "key": "chaiten",
         "frame": "083D_13222_131313",
@@ -21556,7 +21828,15 @@
             "imagen": "probmap/20260604_20260610.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.005,
+          "vertical_cm_yr": -0.006,
+          "calidad": "significativa",
+          "dias_latencia": 138,
+          "coherencia": 0.187,
+          "n_fechas": 273
+        }
       }
     },
     "Corcovado": {
@@ -21581,7 +21861,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Corcovado"
       },
-      "actualizado": "2026-10-22T22:26:35.569222+00:00",
+      "actualizado": "2026-10-26T14:12:35.715809+00:00",
       "comet": {
         "key": "corcovado",
         "frame": "083D_13222_131313",
@@ -22186,7 +22466,15 @@
             "imagen": "probmap/20260604_20260610.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.001,
+          "vertical_cm_yr": 0.016,
+          "calidad": "no_significativa",
+          "dias_latencia": 138,
+          "coherencia": 0.217,
+          "n_fechas": 271
+        }
       }
     },
     "Yate": {
@@ -22211,7 +22499,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Yate"
       },
-      "actualizado": "2026-10-22T22:26:49.042349+00:00",
+      "actualizado": "2026-10-26T14:12:51.084452+00:00",
       "comet": {
         "key": "yate",
         "frame": "083D_13222_131313",
@@ -22816,7 +23104,15 @@
             "imagen": "probmap/20260604_20260610.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.0,
+          "vertical_cm_yr": 0.019,
+          "calidad": "no_significativa",
+          "dias_latencia": 138,
+          "coherencia": 0.117,
+          "n_fechas": 303
+        }
       }
     },
     "Melimoyu": {
@@ -22841,7 +23137,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Melimoyu"
       },
-      "actualizado": "2026-10-22T22:27:02.040061+00:00",
+      "actualizado": "2026-10-26T14:13:04.228170+00:00",
       "comet": {
         "key": "melimoyu",
         "frame": "010D_13416_131313",
@@ -23494,7 +23790,15 @@
             "imagen": "probmap/20260712_20260724.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.02,
+          "vertical_cm_yr": 0.062,
+          "calidad": "significativa",
+          "dias_latencia": 94,
+          "coherencia": 0.129,
+          "n_fechas": 150
+        }
       }
     },
     "Mentolat": {
@@ -23519,7 +23823,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Mentolat"
       },
-      "actualizado": "2026-10-22T22:27:17.218067+00:00",
+      "actualizado": "2026-10-26T14:13:19.078219+00:00",
       "comet": {
         "key": "mentolat",
         "frame": "010D_13416_131313",
@@ -24172,7 +24476,15 @@
             "imagen": "probmap/20260712_20260724.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.009,
+          "vertical_cm_yr": 0.001,
+          "calidad": "significativa",
+          "dias_latencia": 94,
+          "coherencia": 0.146,
+          "n_fechas": 148
+        }
       }
     },
     "Maca": {
@@ -24197,7 +24509,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Maca"
       },
-      "actualizado": "2026-10-22T22:27:30.322003+00:00",
+      "actualizado": "2026-10-26T14:13:33.892771+00:00",
       "comet": {
         "key": "maca",
         "frame": "083D_13416_131313",
@@ -24784,7 +25096,15 @@
             "imagen": "probmap/20260429_20260505.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.011,
+          "vertical_cm_yr": null,
+          "calidad": "discontinua",
+          "dias_latencia": 1800,
+          "coherencia": 0.157,
+          "n_fechas": 105
+        }
       }
     },
     "Cay": {
@@ -24809,7 +25129,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Cay"
       },
-      "actualizado": "2026-10-22T22:27:43.893262+00:00",
+      "actualizado": "2026-10-26T14:13:49.326612+00:00",
       "comet": {
         "key": "cay",
         "frame": "083D_13416_131313",
@@ -25399,7 +25719,15 @@
             "imagen": "probmap/20260429_20260505.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.037,
+          "vertical_cm_yr": null,
+          "calidad": "discontinua",
+          "dias_latencia": 1788,
+          "coherencia": 0.132,
+          "n_fechas": 107
+        }
       }
     },
     "Hudson": {
@@ -25424,7 +25752,7 @@
         "coh_disponible": true,
         "ruta_local": "licsar/Hudson"
       },
-      "actualizado": "2026-10-22T22:27:56.106072+00:00",
+      "actualizado": "2026-10-26T14:14:05.383501+00:00",
       "comet": {
         "key": "cerro_hudson",
         "frame": "010D_13610_131313",
@@ -26011,7 +26339,15 @@
             "imagen": "probmap/20260805_20260817.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.084,
+          "vertical_cm_yr": null,
+          "calidad": "significativa",
+          "dias_latencia": 70,
+          "coherencia": 0.073,
+          "n_fechas": 158
+        }
       }
     }
   },

@@ -1,14 +1,14 @@
 {
   "volcan": "Irruputuncu",
   "frame": "149A_11032_131313",
-  "actualizado": "2026-10-19T23:09:31.775592+00:00",
+  "actualizado": "2026-10-26T14:18:25.170260+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 415,
   "rango_fechas": [
     "2014-10-27",
     "2026-03-22"
   ],
-  "dias_latencia": 211,
+  "dias_latencia": 218,
   "roi": {
     "row_min": 39,
     "row_max": 60,
@@ -1296,14 +1296,14 @@
     },
     "descendente": {
       "frame": "156D_11028_131313",
-      "velocity_los_cm_yr": 0.002,
+      "velocity_los_cm_yr": 0.001,
       "px": 441,
       "e": 0.66,
       "u": 0.732
     }
   },
   "descomposicion": {
-    "vertical_cm_yr": -0.0,
-    "este_cm_yr": 0.003
+    "vertical_cm_yr": -0.001,
+    "este_cm_yr": 0.002
   }
 }

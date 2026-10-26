@@ -1,14 +1,14 @@
 {
   "volcan": "Lascar",
   "frame": "149A_11428_131313",
-  "actualizado": "2026-10-19T23:10:19.820453+00:00",
+  "actualizado": "2026-10-26T14:19:15.062229+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 454,
   "rango_fechas": [
     "2014-10-27",
     "2026-09-19"
   ],
-  "dias_latencia": 30,
+  "dias_latencia": 37,
   "roi": {
     "row_min": 40,
     "row_max": 61,
