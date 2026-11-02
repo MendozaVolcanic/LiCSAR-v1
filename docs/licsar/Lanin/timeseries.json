@@ -1,14 +1,14 @@
 {
   "volcan": "Lanin",
   "frame": "083D_13027_131313",
-  "actualizado": "2026-10-26T23:31:15.106503+00:00",
+  "actualizado": "2026-11-02T17:10:18.639544+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 385,
   "rango_fechas": [
     "2014-10-23",
     "2026-05-05"
   ],
-  "dias_latencia": 174,
+  "dias_latencia": 181,
   "roi": {
     "row_min": 41,
     "row_max": 62,

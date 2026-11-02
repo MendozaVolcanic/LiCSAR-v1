@@ -1,14 +1,14 @@
 {
   "volcan": "Llaima",
   "frame": "083D_12832_131313",
-  "actualizado": "2026-10-26T23:30:29.259572+00:00",
+  "actualizado": "2026-11-02T17:09:40.690327+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 405,
   "rango_fechas": [
     "2014-10-23",
     "2026-06-10"
   ],
-  "dias_latencia": 138,
+  "dias_latencia": 145,
   "roi": {
     "row_min": 36,
     "row_max": 57,

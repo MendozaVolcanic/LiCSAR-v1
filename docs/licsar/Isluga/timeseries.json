@@ -1,14 +1,14 @@
 {
   "volcan": "Isluga",
   "frame": "054D_10879_131313",
-  "actualizado": "2026-10-26T23:26:55.027067+00:00",
+  "actualizado": "2026-11-02T17:06:40.117389+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 403,
   "rango_fechas": [
     "2014-10-21",
     "2026-02-20"
   ],
-  "dias_latencia": 248,
+  "dias_latencia": 255,
   "roi": {
     "row_min": 36,
     "row_max": 57,
@@ -1253,7 +1253,7 @@
   "geometrias": {
     "ascendente": {
       "frame": "149A_11032_131313",
-      "velocity_los_cm_yr": -0.006,
+      "velocity_los_cm_yr": -0.005,
       "px": 108,
       "e": -0.627,
       "u": 0.764
@@ -1267,7 +1267,7 @@
     }
   },
   "descomposicion": {
-    "vertical_cm_yr": -0.013,
-    "este_cm_yr": -0.006
+    "vertical_cm_yr": -0.012,
+    "este_cm_yr": -0.007
   }
 }
