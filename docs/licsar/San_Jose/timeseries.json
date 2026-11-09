@@ -1,14 +1,14 @@
 {
   "volcan": "San Jose",
   "frame": "018A_12472_131313",
-  "actualizado": "2026-11-02T17:07:57.557507+00:00",
+  "actualizado": "2026-11-09T17:32:18.908964+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 369,
   "rango_fechas": [
     "2014-10-06",
     "2026-09-16"
   ],
-  "dias_latencia": 47,
+  "dias_latencia": 54,
   "roi": {
     "row_min": 40,
     "row_max": 61,

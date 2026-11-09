@@ -1,14 +1,14 @@
 {
   "volcan": "Calbuco",
   "frame": "164A_13146_131313",
-  "actualizado": "2026-11-02T17:11:12.024833+00:00",
+  "actualizado": "2026-11-09T17:36:07.337972+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 328,
   "rango_fechas": [
     "2015-01-08",
     "2026-05-10"
   ],
-  "dias_latencia": 176,
+  "dias_latencia": 183,
   "roi": {
     "row_min": 40,
     "row_max": 61,

@@ -1,14 +1,14 @@
 {
   "volcan": "Parinacota",
   "frame": "054D_10879_131313",
-  "actualizado": "2026-11-02T17:06:11.016813+00:00",
+  "actualizado": "2026-11-09T17:30:07.852120+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 400,
   "rango_fechas": [
     "2014-10-21",
     "2026-02-20"
   ],
-  "dias_latencia": 255,
+  "dias_latencia": 262,
   "roi": {
     "row_min": 39,
     "row_max": 60,
