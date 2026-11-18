@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-18T01:46:41.032751+00:00",
+  "actualizado": "2026-11-18T16:29:40.425634+00:00",
   "fuente": "COMET LiCSAR (Sentinel-1 InSAR)",
   "url_base": "https://gws-access.jasmin.ac.uk/public/nceo_geohazards/LiCSAR_products",
   "nota": "Solo thumbnails PNG, no GeoTIFF completos",
@@ -2558,7 +2558,7 @@
       "comet": {
         "key": "irruputuncu",
         "frame": "149A_11032_131313",
-        "total_interferogramas": 2400,
+        "total_interferogramas": 2426,
         "interferogramas": [
           {
             "par": "20260907_20260913",
