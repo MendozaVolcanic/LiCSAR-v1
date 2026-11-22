@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-21T23:41:40.483371+00:00",
+  "actualizado": "2026-11-22T15:04:44.367338+00:00",
   "fuente": "COMET LiCSAR (Sentinel-1 InSAR)",
   "url_base": "https://gws-access.jasmin.ac.uk/public/nceo_geohazards/LiCSAR_products",
   "nota": "Solo thumbnails PNG, no GeoTIFF completos",
@@ -4261,57 +4261,57 @@
       "comet": {
         "key": "lascar",
         "frame": "149A_11428_131313",
-        "total_interferogramas": 2574,
+        "total_interferogramas": 2599,
         "interferogramas": [
-          {
-            "par": "20260820_20260826",
-            "fecha": "2026-08-20 - 2026-08-26",
-            "imagen": "comet/20260820_20260826.jpg"
-          },
-          {
-            "par": "20260820_20260907",
-            "fecha": "2026-08-20 - 2026-09-07",
-            "imagen": "comet/20260820_20260907.jpg"
-          },
-          {
-            "par": "20260820_20260913",
-            "fecha": "2026-08-20 - 2026-09-13",
-            "imagen": "comet/20260820_20260913.jpg"
-          },
-          {
-            "par": "20260820_20260919",
-            "fecha": "2026-08-20 - 2026-09-19",
-            "imagen": "comet/20260820_20260919.jpg"
-          },
-          {
-            "par": "20260826_20260907",
-            "fecha": "2026-08-26 - 2026-09-07",
-            "imagen": "comet/20260826_20260907.jpg"
-          },
-          {
-            "par": "20260826_20260913",
-            "fecha": "2026-08-26 - 2026-09-13",
-            "imagen": "comet/20260826_20260913.jpg"
-          },
-          {
-            "par": "20260826_20260919",
-            "fecha": "2026-08-26 - 2026-09-19",
-            "imagen": "comet/20260826_20260919.jpg"
-          },
-          {
-            "par": "20260907_20260913",
-            "fecha": "2026-09-07 - 2026-09-13",
-            "imagen": "comet/20260907_20260913.jpg"
-          },
-          {
-            "par": "20260907_20260919",
-            "fecha": "2026-09-07 - 2026-09-19",
-            "imagen": "comet/20260907_20260919.jpg"
-          },
           {
             "par": "20260913_20260919",
             "fecha": "2026-09-13 - 2026-09-19",
             "imagen": "comet/20260913_20260919.jpg"
+          },
+          {
+            "par": "20260913_20261001",
+            "fecha": "2026-09-13 - 2026-10-01",
+            "imagen": "comet/20260913_20261001.jpg"
+          },
+          {
+            "par": "20260913_20261013",
+            "fecha": "2026-09-13 - 2026-10-13",
+            "imagen": "comet/20260913_20261013.jpg"
+          },
+          {
+            "par": "20260913_20261025",
+            "fecha": "2026-09-13 - 2026-10-25",
+            "imagen": "comet/20260913_20261025.jpg"
+          },
+          {
+            "par": "20260919_20261001",
+            "fecha": "2026-09-19 - 2026-10-01",
+            "imagen": "comet/20260919_20261001.jpg"
+          },
+          {
+            "par": "20260919_20261013",
+            "fecha": "2026-09-19 - 2026-10-13",
+            "imagen": "comet/20260919_20261013.jpg"
+          },
+          {
+            "par": "20260919_20261025",
+            "fecha": "2026-09-19 - 2026-10-25",
+            "imagen": "comet/20260919_20261025.jpg"
+          },
+          {
+            "par": "20261001_20261013",
+            "fecha": "2026-10-01 - 2026-10-13",
+            "imagen": "comet/20261001_20261013.jpg"
+          },
+          {
+            "par": "20261001_20261025",
+            "fecha": "2026-10-01 - 2026-10-25",
+            "imagen": "comet/20261001_20261025.jpg"
+          },
+          {
+            "par": "20261013_20261025",
+            "fecha": "2026-10-13 - 2026-10-25",
+            "imagen": "comet/20261013_20261025.jpg"
           }
         ],
         "prob_deformacion": 0.0,
@@ -22446,7 +22446,7 @@
       "comet": {
         "key": "melimoyu",
         "frame": "083D_13416_131313",
-        "total_interferogramas": 2215,
+        "total_interferogramas": 2217,
         "interferogramas": [
           {
             "par": "20260723_20260729",
@@ -23692,7 +23692,7 @@
       "comet": {
         "key": "maca",
         "frame": "083D_13416_131313",
-        "total_interferogramas": 2215,
+        "total_interferogramas": 2217,
         "interferogramas": [
           {
             "par": "20260723_20260729",
@@ -24315,7 +24315,7 @@
       "comet": {
         "key": "cay",
         "frame": "083D_13416_131313",
-        "total_interferogramas": 2215,
+        "total_interferogramas": 2217,
         "interferogramas": [
           {
             "par": "20260723_20260729",
