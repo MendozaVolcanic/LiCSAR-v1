@@ -1,14 +1,14 @@
 {
   "volcan": "Mentolat",
   "frame": "083D_13416_131313",
-  "actualizado": "2026-11-16T17:04:24.357201+00:00",
+  "actualizado": "2026-11-23T00:07:10.121032+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 128,
   "rango_fechas": [
     "2014-10-23",
     "2021-12-03"
   ],
-  "dias_latencia": 1809,
+  "dias_latencia": 1816,
   "roi": {
     "row_min": 39,
     "row_max": 60,

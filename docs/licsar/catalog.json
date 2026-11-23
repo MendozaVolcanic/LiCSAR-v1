@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-22T15:04:44.367338+00:00",
+  "actualizado": "2026-11-23T00:07:29.926030+00:00",
   "fuente": "COMET LiCSAR (Sentinel-1 InSAR)",
   "url_base": "https://gws-access.jasmin.ac.uk/public/nceo_geohazards/LiCSAR_products",
   "nota": "Solo thumbnails PNG, no GeoTIFF completos",
@@ -609,7 +609,15 @@
             "imagen": "probmap/20260503_20260509.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.011,
+          "vertical_cm_yr": -0.016,
+          "calidad": "significativa",
+          "dias_latencia": 198,
+          "coherencia": 0.607,
+          "n_fechas": 410
+        }
       }
     },
     "Parinacota": {
@@ -1217,7 +1225,15 @@
             "imagen": "probmap/20260503_20260509.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.004,
+          "vertical_cm_yr": -0.017,
+          "calidad": "significativa",
+          "dias_latencia": 198,
+          "coherencia": 0.552,
+          "n_fechas": 410
+        }
       }
     },
     "Guallatiri": {
@@ -1825,7 +1841,15 @@
             "imagen": "probmap/20260503_20260509.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.029,
+          "vertical_cm_yr": -0.032,
+          "calidad": "significativa",
+          "dias_latencia": 198,
+          "coherencia": 0.582,
+          "n_fechas": 409
+        }
       }
     },
     "Isluga": {
@@ -2433,7 +2457,15 @@
             "imagen": "probmap/20260503_20260509.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.014,
+          "vertical_cm_yr": -0.012,
+          "calidad": "significativa",
+          "dias_latencia": 198,
+          "coherencia": 0.645,
+          "n_fechas": 413
+        }
       }
     },
     "Irruputuncu": {
@@ -3044,7 +3076,15 @@
             "imagen": "probmap/20261001_20261013.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.002,
+          "vertical_cm_yr": -0.001,
+          "calidad": "significativa",
+          "dias_latencia": 41,
+          "coherencia": 0.73,
+          "n_fechas": 445
+        }
       }
     },
     "Ollague": {
@@ -3646,7 +3686,15 @@
             "imagen": "probmap/20261001_20261013.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.007,
+          "vertical_cm_yr": -0.01,
+          "calidad": "significativa",
+          "dias_latencia": 41,
+          "coherencia": 0.789,
+          "n_fechas": 458
+        }
       }
     },
     "San Pedro": {
@@ -4248,7 +4296,15 @@
             "imagen": "probmap/20261001_20261013.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.021,
+          "vertical_cm_yr": -0.023,
+          "calidad": "significativa",
+          "dias_latencia": 41,
+          "coherencia": 0.717,
+          "n_fechas": 462
+        }
       }
     },
     "Lascar": {
@@ -4844,7 +4900,15 @@
             "imagen": "probmap/20260913_20260919.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.013,
+          "vertical_cm_yr": -0.029,
+          "calidad": "significativa",
+          "dias_latencia": 65,
+          "coherencia": 0.637,
+          "n_fechas": 454
+        }
       }
     },
     "Tupungatito": {
@@ -5464,7 +5528,15 @@
             "imagen": "probmap/20260501_20260507.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.117,
+          "vertical_cm_yr": null,
+          "calidad": "discontinua",
+          "dias_latencia": 1256,
+          "coherencia": 0.179,
+          "n_fechas": 39
+        }
       }
     },
     "San Jose": {
@@ -6072,7 +6144,15 @@
             "imagen": "probmap/20260717_20260723.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.008,
+          "vertical_cm_yr": -0.015,
+          "calidad": "significativa",
+          "dias_latencia": 123,
+          "coherencia": 0.226,
+          "n_fechas": 432
+        }
       }
     },
     "Tinguiririca": {
@@ -6662,7 +6742,15 @@
             "imagen": "probmap/20261010_20261016.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.018,
+          "vertical_cm_yr": -0.024,
+          "calidad": "significativa",
+          "dias_latencia": 38,
+          "coherencia": 0.246,
+          "n_fechas": 372
+        }
       }
     },
     "Planchon-Peteroa": {
@@ -7255,7 +7343,15 @@
             "imagen": "probmap/20261010_20261016.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.017,
+          "vertical_cm_yr": -0.021,
+          "calidad": "significativa",
+          "dias_latencia": 38,
+          "coherencia": 0.275,
+          "n_fechas": 373
+        }
       }
     },
     "Descabezado Grande": {
@@ -7854,7 +7950,15 @@
             "imagen": "probmap/20260511_20260517.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.095,
+          "vertical_cm_yr": null,
+          "calidad": "significativa",
+          "dias_latencia": 190,
+          "coherencia": 0.253,
+          "n_fechas": 378
+        }
       }
     },
     "Tatara-San Pedro": {
@@ -8476,7 +8580,15 @@
             "imagen": "probmap/20260928_20261004.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.973,
+          "vertical_cm_yr": 1.158,
+          "calidad": "significativa",
+          "dias_latencia": 50,
+          "coherencia": 0.202,
+          "n_fechas": 359
+        }
       }
     },
     "Nevado de Longavi": {
@@ -9072,7 +9184,15 @@
             "imagen": "probmap/20260928_20261004.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.026,
+          "vertical_cm_yr": 0.024,
+          "calidad": "significativa",
+          "dias_latencia": 50,
+          "coherencia": 0.225,
+          "n_fechas": 373
+        }
       }
     },
     "Nevados de Chillan": {
@@ -9668,7 +9788,15 @@
             "imagen": "probmap/20260511_20260517.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.119,
+          "vertical_cm_yr": 0.068,
+          "calidad": "significativa",
+          "dias_latencia": 190,
+          "coherencia": 0.296,
+          "n_fechas": 376
+        }
       }
     },
     "Antuco": {
@@ -10297,7 +10425,15 @@
             "imagen": "probmap/20260927_20261009.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.029,
+          "vertical_cm_yr": -0.019,
+          "calidad": "significativa",
+          "dias_latencia": 45,
+          "coherencia": 0.304,
+          "n_fechas": 247
+        }
       }
     },
     "Copahue": {
@@ -10896,7 +11032,15 @@
             "imagen": "probmap/20260810_20260816.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.026,
+          "vertical_cm_yr": -0.044,
+          "calidad": "significativa",
+          "dias_latencia": 99,
+          "coherencia": 0.32,
+          "n_fechas": 413
+        }
       }
     },
     "Callaqui": {
@@ -11495,7 +11639,15 @@
             "imagen": "probmap/20260810_20260816.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.004,
+          "vertical_cm_yr": -0.021,
+          "calidad": "no_significativa",
+          "dias_latencia": 99,
+          "coherencia": 0.168,
+          "n_fechas": 415
+        }
       }
     },
     "Lonquimay": {
@@ -12094,7 +12246,15 @@
             "imagen": "probmap/20260810_20260816.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.008,
+          "vertical_cm_yr": 0.024,
+          "calidad": "significativa",
+          "dias_latencia": 99,
+          "coherencia": 0.239,
+          "n_fechas": 413
+        }
       }
     },
     "Llaima": {
@@ -12693,7 +12853,15 @@
             "imagen": "probmap/20260810_20260816.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.009,
+          "vertical_cm_yr": 0.042,
+          "calidad": "significativa",
+          "dias_latencia": 99,
+          "coherencia": 0.25,
+          "n_fechas": 416
+        }
       }
     },
     "Sollipulli": {
@@ -13292,7 +13460,15 @@
             "imagen": "probmap/20260810_20260816.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.033,
+          "vertical_cm_yr": 0.027,
+          "calidad": "significativa",
+          "dias_latencia": 99,
+          "coherencia": 0.182,
+          "n_fechas": 408
+        }
       }
     },
     "Villarrica": {
@@ -13873,7 +14049,15 @@
             "imagen": "probmap/20260215_20260227.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.012,
+          "vertical_cm_yr": 0.028,
+          "calidad": "significativa",
+          "dias_latencia": 269,
+          "coherencia": 0.222,
+          "n_fechas": 319
+        }
       }
     },
     "Quetrupillan": {
@@ -14454,7 +14638,15 @@
             "imagen": "probmap/20260215_20260227.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.025,
+          "vertical_cm_yr": -0.002,
+          "calidad": "significativa",
+          "dias_latencia": 269,
+          "coherencia": 0.157,
+          "n_fechas": 317
+        }
       }
     },
     "Lanin": {
@@ -15071,7 +15263,15 @@
             "imagen": "probmap/20260429_20260505.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.02,
+          "vertical_cm_yr": -0.003,
+          "calidad": "significativa",
+          "dias_latencia": 202,
+          "coherencia": 0.245,
+          "n_fechas": 385
+        }
       }
     },
     "Mocho-Choshuenco": {
@@ -15652,7 +15852,15 @@
             "imagen": "probmap/20260215_20260227.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.077,
+          "vertical_cm_yr": 0.059,
+          "calidad": "significativa",
+          "dias_latencia": 269,
+          "coherencia": 0.194,
+          "n_fechas": 305
+        }
       }
     },
     "Carran - Los Venados": {
@@ -16269,7 +16477,15 @@
             "imagen": "probmap/20260429_20260505.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.031,
+          "vertical_cm_yr": 0.022,
+          "calidad": "significativa",
+          "dias_latencia": 202,
+          "coherencia": 0.103,
+          "n_fechas": 302
+        }
       }
     },
     "Puyehue - Cordon Caulle": {
@@ -16880,7 +17096,15 @@
             "imagen": "probmap/20260429_20260505.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.33,
+          "vertical_cm_yr": null,
+          "calidad": "discontinua",
+          "dias_latencia": 634,
+          "coherencia": 0.257,
+          "n_fechas": 214
+        }
       }
     },
     "Antillanca - Casablanca": {
@@ -17467,7 +17691,15 @@
             "imagen": "probmap/20260323_20260329.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.022,
+          "vertical_cm_yr": -0.015,
+          "calidad": "significativa",
+          "dias_latencia": 197,
+          "coherencia": 0.21,
+          "n_fechas": 319
+        }
       }
     },
     "Osorno": {
@@ -18054,7 +18286,15 @@
             "imagen": "probmap/20260323_20260329.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.046,
+          "vertical_cm_yr": 0.044,
+          "calidad": "significativa",
+          "dias_latencia": 197,
+          "coherencia": 0.241,
+          "n_fechas": 327
+        }
       }
     },
     "Calbuco": {
@@ -18641,7 +18881,15 @@
             "imagen": "probmap/20260323_20260329.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.021,
+          "vertical_cm_yr": 0.021,
+          "calidad": "significativa",
+          "dias_latencia": 197,
+          "coherencia": 0.161,
+          "n_fechas": 328
+        }
       }
     },
     "Hornopiren": {
@@ -19273,7 +19521,15 @@
             "imagen": "probmap/20260810_20260816.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.004,
+          "vertical_cm_yr": -0.017,
+          "calidad": "no_significativa",
+          "dias_latencia": 99,
+          "coherencia": 0.092,
+          "n_fechas": 314
+        }
       }
     },
     "Huequi": {
@@ -19905,7 +20161,15 @@
             "imagen": "probmap/20260810_20260816.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.01,
+          "vertical_cm_yr": 0.015,
+          "calidad": "significativa",
+          "dias_latencia": 99,
+          "coherencia": 0.135,
+          "n_fechas": 309
+        }
       }
     },
     "Michinmahuida": {
@@ -20537,7 +20801,15 @@
             "imagen": "probmap/20260810_20260816.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.011,
+          "vertical_cm_yr": 0.015,
+          "calidad": "significativa",
+          "dias_latencia": 99,
+          "coherencia": 0.121,
+          "n_fechas": 280
+        }
       }
     },
     "Chaiten": {
@@ -21169,7 +21441,15 @@
             "imagen": "probmap/20260810_20260816.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.005,
+          "vertical_cm_yr": -0.011,
+          "calidad": "significativa",
+          "dias_latencia": 99,
+          "coherencia": 0.186,
+          "n_fechas": 284
+        }
       }
     },
     "Corcovado": {
@@ -21801,7 +22081,15 @@
             "imagen": "probmap/20260810_20260816.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.003,
+          "vertical_cm_yr": 0.015,
+          "calidad": "significativa",
+          "dias_latencia": 99,
+          "coherencia": 0.215,
+          "n_fechas": 282
+        }
       }
     },
     "Yate": {
@@ -22433,7 +22721,15 @@
             "imagen": "probmap/20260810_20260816.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.002,
+          "vertical_cm_yr": 0.02,
+          "calidad": "no_significativa",
+          "dias_latencia": 99,
+          "coherencia": 0.116,
+          "n_fechas": 314
+        }
       }
     },
     "Melimoyu": {
@@ -23056,7 +23352,15 @@
             "imagen": "probmap/20260810_20260816.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.04,
+          "vertical_cm_yr": null,
+          "calidad": "discontinua",
+          "dias_latencia": 1816,
+          "coherencia": 0.101,
+          "n_fechas": 129
+        }
       }
     },
     "Mentolat": {
@@ -23679,7 +23983,15 @@
             "imagen": "probmap/20260810_20260816.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.01,
+          "vertical_cm_yr": null,
+          "calidad": "discontinua",
+          "dias_latencia": 1816,
+          "coherencia": 0.132,
+          "n_fechas": 128
+        }
       }
     },
     "Maca": {
@@ -24302,7 +24614,15 @@
             "imagen": "probmap/20260810_20260816.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.011,
+          "vertical_cm_yr": null,
+          "calidad": "discontinua",
+          "dias_latencia": 1828,
+          "coherencia": 0.157,
+          "n_fechas": 105
+        }
       }
     },
     "Cay": {
@@ -24928,7 +25248,15 @@
             "imagen": "probmap/20260810_20260816.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": -0.037,
+          "vertical_cm_yr": null,
+          "calidad": "discontinua",
+          "dias_latencia": 1816,
+          "coherencia": 0.132,
+          "n_fechas": 107
+        }
       }
     },
     "Hudson": {
@@ -25527,7 +25855,15 @@
             "imagen": "probmap/20260817_20260829.jpg"
           }
         ],
-        "timeseries": true
+        "timeseries": true,
+        "resumen": {
+          "velocity_cm_yr": 0.085,
+          "vertical_cm_yr": null,
+          "calidad": "significativa",
+          "dias_latencia": 86,
+          "coherencia": 0.073,
+          "n_fechas": 159
+        }
       }
     }
   },

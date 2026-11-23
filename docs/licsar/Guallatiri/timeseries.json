@@ -1,14 +1,14 @@
 {
   "volcan": "Guallatiri",
   "frame": "054D_10879_131313",
-  "actualizado": "2026-11-16T16:57:55.210483+00:00",
+  "actualizado": "2026-11-23T00:01:34.903184+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 409,
   "rango_fechas": [
     "2014-10-21",
     "2026-05-09"
   ],
-  "dias_latencia": 191,
+  "dias_latencia": 198,
   "roi": {
     "row_min": 38,
     "row_max": 59,

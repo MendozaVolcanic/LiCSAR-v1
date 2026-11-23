@@ -1,14 +1,14 @@
 {
   "volcan": "Yate",
   "frame": "083D_13222_131313",
-  "actualizado": "2026-11-16T17:04:14.684592+00:00",
+  "actualizado": "2026-11-23T00:07:00.839835+00:00",
   "fuente": "COMET LiCSBAS x100 filt (serie/velocidad calculadas por LiCSAR-v1)",
   "n_fechas": 314,
   "rango_fechas": [
     "2014-10-23",
     "2026-08-16"
   ],
-  "dias_latencia": 92,
+  "dias_latencia": 99,
   "roi": {
     "row_min": 27,
     "row_max": 72,
